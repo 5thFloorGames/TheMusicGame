@@ -58,6 +58,15 @@ namespace UnityStandardAssets._2D
             m_Anim.SetFloat("vSpeed", m_Rigidbody2D.velocity.y);
         }
 
+		public void Teleport(bool up, bool down){
+			if (up) {
+				transform.position = transform.position + Vector3.up * (3);
+			} 
+
+			if (down) {
+				transform.position = transform.position + Vector3.up * (-3);
+			}
+		}
 
         public void Move(float move, bool crouch, bool jump)
         {

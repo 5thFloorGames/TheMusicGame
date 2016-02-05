@@ -9,6 +9,8 @@ namespace UnityStandardAssets._2D
     {
         private PlatformerCharacter2D m_Character;
         private bool m_Jump;
+		private bool teleUp;
+		private bool teledown;
 
 
         private void Awake()
@@ -23,6 +25,10 @@ namespace UnityStandardAssets._2D
             {
                 // Read the jump input in Update so button presses aren't missed.
                 m_Jump = CrossPlatformInputManager.GetButtonDown("Jump");
+
+				teleUp = CrossPlatformInputManager.GetButtonDown("TeleportUp");
+				teledown = CrossPlatformInputManager.GetButtonDown("TeleportDown");
+
             }
         }
 
@@ -34,6 +40,11 @@ namespace UnityStandardAssets._2D
             float h = CrossPlatformInputManager.GetAxis("Horizontal");
             // Pass all parameters to the character control script.
             m_Character.Move(h, crouch, m_Jump);
+
+			if (teleUp || teledown) {
+				m_Character.Teleport (teleUp, teledown);
+			}
+
             m_Jump = false;
         }
     }
