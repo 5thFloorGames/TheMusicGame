@@ -21,6 +21,7 @@ namespace UnityStandardAssets._2D
         private Rigidbody2D m_Rigidbody2D;
         private bool m_FacingRight = true;  // For determining which way the player is currently facing.
 		public AudioSource drums;
+		public AudioSource teleport;
 
         private void Awake()
         {
@@ -66,6 +67,7 @@ namespace UnityStandardAssets._2D
 			if (down) {
 				transform.position = transform.position + Vector3.up * (-3);
 			}
+			teleport.Play ();
 		}
 
         public void Move(float move, bool crouch, bool jump)
