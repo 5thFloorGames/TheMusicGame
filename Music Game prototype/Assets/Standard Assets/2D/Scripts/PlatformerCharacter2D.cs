@@ -59,12 +59,12 @@ namespace UnityStandardAssets._2D
             m_Anim.SetFloat("vSpeed", m_Rigidbody2D.velocity.y);
         }
 
-		public void Teleport(bool up, bool down){
-			if (up) {
+		public void Teleport(float direction){
+			if (direction > 0) {
 				transform.position = transform.position + Vector3.up * (3);
 			} 
 
-			if (down) {
+			if (direction < 0) {
 				transform.position = transform.position + Vector3.up * (-3);
 			}
 			teleport.Play ();

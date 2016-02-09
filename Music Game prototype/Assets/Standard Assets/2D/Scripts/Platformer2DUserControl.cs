@@ -21,14 +21,11 @@ namespace UnityStandardAssets._2D
 
         private void Update()
         {
-            if (!m_Jump)
+            if (!teleUp)
             {
                 // Read the jump input in Update so button presses aren't missed.
-                m_Jump = CrossPlatformInputManager.GetButtonDown("Jump");
 
-				teleUp = CrossPlatformInputManager.GetButtonDown("TeleportUp");
-				teledown = CrossPlatformInputManager.GetButtonDown("TeleportDown");
-
+				teleUp = CrossPlatformInputManager.GetButtonDown("Teleport");
             }
         }
 
@@ -49,11 +46,11 @@ namespace UnityStandardAssets._2D
             // Pass all parameters to the character control script.
             m_Character.Move(h, crouch, m_Jump);
 
-			if (teleUp || teledown) {
-				m_Character.Teleport (teleUp, teledown);
+			if (teleUp) {
+				m_Character.Teleport (CrossPlatformInputManager.GetAxis("Teleport"));
 			}
 
-            m_Jump = false;
+            teleUp = false;
         }
     }
 }
