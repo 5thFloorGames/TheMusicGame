@@ -65,9 +65,19 @@ namespace UnityStandardAssets._2D
 			} 
 
 			if (direction < 0) {
-				transform.position = transform.position + Vector3.up * (-3);
+				transform.position = transform.position + Vector3.down * (3);
 			}
 			teleport.Play ();
+		}
+
+		public void Dash(float direction){
+			if (direction > 0) {
+				transform.position = transform.position + Vector3.left * (3);
+			} 
+			
+			if (direction < 0) {
+				transform.position = transform.position + Vector3.right * (3);
+			}
 		}
 
         public void Move(float move, bool crouch, bool jump)

@@ -10,7 +10,7 @@ namespace UnityStandardAssets._2D
         private PlatformerCharacter2D m_Character;
         private bool m_Jump;
 		private bool teleUp;
-		private bool teledown;
+		private bool dash;
 
 
         private void Awake()
@@ -26,6 +26,7 @@ namespace UnityStandardAssets._2D
                 // Read the jump input in Update so button presses aren't missed.
 
 				teleUp = CrossPlatformInputManager.GetButtonDown("Teleport");
+				dash = CrossPlatformInputManager.GetButtonDown("Dash");
             }
         }
 
@@ -48,6 +49,9 @@ namespace UnityStandardAssets._2D
 
 			if (teleUp) {
 				m_Character.Teleport (CrossPlatformInputManager.GetAxis("Teleport"));
+			}
+			if (dash) {
+				m_Character.Dash (CrossPlatformInputManager.GetAxis("Dash"));
 			}
 
             teleUp = false;
