@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityStandardAssets._2D;
 
 public class PlayOnTouch : MonoBehaviour {
 
-	private AudioSource sound;
+	public AudioClip clip;
+	private PlatformerCharacter2D player;
 
 	void Awake() {
-		sound = GetComponent<AudioSource> ();
+		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<PlatformerCharacter2D> ();
 	}
 	
 	// Update is called once per frame
@@ -15,11 +17,10 @@ public class PlayOnTouch : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D col){
-		print ("hit");
-		sound.volume = 0.5f;
+		player.setClip (clip);
 	}
 
 	void OnTriggerExit2D(Collider2D col){
-		sound.volume = 0;
+		//player.setClip (null);
 	}
 }

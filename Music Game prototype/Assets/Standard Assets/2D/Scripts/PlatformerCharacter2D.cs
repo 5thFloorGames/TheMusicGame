@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Audio;
 using System.Collections;
 
 namespace UnityStandardAssets._2D
@@ -21,7 +22,10 @@ namespace UnityStandardAssets._2D
         private Rigidbody2D m_Rigidbody2D;
         private bool m_FacingRight = true;  // For determining which way the player is currently facing.
 		public AudioSource drums;
+		public AudioSource bass;
 		public AudioSource teleport;
+		private AudioMixer mixer;
+		private int rayMask = 0;
 
         private void Awake()
         {
@@ -30,6 +34,8 @@ namespace UnityStandardAssets._2D
             m_CeilingCheck = transform.Find("CeilingCheck");
             m_Anim = GetComponent<Animator>();
             m_Rigidbody2D = GetComponent<Rigidbody2D>();
+			mixer = bass.outputAudioMixerGroup.audioMixer;
+			rayMask |= 1 << LayerMask.NameToLayer ("Platform");
         }
 
 		private void fadeIn(AudioSource source){
@@ -40,6 +46,11 @@ namespace UnityStandardAssets._2D
 			float volume = 0f;
 		}
 
+		public void setClip(AudioClip clip){
+			bass.clip = clip;
+			bass.Play ();
+			bass.timeSamples = drums.timeSamples;
+		}
 
         private void FixedUpdate()
         {
@@ -92,7 +103,20 @@ namespace UnityStandardAssets._2D
                 }
             }
 
+			if (!m_Grounded) {
+
+				// FIX THIS! HOW THE HELL DOESN'T IT SEE THE DISTANCE RGFGH
+				RaycastHit hit;
+				Debug.DrawRay (transform.position, Vector3.down);
+				Physics.Raycast (transform.position, Vector3.down, out hit, ~rayMask);
+				print (hit.distance);
+				mixer.SetFloat ("highpass", 1000f); // Placeholder, sounds cool though
+			} else {
+				mixer.SetFloat ("highpass", 0f);
+			}
+
 			drums.volume = Mathf.Abs (move);
+			mixer.SetFloat ("lowpass",(Mathf.Abs (move) * 19500f) + 2500f);
 
             // Set whether or not the character is crouching in the animator
             m_Anim.SetBool("Crouch", crouch);
@@ -127,7 +151,6 @@ namespace UnityStandardAssets._2D
             {
                 // Add a vertical force to the player.
                 m_Grounded = false;
-				fadeOut(drums);
                 m_Anim.SetBool("Ground", false);
                 m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
             }
