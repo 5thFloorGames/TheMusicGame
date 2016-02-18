@@ -73,10 +73,12 @@ namespace UnityStandardAssets._2D
 		public void Teleport(float direction){
 			if (direction > 0) {
 				transform.position = transform.position + Vector3.up * (3);
+				m_Rigidbody2D.velocity = Vector2.zero;
 			} 
 
 			if (direction < 0) {
 				transform.position = transform.position + Vector3.down * (3);
+				m_Rigidbody2D.velocity = Vector2.zero;
 			}
 			teleport.Play ();
 		}
