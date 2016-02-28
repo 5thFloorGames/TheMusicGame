@@ -17,13 +17,12 @@ public class BeatMatcher : MonoBehaviour {
 		beatLength = 60 / BPM;
 		quantLength = beatLength / 4;
 
-		print ("Beatlength:" + beatLength + " QuantLength:" + quantLength);
 		notifiables = new List<Beater>();
 		notifiables.AddRange(FindObjectsOfType<ChangeColorOnBeat> ());
 		notifiables.AddRange(FindObjectsOfType<ChangeTextureOnBeat> ());
 		notifiables.AddRange(FindObjectsOfType<CrushOnBeat> ());
 		startTime = Time.time;
-		}
+	}
 
 	// Update is called once per frame
 	void Update () {

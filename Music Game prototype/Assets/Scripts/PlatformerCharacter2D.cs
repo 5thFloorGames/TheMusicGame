@@ -56,12 +56,13 @@ namespace UnityStandardAssets._2D
 		}
 
 		private void Update(){
-			if ((drums.timeSamples % 24000 < 2000) && !looped) {
+			if ((Mathf.Min(drums.timeSamples % 24000, Mathf.Abs((drums.timeSamples % 24000) - 24000)) < 2000) && !looped) {
 				looped = true;
 				beat.ReportBeat();
 				print ("beat!");
+				print (drums.timeSamples);
 			}
-			if (drums.timeSamples % 24000 > 12000) {
+			if (drums.timeSamples % 24000 > 12000 && Mathf.Abs((drums.timeSamples % 24000) - 24000) > 4000) {
 				looped = false;
 			}
 		}
@@ -127,7 +128,6 @@ namespace UnityStandardAssets._2D
 				RaycastHit hit;
 				Debug.DrawRay (transform.position, Vector3.down);
 				Physics.Raycast (transform.position, Vector3.down, out hit, ~rayMask);
-				print (hit.distance);
 				mixer.SetFloat ("highpass", 1000f); // Placeholder, sounds cool though
 			} else {
 				mixer.SetFloat ("highpass", 0f);
