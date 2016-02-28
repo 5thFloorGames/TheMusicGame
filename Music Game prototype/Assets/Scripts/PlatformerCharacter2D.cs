@@ -59,8 +59,6 @@ namespace UnityStandardAssets._2D
 			if ((Mathf.Min(drums.timeSamples % 24000, Mathf.Abs((drums.timeSamples % 24000) - 24000)) < 2000) && !looped) {
 				looped = true;
 				beat.ReportBeat();
-				print ("beat!");
-				print (drums.timeSamples);
 			}
 			if (drums.timeSamples % 24000 > 12000 && Mathf.Abs((drums.timeSamples % 24000) - 24000) > 4000) {
 				looped = false;
