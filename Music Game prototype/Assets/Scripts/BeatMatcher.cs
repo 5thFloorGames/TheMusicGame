@@ -20,6 +20,7 @@ public class BeatMatcher : MonoBehaviour {
 		InvokeRepeating ("ReportBeat", beatLength, beatLength);
 		notifiables = new List<Beater>();
 		notifiables.AddRange(FindObjectsOfType<ChangeColorOnBeat> ());
+		notifiables.AddRange(FindObjectsOfType<ChangeTextureOnBeat> ());
 		notifiables.AddRange(FindObjectsOfType<CrushOnBeat> ());
 		startTime = Time.time;
 	}
