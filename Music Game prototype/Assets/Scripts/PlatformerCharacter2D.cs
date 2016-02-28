@@ -73,12 +73,12 @@ namespace UnityStandardAssets._2D
 		public IEnumerator Teleport(float direction, float waitTime){
 			yield return new WaitForSeconds (waitTime);
 			if (direction > 0) {
-				transform.position = transform.position + Vector3.up * (3);
+				transform.position = transform.position + Vector3.up * (4);
 				m_Rigidbody2D.velocity = Vector2.zero;
 			} 
 
 			if (direction < 0) {
-				transform.position = transform.position + Vector3.down * (3);
+				transform.position = transform.position + Vector3.down * (4);
 				m_Rigidbody2D.velocity = Vector2.zero;
 			}
 			teleport.Play ();

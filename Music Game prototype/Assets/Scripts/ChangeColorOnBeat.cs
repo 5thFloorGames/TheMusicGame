@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ChangeColorOnBeat : MonoBehaviour {
+public class ChangeColorOnBeat : MonoBehaviour, Beater {
 
 	Renderer rend;
 

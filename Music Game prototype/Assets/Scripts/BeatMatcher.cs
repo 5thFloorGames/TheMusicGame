@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class BeatMatcher : MonoBehaviour {
 
-	public ChangeColorOnBeat[] notifiables;
+	public List<Beater> notifiables;
 	private float startTime;
 	private int counter = 0;
-	private float BPM = 130f;
-	private float missThreshold = 0.02f;
+	private float BPM = 120f;
+	private float missThreshold = 0.0f;
 	private float quantLength;
 
 	// Use this for initialization
@@ -17,27 +18,25 @@ public class BeatMatcher : MonoBehaviour {
 
 		print ("Beatlength:" + beatLength + " QuantLength:" + quantLength);
 		InvokeRepeating ("ReportBeat", beatLength, beatLength);
-		notifiables = FindObjectsOfType<ChangeColorOnBeat> ();
+		notifiables = new List<Beater>();
+		notifiables.AddRange(FindObjectsOfType<ChangeColorOnBeat> ());
+		notifiables.AddRange(FindObjectsOfType<CrushOnBeat> ());
 		startTime = Time.time;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		print (waitTimeForQuant());
 	}
 
 	void ReportBeat(){
 		counter++;
-		foreach (ChangeColorOnBeat notify in notifiables) {
+		foreach (Beater notify in notifiables) {
 			notify.Beat();
 		}
 	}
 
 	public float waitTimeForQuant(){
 		float waitTime = quantLength - ((Time.time - startTime) % quantLength);
-		if (waitTime < missThreshold) {
-			waitTime = 0;
-		}
 		return waitTime;
 	}
 }
