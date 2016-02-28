@@ -3,9 +3,9 @@ using System.Collections;
 
 public class CrushOnBeat : MonoBehaviour, Beater {
 
-	private bool up = true;
-	private int count = -1;
-	private int everyXBeat = 1;
+	private bool up = false;
+	private int count = 0;
+	private int everyXBeat = 2;
 	private AudioSource snare;
 
 	void Awake() {
