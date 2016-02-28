@@ -23,34 +23,18 @@ public class BeatMatcher : MonoBehaviour {
 		notifiables.AddRange(FindObjectsOfType<ChangeTextureOnBeat> ());
 		notifiables.AddRange(FindObjectsOfType<CrushOnBeat> ());
 		startTime = Time.time;
-
-		StartCoroutine (TheBeat ());
-	}
-
-	IEnumerator TheBeat() {
-		while (true) {
-			yield return new WaitForSeconds (waitTimeForBeat());
-			print (waitTimeForBeat());
-			ReportBeat();
 		}
-	}
-	
+
 	// Update is called once per frame
 	void Update () {
 	}
 
-	void ReportBeat(){
-		counter++;
+	public void ReportBeat(){
 		foreach (Beater notify in notifiables) {
 			notify.Beat();
 		}
 	}
 
-	public float waitTimeForBeat(){
-		float waitTime = beatLength - ((Time.time - startTime) % beatLength);
-		return waitTime;
-	}
-	
 	public float waitTimeForQuant(){
 		float waitTime = quantLength - ((Time.time - startTime) % quantLength);
 		return waitTime;

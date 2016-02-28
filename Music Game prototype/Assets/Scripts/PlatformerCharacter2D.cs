@@ -26,6 +26,8 @@ namespace UnityStandardAssets._2D
 		public AudioSource teleport;
 		private AudioMixer mixer;
 		private int rayMask = 0;
+		private BeatMatcher beat;
+		private bool looped;
 
         private void Awake()
         {
@@ -36,6 +38,7 @@ namespace UnityStandardAssets._2D
             m_Rigidbody2D = GetComponent<Rigidbody2D>();
 			mixer = bass.outputAudioMixerGroup.audioMixer;
 			rayMask |= 1 << LayerMask.NameToLayer ("Platform");
+			beat = FindObjectOfType<BeatMatcher> ();
         }
 
 		private void fadeIn(AudioSource source){
@@ -50,6 +53,17 @@ namespace UnityStandardAssets._2D
 			bass.clip = clip;
 			bass.Play ();
 			bass.timeSamples = drums.timeSamples;
+		}
+
+		private void Update(){
+			if ((drums.timeSamples % 24000 < 2000) && !looped) {
+				looped = true;
+				beat.ReportBeat();
+				print ("beat!");
+			}
+			if (drums.timeSamples % 24000 > 12000) {
+				looped = false;
+			}
 		}
 
         private void FixedUpdate()

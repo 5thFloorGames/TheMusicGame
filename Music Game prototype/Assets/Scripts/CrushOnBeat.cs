@@ -28,6 +28,7 @@ public class CrushOnBeat : MonoBehaviour, Beater {
 			if (up) {
 				transform.position = new Vector3(transform.position.x,transform.position.y - 4,transform.position.z);
 				up = false;
+				snare.Play();
 			} else {
 				transform.position = new Vector3(transform.position.x,transform.position.y + 4,transform.position.z);
 				up = true;
