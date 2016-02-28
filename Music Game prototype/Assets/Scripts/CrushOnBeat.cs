@@ -3,9 +3,10 @@ using System.Collections;
 
 public class CrushOnBeat : MonoBehaviour, Beater {
 
-	private bool up = false;
+	public bool up = false;
+	public int startCount = 0;
 	private int count = 0;
-	private int everyXBeat = 2;
+	public int everyXBeat = 2;
 	private AudioSource snare;
 
 	void Awake() {
@@ -14,7 +15,7 @@ public class CrushOnBeat : MonoBehaviour, Beater {
 
 	// Use this for initialization
 	void Start () {
-		
+		count = startCount;
 	}
 	
 	// Update is called once per frame
