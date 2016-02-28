@@ -11,11 +11,12 @@ namespace UnityStandardAssets._2D
         private bool m_Jump;
 		private bool teleUp;
 		private bool dash;
-
+		private BeatMatcher matcher;
 
         private void Awake()
         {
             m_Character = GetComponent<PlatformerCharacter2D>();
+			matcher = FindObjectOfType<BeatMatcher> ();
         }
 
 
@@ -48,10 +49,10 @@ namespace UnityStandardAssets._2D
             m_Character.Move(h, crouch, m_Jump);
 
 			if (teleUp) {
-				m_Character.Teleport (CrossPlatformInputManager.GetAxis("Teleport"));
+				StartCoroutine(m_Character.Teleport (CrossPlatformInputManager.GetAxis("Teleport"), matcher.waitTimeForQuant()));
 			}
 			if (dash) {
-				m_Character.Dash (CrossPlatformInputManager.GetAxis("Dash"));
+				StartCoroutine(m_Character.Dash (CrossPlatformInputManager.GetAxis("Dash"), matcher.waitTimeForQuant()));
 			}
 
             teleUp = false;

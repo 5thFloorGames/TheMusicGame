@@ -70,7 +70,8 @@ namespace UnityStandardAssets._2D
             m_Anim.SetFloat("vSpeed", m_Rigidbody2D.velocity.y);
         }
 
-		public void Teleport(float direction){
+		public IEnumerator Teleport(float direction, float waitTime){
+			yield return new WaitForSeconds (waitTime);
 			if (direction > 0) {
 				transform.position = transform.position + Vector3.up * (3);
 				m_Rigidbody2D.velocity = Vector2.zero;
@@ -83,7 +84,8 @@ namespace UnityStandardAssets._2D
 			teleport.Play ();
 		}
 
-		public void Dash(float direction){
+		public IEnumerator Dash(float direction, float waitTime){
+			yield return new WaitForSeconds (waitTime);
 			if (direction > 0) {
 				transform.position = transform.position + Vector3.left * (3);
 			} 
