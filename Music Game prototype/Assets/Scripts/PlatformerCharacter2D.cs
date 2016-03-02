@@ -132,6 +132,7 @@ namespace UnityStandardAssets._2D
 			}
 
 			drums.volume = Mathf.Abs (move / 4);
+			bass.volume = Math.Abs (move) + 0.7f;
 			mixer.SetFloat ("lowpass",(Mathf.Abs (move) * 19500f) + 2500f);
 
             // Set whether or not the character is crouching in the animator
