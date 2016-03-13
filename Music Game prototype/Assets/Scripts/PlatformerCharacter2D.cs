@@ -23,6 +23,7 @@ namespace UnityStandardAssets._2D
         private bool m_FacingRight = true;  // For determining which way the player is currently facing.
 		public AudioSource drums;
 		public AudioSource bass;
+		public AudioSource bassSwap;
 		public AudioSource teleport;
 		private AudioMixer mixer;
 		private int rayMask = 0;
