@@ -42,18 +42,37 @@ namespace UnityStandardAssets._2D
 			beat = FindObjectOfType<BeatMatcher> ();
         }
 
-		private void fadeIn(AudioSource source){
-			source.volume = 1f;
+
+		// 0.0625 seconds in length
+		IEnumerator fadeIn(AudioMixer source){
+			float volume = -20f;
+			while (volume < 0f) {
+				volume += 1f;
+				source.SetFloat("bassvolume", volume);
+				yield return null;
+			}
 		}
 		
-		private void fadeOut(AudioSource source){
+		IEnumerator fadeOut(AudioMixer source){
+			bassSwap.mute = false;
 			float volume = 0f;
+			while (volume > -20f) {
+				volume -= 1f;
+				source.SetFloat("swapvolume", volume);
+				yield return null;
+			}
+			bassSwap.mute = true;
 		}
 
 		public void setClip(AudioClip clip){
+			bassSwap.clip = bass.clip;
+			StartCoroutine(fadeOut (bassSwap.outputAudioMixerGroup.audioMixer));
 			bass.clip = clip;
+			StartCoroutine(fadeIn (bass.outputAudioMixerGroup.audioMixer));
 			bass.Play ();
+			bassSwap.Play ();
 			bass.timeSamples = drums.timeSamples;
+			bassSwap.timeSamples = drums.timeSamples;
 		}
 
 		private void Update(){
