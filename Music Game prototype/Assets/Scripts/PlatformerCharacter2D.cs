@@ -122,7 +122,6 @@ namespace UnityStandardAssets._2D
 
 			if (!m_Grounded) {
 
-				// FIX THIS! HOW THE HELL DOESN'T IT SEE THE DISTANCE RGFGH
 				RaycastHit hit;
 				Debug.DrawRay (transform.position, Vector3.down);
 				Physics.Raycast (transform.position, Vector3.down, out hit, ~rayMask);
