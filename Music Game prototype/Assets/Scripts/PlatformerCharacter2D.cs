@@ -2,10 +2,11 @@ using System;
 using UnityEngine;
 using UnityEngine.Audio;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace UnityStandardAssets._2D
 {
-    public class PlatformerCharacter2D : MonoBehaviour
+    public class PlatformerCharacter2D : MonoBehaviour, Quanter
     {
         [SerializeField] private float m_MaxSpeed = 10f;                    // The fastest the player can travel in the x axis.
         [SerializeField] private float m_JumpForce = 400f;                  // Amount of force added when the player jumps.
@@ -25,12 +26,16 @@ namespace UnityStandardAssets._2D
 		public AudioSource bass;
 		public AudioSource bassSwap;
 		public AudioSource teleport;
+		public AudioSource melody;
 		private AudioMixer mixer;
 		private int rayMask = 0;
 		private BeatMatcher beat;
-		private bool looped;
+		private bool loopedBeat;
+		private bool loopedQuant;
+		private Queue<Direction> inputBuffer;
+		private AudioClip[] clips;
 
-        private void Awake()
+		private void Awake()
         {
             // Setting up references.
             m_GroundCheck = transform.Find("GroundCheck");
@@ -40,7 +45,13 @@ namespace UnityStandardAssets._2D
 			mixer = bass.outputAudioMixerGroup.audioMixer;
 			rayMask |= 1 << LayerMask.NameToLayer ("Platform");
 			beat = FindObjectOfType<BeatMatcher> ();
-        }
+			inputBuffer = new Queue<Direction> ();
+			clips = Resources.LoadAll<AudioClip>("Audio/Melodies");
+		}
+
+		private void Start(){
+			beat.registerQuant (this);
+		}
 
 
 		// 0.0625 seconds in length
@@ -76,12 +87,20 @@ namespace UnityStandardAssets._2D
 		}
 
 		private void Update(){
-			if ((Mathf.Min(drums.timeSamples % 24000, Mathf.Abs((drums.timeSamples % 24000) - 24000)) < 2000) && !looped) {
-				looped = true;
+			if ((Mathf.Min(drums.timeSamples % 24000, Mathf.Abs((drums.timeSamples % 24000) - 24000)) < 2000) && !loopedBeat) {
+				loopedBeat = true;
 				beat.ReportBeat();
 			}
 			if (drums.timeSamples % 24000 > 12000 && Mathf.Abs((drums.timeSamples % 24000) - 24000) > 4000) {
-				looped = false;
+				loopedBeat = false;
+			}
+
+			if ((Mathf.Min(drums.timeSamples % 12000, Mathf.Abs((drums.timeSamples % 12000) - 12000)) < 2000) && !loopedQuant) {
+				loopedQuant = true;
+				beat.ReportDoubleQuant();
+			}
+			if (drums.timeSamples % 12000 > 6000 && Mathf.Abs((drums.timeSamples % 12000) - 12000) > 4000) {
+				loopedQuant = false;
 			}
 		}
 
@@ -103,28 +122,44 @@ namespace UnityStandardAssets._2D
             m_Anim.SetFloat("vSpeed", m_Rigidbody2D.velocity.y);
         }
 
-		public IEnumerator Teleport(float direction, float waitTime){
-			yield return new WaitForSeconds (waitTime);
-			if (direction > 0) {
-				transform.position = transform.position + Vector3.up * (4);
-				m_Rigidbody2D.velocity = Vector2.zero;
-			} 
-
-			if (direction < 0) {
-				transform.position = transform.position + Vector3.down * (4);
-				m_Rigidbody2D.velocity = Vector2.zero;
+		public void Act(){
+			if (inputBuffer.Count > 0) {
+				Direction direction = inputBuffer.Dequeue ();
+				if (direction != null) {
+					if (direction == Direction.UP) {
+						transform.position = transform.position + Vector3.up * (4);
+						m_Rigidbody2D.velocity = Vector2.zero;
+					} 
+					if (direction == Direction.DOWN) {
+						transform.position = transform.position + Vector3.down * (4);
+						m_Rigidbody2D.velocity = Vector2.zero;
+					}
+					if (direction == Direction.LEFT) {
+						transform.position = transform.position + Vector3.left * (3);
+					} 
+					if (direction == Direction.RIGHT) {
+						transform.position = transform.position + Vector3.right * (3);
+					}
+					melody.PlayOneShot (clips [UnityEngine.Random.Range (0, clips.Length)]);
+				}
 			}
-			teleport.Play ();
 		}
 
-		public IEnumerator Dash(float direction, float waitTime){
-			yield return new WaitForSeconds (waitTime);
+		public void Teleport(float direction){
 			if (direction > 0) {
-				transform.position = transform.position + Vector3.left * (3);
+				inputBuffer.Enqueue(Direction.UP);
 			} 
-			
 			if (direction < 0) {
-				transform.position = transform.position + Vector3.right * (3);
+				inputBuffer.Enqueue(Direction.DOWN);
+			}
+		}
+
+		public void Dash(float direction){
+			if (direction > 0) {
+				inputBuffer.Enqueue(Direction.LEFT);
+			} 
+			if (direction < 0) {
+				inputBuffer.Enqueue(Direction.RIGHT);
 			}
 		}
 

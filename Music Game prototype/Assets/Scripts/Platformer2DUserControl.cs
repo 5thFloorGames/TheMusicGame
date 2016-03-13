@@ -49,10 +49,10 @@ namespace UnityStandardAssets._2D
             m_Character.Move(h, crouch, m_Jump);
 
 			if (teleUp) {
-				StartCoroutine(m_Character.Teleport (CrossPlatformInputManager.GetAxis("Teleport"), matcher.waitTimeForQuant()));
+				m_Character.Teleport (CrossPlatformInputManager.GetAxis("Teleport"));
 			}
 			if (dash) {
-				StartCoroutine(m_Character.Dash (CrossPlatformInputManager.GetAxis("Dash"), matcher.waitTimeForQuant()));
+				m_Character.Dash (CrossPlatformInputManager.GetAxis("Dash"));
 			}
 
             teleUp = false;

@@ -11,11 +11,14 @@ public class BeatMatcher : MonoBehaviour {
 	private float missThreshold = 0.0f;
 	private float quantLength;
 	private float beatLength;
+	private List<Quanter> callbacks;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		beatLength = 60 / BPM;
 		quantLength = beatLength / 4;
+
+		callbacks = new List<Quanter> ();
 
 		notifiables = new List<Beater>();
 		notifiables.AddRange(FindObjectsOfType<ChangeColorOnBeat> ());
@@ -35,8 +38,13 @@ public class BeatMatcher : MonoBehaviour {
 		}
 	}
 
-	public float waitTimeForQuant(){
-		float waitTime = quantLength - ((Time.time - startTime) % quantLength);
-		return waitTime;
+	public void ReportDoubleQuant(){
+		foreach (Quanter notify in callbacks) {
+			notify.Act();
+		}
+	}
+
+	public void registerQuant(Quanter callback){
+		callbacks.Add (callback);
 	}
 }
