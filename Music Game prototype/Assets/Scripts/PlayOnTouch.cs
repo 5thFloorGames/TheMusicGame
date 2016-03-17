@@ -4,7 +4,7 @@ using UnityStandardAssets._2D;
 
 public class PlayOnTouch : MonoBehaviour {
 
-	public AudioClip clip;
+	public Note note;
 	private PlatformerCharacter2D player;
 
 	void Awake() {
@@ -16,7 +16,7 @@ public class PlayOnTouch : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D col){
-		player.setClip (clip);
+		player.setClip (note);
 	}
 
 	void OnTriggerExit2D(Collider2D col){

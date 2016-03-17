@@ -26,7 +26,6 @@ namespace UnityStandardAssets._2D
 		public AudioSource bass;
 		public AudioSource bassSwap;
 		public AudioSource teleport;
-		public AudioSource melody;
 		private AudioMixer mixer;
 		private int rayMask = 0;
 		private BeatMatcher beat;
@@ -34,6 +33,8 @@ namespace UnityStandardAssets._2D
 		private bool loopedQuant;
 		private Queue<Direction> inputBuffer;
 		private AudioClip[] clips;
+		private AudioClip[] notes;
+		private Note activeNote;
 
 		private void Awake()
         {
@@ -47,6 +48,7 @@ namespace UnityStandardAssets._2D
 			beat = FindObjectOfType<BeatMatcher> ();
 			inputBuffer = new Queue<Direction> ();
 			clips = Resources.LoadAll<AudioClip>("Audio/Melodies");
+			notes = Resources.LoadAll<AudioClip>("Audio/PlatformNotes");
 		}
 
 		private void Start(){
@@ -75,10 +77,11 @@ namespace UnityStandardAssets._2D
 			bassSwap.mute = true;
 		}
 
-		public void setClip(AudioClip clip){
+		public void setClip(Note note){
 			bassSwap.clip = bass.clip;
 			StartCoroutine(fadeOut (bassSwap.outputAudioMixerGroup.audioMixer));
-			bass.clip = clip;
+			print ("note index: " + (int)note);
+			bass.clip = notes[(int) note];
 			StartCoroutine(fadeIn (bass.outputAudioMixerGroup.audioMixer));
 			bass.Play ();
 			bassSwap.Play ();
@@ -140,7 +143,7 @@ namespace UnityStandardAssets._2D
 					if (direction == Direction.RIGHT) {
 						transform.position = transform.position + Vector3.right * (3);
 					}
-					melody.PlayOneShot (clips [UnityEngine.Random.Range (0, clips.Length)]);
+					teleport.PlayOneShot (clips [UnityEngine.Random.Range (0, clips.Length)], teleport.volume);
 				}
 			}
 		}

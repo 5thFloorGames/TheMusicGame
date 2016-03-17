@@ -56,6 +56,7 @@ namespace UnityStandardAssets._2D
 			}
 
             teleUp = false;
+			dash = false;
         }
     }
 }
