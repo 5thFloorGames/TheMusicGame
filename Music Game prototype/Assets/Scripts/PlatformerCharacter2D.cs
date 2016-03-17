@@ -35,6 +35,7 @@ namespace UnityStandardAssets._2D
 		private AudioClip[] clips;
 		private AudioClip[] notes;
 		private Note activeNote;
+		private Dictionary<Note, AudioClip[]> noteToMelody;
 
 		private void Awake()
         {
@@ -49,10 +50,25 @@ namespace UnityStandardAssets._2D
 			inputBuffer = new Queue<Direction> ();
 			clips = Resources.LoadAll<AudioClip>("Audio/Melodies");
 			notes = Resources.LoadAll<AudioClip>("Audio/PlatformNotes");
+			noteToMelody = new Dictionary<Note, AudioClip[]> ();
+			noteToMelody.Add (Note.i, buildMelodyClipArray (2, 3, 6, 7, 9));
+			noteToMelody.Add (Note.III, buildMelodyClipArray (6, 7, 9, 1));
+			noteToMelody.Add (Note.iv, buildMelodyClipArray (8,0,2,3));
+			noteToMelody.Add (Note.v, buildMelodyClipArray (9,1,4,5));
+			noteToMelody.Add (Note.VI, buildMelodyClipArray (0,2,3,6,7));
+			noteToMelody.Add (Note.VII, buildMelodyClipArray (1,4,5,8));
 		}
 
 		private void Start(){
 			beat.registerQuant (this);
+		}
+
+		private AudioClip[] buildMelodyClipArray(params int[] indexes){
+			AudioClip[] melodyClips = new AudioClip[indexes.Length];
+			for (int i = 0; i < indexes.Length; i++) {
+				melodyClips[i] = clips[indexes[i]];
+			}
+			return melodyClips;
 		}
 
 
@@ -78,6 +94,7 @@ namespace UnityStandardAssets._2D
 		}
 
 		public void setClip(Note note){
+			activeNote = note;
 			bassSwap.clip = bass.clip;
 			StartCoroutine(fadeOut (bassSwap.outputAudioMixerGroup.audioMixer));
 			print ("note index: " + (int)note);
@@ -143,7 +160,8 @@ namespace UnityStandardAssets._2D
 					if (direction == Direction.RIGHT) {
 						transform.position = transform.position + Vector3.right * (3);
 					}
-					teleport.PlayOneShot (clips [UnityEngine.Random.Range (0, clips.Length)], teleport.volume);
+					print(noteToMelody[activeNote] [UnityEngine.Random.Range (0, noteToMelody[activeNote].Length)].name);
+					teleport.PlayOneShot (noteToMelody[activeNote] [UnityEngine.Random.Range (0, noteToMelody[activeNote].Length)], teleport.volume);
 				}
 			}
 		}
@@ -179,10 +197,6 @@ namespace UnityStandardAssets._2D
             }
 
 			if (!m_Grounded) {
-
-				RaycastHit hit;
-				Debug.DrawRay (transform.position, Vector3.down);
-				Physics.Raycast (transform.position, Vector3.down, out hit, ~rayMask);
 				mixer.SetFloat ("highpass", 1000f); // Placeholder, sounds cool though
 			} else {
 				mixer.SetFloat ("highpass", 0f);
