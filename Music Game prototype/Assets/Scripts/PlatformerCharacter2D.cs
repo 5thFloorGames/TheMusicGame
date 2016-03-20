@@ -32,10 +32,11 @@ namespace UnityStandardAssets._2D
 		private bool loopedBeat;
 		private bool loopedQuant;
 		private Queue<Direction> inputBuffer;
-		private AudioClip[] clips;
+		private AudioClip[] melodies;
 		private AudioClip[] notes;
 		private Note activeNote;
 		private Dictionary<Note, AudioClip[]> noteToMelody;
+		private Dictionary<Note, AudioClip[]> noteToDashMelody;
 		private AudioClip[] dashes;
 		private int gracePeriodMilliseconds = 1000;
 		private int gracePeriodSamples;
@@ -51,16 +52,23 @@ namespace UnityStandardAssets._2D
 			rayMask |= 1 << LayerMask.NameToLayer ("Destructible");
 			beat = FindObjectOfType<BeatMatcher> ();
 			inputBuffer = new Queue<Direction> ();
-			clips = Resources.LoadAll<AudioClip>("Audio/Melodies");
+			melodies = Resources.LoadAll<AudioClip>("Audio/Teleports");
 			notes = Resources.LoadAll<AudioClip>("Audio/PlatformNotes");
 			dashes = Resources.LoadAll<AudioClip>("Audio/Dashes");
 			noteToMelody = new Dictionary<Note, AudioClip[]> ();
-			noteToMelody.Add (Note.i, buildMelodyClipArray (2, 3, 6, 7, 9));
-			noteToMelody.Add (Note.III, buildMelodyClipArray (6, 7, 9, 1));
-			noteToMelody.Add (Note.iv, buildMelodyClipArray (8,0,2,3));
-			noteToMelody.Add (Note.v, buildMelodyClipArray (9,1,4,5));
-			noteToMelody.Add (Note.VI, buildMelodyClipArray (0,2,3,6,7));
-			noteToMelody.Add (Note.VII, buildMelodyClipArray (1,4,5,8));
+			noteToMelody.Add (Note.i, buildMelodyClipArray (melodies, 2, 3, 6, 7, 9));
+			noteToMelody.Add (Note.III, buildMelodyClipArray (melodies, 6, 7, 9, 1));
+			noteToMelody.Add (Note.iv, buildMelodyClipArray (melodies, 8,0,2,3));
+			noteToMelody.Add (Note.v, buildMelodyClipArray (melodies, 9,1,4,5));
+			noteToMelody.Add (Note.VI, buildMelodyClipArray (melodies, 0,2,3,6,7));
+			noteToMelody.Add (Note.VII, buildMelodyClipArray (melodies, 1,4,5,8));
+			noteToDashMelody = new Dictionary<Note, AudioClip[]> ();
+			noteToDashMelody.Add (Note.i, buildMelodyClipArray (dashes, 2, 3, 6, 7, 9));
+			noteToDashMelody.Add (Note.III, buildMelodyClipArray (dashes, 6, 7, 9, 1));
+			noteToDashMelody.Add (Note.iv, buildMelodyClipArray (dashes,8,0,2,3));
+			noteToDashMelody.Add (Note.v, buildMelodyClipArray (dashes,9,1,4,5));
+			noteToDashMelody.Add (Note.VI, buildMelodyClipArray (dashes,0,2,3,6,7));
+			noteToDashMelody.Add (Note.VII, buildMelodyClipArray (dashes,1,4,5,8));
 			gracePeriodSamples = gracePeriodMilliseconds * 48;
 		}
 
@@ -68,7 +76,7 @@ namespace UnityStandardAssets._2D
 			beat.registerQuant (this);
 		}
 
-		private AudioClip[] buildMelodyClipArray(params int[] indexes){
+		private AudioClip[] buildMelodyClipArray(AudioClip[] clips, params int[] indexes){
 			AudioClip[] melodyClips = new AudioClip[indexes.Length];
 			for (int i = 0; i < indexes.Length; i++) {
 				melodyClips[i] = clips[indexes[i]];
@@ -168,7 +176,7 @@ namespace UnityStandardAssets._2D
 				CheckForDestructibles();
 			}
 			//teleport.PlayOneShot (dashes[UnityEngine.Random.Range(0,dashes.Length)], teleport.volume);
-			teleport.PlayOneShot (noteToMelody[activeNote] [UnityEngine.Random.Range (0, noteToMelody[activeNote].Length)], teleport.volume);
+			teleport.PlayOneShot (noteToDashMelody[activeNote] [UnityEngine.Random.Range (0, noteToDashMelody[activeNote].Length)], teleport.volume);
 		}
 		
 		public void Act(){
