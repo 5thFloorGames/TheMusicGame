@@ -24,7 +24,9 @@ namespace UnityStandardAssets._2D
         private bool m_FacingRight = true;  // For determining which way the player is currently facing.
 		public AudioSource drums;
 		public AudioSource bass;
+		public AudioSource pulse;
 		public AudioSource bassSwap;
+		public AudioSource pulseSwap;
 		public AudioSource teleport;
 		private AudioMixer mixer;
 		private int rayMask = 0;
@@ -34,6 +36,7 @@ namespace UnityStandardAssets._2D
 		private Queue<Direction> inputBuffer;
 		private AudioClip[] melodies;
 		private AudioClip[] notes;
+		private AudioClip[] pulses;
 		private Note activeNote;
 		private Dictionary<Note, AudioClip[]> noteToMelody;
 		private Dictionary<Note, AudioClip[]> noteToDashMelody;
@@ -53,7 +56,8 @@ namespace UnityStandardAssets._2D
 			beat = FindObjectOfType<BeatMatcher> ();
 			inputBuffer = new Queue<Direction> ();
 			melodies = Resources.LoadAll<AudioClip>("Audio/Teleports");
-			notes = Resources.LoadAll<AudioClip>("Audio/PlatformNotes");
+			notes = Resources.LoadAll<AudioClip>("Audio/PlatformNotes/Bass");
+			pulses = Resources.LoadAll<AudioClip>("Audio/PlatformNotes/Pulse");
 			dashes = Resources.LoadAll<AudioClip>("Audio/Dashes");
 			noteToMelody = new Dictionary<Note, AudioClip[]> ();
 			noteToMelody.Add (Note.i, buildMelodyClipArray (melodies, 2, 3, 6, 7, 9));
@@ -95,27 +99,35 @@ namespace UnityStandardAssets._2D
 			}
 		}
 		
-		IEnumerator fadeOut(AudioMixer source){
-			bassSwap.mute = false;
+		IEnumerator fadeOut(AudioMixer mixer, AudioSource source){
+			source.mute = false;
 			float volume = 0f;
 			while (volume > -20f) {
 				volume -= 1f;
-				source.SetFloat("swapvolume", volume);
+				mixer.SetFloat("swapvolume", volume);
 				yield return null;
 			}
-			bassSwap.mute = true;
+			source.mute = true;
 		}
 
 		public void setClip(Note note){
 			activeNote = note;
 			bassSwap.clip = bass.clip;
-			StartCoroutine(fadeOut (bassSwap.outputAudioMixerGroup.audioMixer));
+			pulseSwap.clip = pulse.clip;
+			StartCoroutine(fadeOut (bassSwap.outputAudioMixerGroup.audioMixer, bassSwap));
+			StartCoroutine(fadeOut (pulseSwap.outputAudioMixerGroup.audioMixer, pulseSwap));
 			bass.clip = notes[(int) note];
+			pulse.clip = pulses[(int) note];
 			StartCoroutine(fadeIn (bass.outputAudioMixerGroup.audioMixer));
+			StartCoroutine(fadeIn (pulse.outputAudioMixerGroup.audioMixer));
 			bass.Play ();
+			pulse.Play ();
 			bassSwap.Play ();
+			pulseSwap.Play ();
 			bass.timeSamples = drums.timeSamples;
+			pulse.timeSamples = drums.timeSamples;
 			bassSwap.timeSamples = drums.timeSamples;
+			pulseSwap.timeSamples = drums.timeSamples;
 		}
 
 		private void Update(){
@@ -256,6 +268,7 @@ namespace UnityStandardAssets._2D
 
 			drums.volume = Mathf.Abs (move / 4);
 			bass.volume = Math.Abs (move) + 0.7f;
+			pulse.volume = Math.Abs (move) + 0.2f;
 			mixer.SetFloat ("lowpass",(Mathf.Abs (move) * 19500f) + 2500f);
 
             // Set whether or not the character is crouching in the animator
