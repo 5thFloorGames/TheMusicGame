@@ -12,6 +12,7 @@ public class BeatMatcher : MonoBehaviour {
 	private float quantLength;
 	private float beatLength;
 	private List<Quanter> callbacks;
+	private List<Quanter> oneOffs;
 
 	// Use this for initialization
 	void Awake () {
@@ -19,7 +20,8 @@ public class BeatMatcher : MonoBehaviour {
 		quantLength = beatLength / 4;
 
 		callbacks = new List<Quanter> ();
-
+		oneOffs = new List<Quanter> ();
+		
 		notifiables = new List<Beater>();
 		notifiables.AddRange(FindObjectsOfType<ChangeColorOnBeat> ());
 		notifiables.AddRange(FindObjectsOfType<ChangeTextureOnBeat> ());
@@ -36,6 +38,10 @@ public class BeatMatcher : MonoBehaviour {
 		foreach (Beater notify in notifiables) {
 			notify.Beat();
 		}
+		foreach (Quanter notify in oneOffs) {
+			notify.Act();
+		}
+		oneOffs.Clear ();
 	}
 
 	public void ReportDoubleQuant(){
@@ -47,4 +53,9 @@ public class BeatMatcher : MonoBehaviour {
 	public void registerQuant(Quanter callback){
 		callbacks.Add (callback);
 	}
+
+	public void registerQuantOneOff(Quanter callback){
+		oneOffs.Add (callback);
+	}
+
 }

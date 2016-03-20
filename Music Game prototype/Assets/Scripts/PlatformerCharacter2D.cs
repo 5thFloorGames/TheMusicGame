@@ -36,6 +36,7 @@ namespace UnityStandardAssets._2D
 		private AudioClip[] notes;
 		private Note activeNote;
 		private Dictionary<Note, AudioClip[]> noteToMelody;
+		private AudioClip[] dashes;
 		private int gracePeriodMilliseconds = 1000;
 		private int gracePeriodSamples;
 
@@ -47,11 +48,12 @@ namespace UnityStandardAssets._2D
             m_Anim = GetComponent<Animator>();
             m_Rigidbody2D = GetComponent<Rigidbody2D>();
 			mixer = bass.outputAudioMixerGroup.audioMixer;
-			rayMask |= 1 << LayerMask.NameToLayer ("Platform");
+			rayMask |= 1 << LayerMask.NameToLayer ("Destructible");
 			beat = FindObjectOfType<BeatMatcher> ();
 			inputBuffer = new Queue<Direction> ();
 			clips = Resources.LoadAll<AudioClip>("Audio/Melodies");
 			notes = Resources.LoadAll<AudioClip>("Audio/PlatformNotes");
+			dashes = Resources.LoadAll<AudioClip>("Audio/Dashes");
 			noteToMelody = new Dictionary<Note, AudioClip[]> ();
 			noteToMelody.Add (Note.i, buildMelodyClipArray (2, 3, 6, 7, 9));
 			noteToMelody.Add (Note.III, buildMelodyClipArray (6, 7, 9, 1));
@@ -144,27 +146,60 @@ namespace UnityStandardAssets._2D
             m_Anim.SetFloat("vSpeed", m_Rigidbody2D.velocity.y);
         }
 
+		private void Teleport(Direction direction){
+			if (direction == Direction.UP) {
+				transform.position = transform.position + Vector3.up * (4);
+				m_Rigidbody2D.velocity = Vector2.zero;
+			} 
+			if (direction == Direction.DOWN) {
+				transform.position = transform.position + Vector3.down * (4);
+				m_Rigidbody2D.velocity = Vector2.zero;
+			}
+			teleport.PlayOneShot (noteToMelody[activeNote] [UnityEngine.Random.Range (0, noteToMelody[activeNote].Length)], teleport.volume);
+		}
+
+		private void Dash(Direction direction){
+			if (direction == Direction.LEFT) {
+				transform.position = transform.position + Vector3.left * (3);
+				CheckForDestructibles();
+			} 
+			if (direction == Direction.RIGHT) {
+				transform.position = transform.position + Vector3.right * (3);
+				CheckForDestructibles();
+			}
+			//teleport.PlayOneShot (dashes[UnityEngine.Random.Range(0,dashes.Length)], teleport.volume);
+			teleport.PlayOneShot (noteToMelody[activeNote] [UnityEngine.Random.Range (0, noteToMelody[activeNote].Length)], teleport.volume);
+		}
+		
 		public void Act(){
 			if (inputBuffer.Count > 0) {
 				Direction direction = inputBuffer.Dequeue ();
 				if (direction != null) {
-					if (direction == Direction.UP) {
-						transform.position = transform.position + Vector3.up * (4);
-						m_Rigidbody2D.velocity = Vector2.zero;
-					} 
-					if (direction == Direction.DOWN) {
-						transform.position = transform.position + Vector3.down * (4);
-						m_Rigidbody2D.velocity = Vector2.zero;
+					if(direction == Direction.UP || direction == Direction.DOWN){
+						Teleport(direction);
+					} else {
+						Dash (direction);
 					}
-					if (direction == Direction.LEFT) {
-						transform.position = transform.position + Vector3.left * (3);
-					} 
-					if (direction == Direction.RIGHT) {
-						transform.position = transform.position + Vector3.right * (3);
-					}
-					teleport.PlayOneShot (noteToMelody[activeNote] [UnityEngine.Random.Range (0, noteToMelody[activeNote].Length)], teleport.volume);
 				}
 			}
+		}
+
+		public void CheckForDestructibles(){
+			RaycastHit2D hit;
+			Vector2 direction;
+			if (m_FacingRight) {
+				direction = Vector2.left;
+			} else {
+				direction = Vector2.right;
+			}
+			Debug.DrawRay (transform.position, direction,Color.green, 2f);
+			hit = Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y), direction, 2.5f, rayMask);
+			if (hit) {
+				if(hit.collider.tag == "Destructible"){
+					hit.collider.SendMessage("DestroyOnQuant");
+				}
+			}
+
 		}
 
 		public void Teleport(float direction){
