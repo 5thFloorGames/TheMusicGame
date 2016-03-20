@@ -36,6 +36,8 @@ namespace UnityStandardAssets._2D
 		private AudioClip[] notes;
 		private Note activeNote;
 		private Dictionary<Note, AudioClip[]> noteToMelody;
+		private int gracePeriodMilliseconds = 1000;
+		private int gracePeriodSamples;
 
 		private void Awake()
         {
@@ -57,6 +59,7 @@ namespace UnityStandardAssets._2D
 			noteToMelody.Add (Note.v, buildMelodyClipArray (9,1,4,5));
 			noteToMelody.Add (Note.VI, buildMelodyClipArray (0,2,3,6,7));
 			noteToMelody.Add (Note.VII, buildMelodyClipArray (1,4,5,8));
+			gracePeriodSamples = gracePeriodMilliseconds * 48;
 		}
 
 		private void Start(){
@@ -97,7 +100,6 @@ namespace UnityStandardAssets._2D
 			activeNote = note;
 			bassSwap.clip = bass.clip;
 			StartCoroutine(fadeOut (bassSwap.outputAudioMixerGroup.audioMixer));
-			print ("note index: " + (int)note);
 			bass.clip = notes[(int) note];
 			StartCoroutine(fadeIn (bass.outputAudioMixerGroup.audioMixer));
 			bass.Play ();
@@ -160,7 +162,6 @@ namespace UnityStandardAssets._2D
 					if (direction == Direction.RIGHT) {
 						transform.position = transform.position + Vector3.right * (3);
 					}
-					print(noteToMelody[activeNote] [UnityEngine.Random.Range (0, noteToMelody[activeNote].Length)].name);
 					teleport.PlayOneShot (noteToMelody[activeNote] [UnityEngine.Random.Range (0, noteToMelody[activeNote].Length)], teleport.volume);
 				}
 			}
@@ -173,6 +174,10 @@ namespace UnityStandardAssets._2D
 			if (direction < 0) {
 				inputBuffer.Enqueue(Direction.DOWN);
 			}
+//			if ((Mathf.Min (drums.timeSamples % 12000, Mathf.Abs ((drums.timeSamples % 12000) - 12000)) < gracePeriodSamples)) {
+//				print ("Grace!" + (drums.timeSamples % 12000));
+//				Act ();
+//			}
 		}
 
 		public void Dash(float direction){
@@ -182,6 +187,10 @@ namespace UnityStandardAssets._2D
 			if (direction < 0) {
 				inputBuffer.Enqueue(Direction.RIGHT);
 			}
+//			if ((Mathf.Min(drums.timeSamples % 12000, Mathf.Abs((drums.timeSamples % 12000) - 12000)) < gracePeriodSamples)) {
+//				print ("Grace!" + (drums.timeSamples % 12000));
+//				Act();
+//			}
 		}
 
         public void Move(float move, bool crouch, bool jump)
