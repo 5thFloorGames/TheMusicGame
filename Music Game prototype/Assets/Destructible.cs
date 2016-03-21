@@ -6,8 +6,7 @@ public class Destructible : MonoBehaviour, Quanter {
 	BeatMatcher beat;
 	public GameObject destructionEffect;
 	Renderer rend;
-	public Material crackedOn;
-	public Material crackedOff;
+	public Material cracked;
 	public Material destroyedOn;
 	public Material destroyedOff;
 	
@@ -28,8 +27,8 @@ public class Destructible : MonoBehaviour, Quanter {
 
 	void DestroyOnQuant(){
 		beat.registerQuantOneOff (this);
-		rend.material = crackedOn;
-		gameObject.GetComponent<ChangeTextureOnBeat> ().updateTextures (crackedOn, crackedOff);
+		rend.material = cracked;
+		gameObject.GetComponent<ChangeTextureOnBeat> ().updateTextures (cracked, cracked);
 	}
 
 	public void Act(){
