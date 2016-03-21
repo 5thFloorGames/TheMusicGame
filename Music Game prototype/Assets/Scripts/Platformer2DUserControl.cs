@@ -55,6 +55,10 @@ namespace UnityStandardAssets._2D
 				m_Character.Dash (CrossPlatformInputManager.GetAxis("Dash"));
 			}
 
+			if (Input.GetButtonDown ("Cheat")) {
+				m_Character.Cheat();
+			}
+
             teleUp = false;
 			dash = false;
         }

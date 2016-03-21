@@ -1,21 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CrushOnBeat : MonoBehaviour, Beater {
+public class CrushOnBeat : MonoBehaviour, Quanter {
 
 	public bool up = false;
 	public int startCount = 0;
 	private int count = 0;
-	public int everyXBeat = 2;
+	public int everyXQuant = 4;
 	private AudioSource snare;
+	private BeatMatcher beat;
 
 	void Awake() {
 		snare = GetComponent<AudioSource> ();
+		beat = FindObjectOfType<BeatMatcher> ();
 	}
 
 	// Use this for initialization
 	void Start () {
 		count = startCount;
+		beat.registerQuant (this);
 	}
 	
 	// Update is called once per frame
@@ -23,9 +26,9 @@ public class CrushOnBeat : MonoBehaviour, Beater {
 	
 	}
 
-	public void Beat (){
+	public void Act (){
 		count++;
-		if(count >= everyXBeat){
+		if(count >= everyXQuant){
 			if (up) {
 				transform.position = new Vector3(transform.position.x,transform.position.y - 4,transform.position.z);
 				up = false;

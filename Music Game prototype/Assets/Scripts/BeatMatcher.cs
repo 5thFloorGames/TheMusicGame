@@ -25,7 +25,6 @@ public class BeatMatcher : MonoBehaviour {
 		notifiables = new List<Beater>();
 		notifiables.AddRange(FindObjectsOfType<ChangeColorOnBeat> ());
 		notifiables.AddRange(FindObjectsOfType<ChangeTextureOnBeat> ());
-		notifiables.AddRange(FindObjectsOfType<CrushOnBeat> ());
 		notifiables.AddRange(FindObjectsOfType<CountDownOnBeat> ());
 		startTime = Time.time;
 	}

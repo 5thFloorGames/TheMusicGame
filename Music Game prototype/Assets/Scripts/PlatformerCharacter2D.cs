@@ -43,6 +43,8 @@ namespace UnityStandardAssets._2D
 		private AudioClip[] dashes;
 		private int gracePeriodMilliseconds = 1000;
 		private int gracePeriodSamples;
+		private int teleportCharges = 2;
+		private int maxCharges = 2;
 
 		private void Awake()
         {
@@ -138,7 +140,6 @@ namespace UnityStandardAssets._2D
 			if (drums.timeSamples % 24000 > 12000 && Mathf.Abs((drums.timeSamples % 24000) - 24000) > 4000) {
 				loopedBeat = false;
 			}
-
 			if ((Mathf.Min(drums.timeSamples % 12000, Mathf.Abs((drums.timeSamples % 12000) - 12000)) < 2000) && !loopedQuant) {
 				loopedQuant = true;
 				beat.ReportDoubleQuant();
@@ -157,8 +158,10 @@ namespace UnityStandardAssets._2D
             Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
             for (int i = 0; i < colliders.Length; i++)
             {
-                if (colliders[i].gameObject != gameObject)
+                if (colliders[i].gameObject != gameObject){
                     m_Grounded = true;
+					teleportCharges = maxCharges;
+				}
             }
             m_Anim.SetBool("Ground", m_Grounded);
 
@@ -166,16 +169,23 @@ namespace UnityStandardAssets._2D
             m_Anim.SetFloat("vSpeed", m_Rigidbody2D.velocity.y);
         }
 
+		public void Cheat(){
+			maxCharges = 1000;
+		}
+
 		private void Teleport(Direction direction){
-			if (direction == Direction.UP) {
-				transform.position = transform.position + Vector3.up * (4);
-				m_Rigidbody2D.velocity = Vector2.zero;
-			} 
-			if (direction == Direction.DOWN) {
-				transform.position = transform.position + Vector3.down * (4);
-				m_Rigidbody2D.velocity = Vector2.zero;
+			if (teleportCharges > 0) {
+				if (direction == Direction.UP) {
+					transform.position = transform.position + Vector3.up * (4);
+					m_Rigidbody2D.velocity = Vector2.zero;
+				} 
+				if (direction == Direction.DOWN) {
+					transform.position = transform.position + Vector3.down * (4);
+					m_Rigidbody2D.velocity = Vector2.zero;
+				}
+				teleport.PlayOneShot (noteToMelody [activeNote] [UnityEngine.Random.Range (0, noteToMelody [activeNote].Length)], teleport.volume);
+				teleportCharges--;
 			}
-			teleport.PlayOneShot (noteToMelody[activeNote] [UnityEngine.Random.Range (0, noteToMelody[activeNote].Length)], teleport.volume);
 		}
 
 		private void Dash(Direction direction){
