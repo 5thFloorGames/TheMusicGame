@@ -5,9 +5,13 @@ public class Destructible : MonoBehaviour, Quanter {
 
 	BeatMatcher beat;
 	public GameObject destructionEffect;
-
+	Renderer rend;
+	public Material cracked;
+	public Material destroyed;
+	
 	void Awake(){
 		beat = FindObjectOfType<BeatMatcher> ();
+		rend = gameObject.GetComponent<Renderer> ();
 	}
 
 	// Use this for initialization
@@ -22,10 +26,12 @@ public class Destructible : MonoBehaviour, Quanter {
 
 	void DestroyOnQuant(){
 		beat.registerQuantOneOff (this);
+		rend.material = cracked;
 	}
 
 	public void Act(){
 		Instantiate (destructionEffect);
-		gameObject.SetActive (false);
+		rend.material = destroyed;
+		gameObject.GetComponent<Collider2D> ().enabled = false;
 	}
 }
