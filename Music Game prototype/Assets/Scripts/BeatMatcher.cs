@@ -24,7 +24,6 @@ public class BeatMatcher : MonoBehaviour {
 		
 		notifiables = new List<Beater>();
 		notifiables.AddRange(FindObjectsOfType<ChangeColorOnBeat> ());
-		notifiables.AddRange(FindObjectsOfType<ChangeTextureOnBeat> ());
 		notifiables.AddRange(FindObjectsOfType<CountDownOnBeat> ());
 		startTime = Time.time;
 	}
@@ -47,6 +46,10 @@ public class BeatMatcher : MonoBehaviour {
 		foreach (Quanter notify in callbacks) {
 			notify.Act();
 		}
+	}
+
+	public void registerBeat(Beater callback){
+		notifiables.Add (callback);
 	}
 
 	public void registerQuant(Quanter callback){
