@@ -30,11 +30,11 @@ public class CrushOnBeat : MonoBehaviour, Quanter {
 		count++;
 		if(count >= everyXQuant){
 			if (up) {
-				transform.position = new Vector3(transform.position.x,transform.position.y - 4,transform.position.z);
+				transform.position = new Vector3(transform.position.x,transform.position.y - 3,transform.position.z);
 				up = false;
 				snare.Play();
 			} else {
-				transform.position = new Vector3(transform.position.x,transform.position.y + 4,transform.position.z);
+				transform.position = new Vector3(transform.position.x,transform.position.y + 3,transform.position.z);
 				up = true;
 			}
 			count = 0;

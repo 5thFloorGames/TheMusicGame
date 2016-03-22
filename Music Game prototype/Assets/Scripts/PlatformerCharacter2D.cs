@@ -43,8 +43,8 @@ namespace UnityStandardAssets._2D
 		private AudioClip[] dashes;
 		private int gracePeriodMilliseconds = 1000;
 		private int gracePeriodSamples;
-		private int teleportCharges = 2;
-		private int maxCharges = 2;
+		private int teleportCharges = 1;
+		private int maxCharges = 1;
 
 		private void Awake()
         {

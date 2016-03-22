@@ -22,4 +22,8 @@ public class PlayOnTouch : MonoBehaviour {
 	void OnTriggerExit2D(Collider2D col){
 		//player.setClip (null);
 	}
+
+	public void SetNote(Note note){
+		this.note = note;
+	}
 }
