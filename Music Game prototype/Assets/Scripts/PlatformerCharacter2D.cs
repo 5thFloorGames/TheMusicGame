@@ -37,7 +37,7 @@ namespace UnityStandardAssets._2D
 		private AudioClip[] melodies;
 		private AudioClip[] notes;
 		private AudioClip[] pulses;
-		private Note activeNote;
+		public Note activeNote;
 		private Dictionary<Note, AudioClip[]> noteToMelody;
 		private Dictionary<Note, AudioClip[]> noteToDashMelody;
 		private AudioClip[] dashes;

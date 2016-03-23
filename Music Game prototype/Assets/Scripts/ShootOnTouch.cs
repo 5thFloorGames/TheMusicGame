@@ -4,6 +4,7 @@ using System.Collections;
 public class ShootOnTouch : MonoBehaviour {
 
 	private Spawn spawner;
+	private bool shot = false;
 
 	// Use this for initialization
 	void Awake () {
@@ -16,6 +17,9 @@ public class ShootOnTouch : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D col){
-		spawner.SpawnProjectile (transform);
+		if (!shot) {
+			spawner.SpawnProjectile (transform);
+			shot = true;
+		}
 	}
 }
