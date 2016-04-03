@@ -76,10 +76,14 @@ namespace UnityStandardAssets._2D
 			noteToDashMelody.Add (Note.VI, buildMelodyClipArray (dashes,0,2,3,6,7));
 			noteToDashMelody.Add (Note.VII, buildMelodyClipArray (dashes,1,4,5,8));
 			gracePeriodSamples = gracePeriodMilliseconds * 48;
+
 		}
 
 		private void Start(){
 			beat.registerQuant (this);
+			activeNote = Note.v;
+			setClip (Note.i);
+			setClip (Note.i);
 		}
 
 		private AudioClip[] buildMelodyClipArray(AudioClip[] clips, params int[] indexes){
@@ -113,23 +117,25 @@ namespace UnityStandardAssets._2D
 		}
 
 		public void setClip(Note note){
-			activeNote = note;
-			bassSwap.clip = bass.clip;
-			pulseSwap.clip = pulse.clip;
-			StartCoroutine(fadeOut (bassSwap.outputAudioMixerGroup.audioMixer, bassSwap));
-			StartCoroutine(fadeOut (pulseSwap.outputAudioMixerGroup.audioMixer, pulseSwap));
-			bass.clip = notes[(int) note];
-			pulse.clip = pulses[(int) note];
-			StartCoroutine(fadeIn (bass.outputAudioMixerGroup.audioMixer));
-			StartCoroutine(fadeIn (pulse.outputAudioMixerGroup.audioMixer));
-			bass.Play ();
-			pulse.Play ();
-			bassSwap.Play ();
-			pulseSwap.Play ();
-			bass.timeSamples = drums.timeSamples;
-			pulse.timeSamples = drums.timeSamples;
-			bassSwap.timeSamples = drums.timeSamples;
-			pulseSwap.timeSamples = drums.timeSamples;
+			if (note != activeNote) {
+				activeNote = note;
+				bassSwap.clip = bass.clip;
+				pulseSwap.clip = pulse.clip;
+				StartCoroutine (fadeOut (bassSwap.outputAudioMixerGroup.audioMixer, bassSwap));
+				StartCoroutine (fadeOut (pulseSwap.outputAudioMixerGroup.audioMixer, pulseSwap));
+				bass.clip = notes [(int)note];
+				pulse.clip = pulses [(int)note];
+				StartCoroutine (fadeIn (bass.outputAudioMixerGroup.audioMixer));
+				StartCoroutine (fadeIn (pulse.outputAudioMixerGroup.audioMixer));
+				bass.Play ();
+				pulse.Play ();
+				bassSwap.Play ();
+				pulseSwap.Play ();
+				bass.timeSamples = drums.timeSamples;
+				pulse.timeSamples = drums.timeSamples;
+				bassSwap.timeSamples = drums.timeSamples;
+				pulseSwap.timeSamples = drums.timeSamples;
+			}
 		}
 
 		private void Update(){

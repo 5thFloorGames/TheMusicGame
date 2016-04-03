@@ -6,11 +6,11 @@ public class LevelBuilding : EditorWindow
 	public Note platformNote;
 	public int platformLength = 1;
 	private GameObject platform;
-
+	
 	void Awake(){
 		platform = Resources.Load<GameObject>("Platforms/MusicPlatform");
 	}
-
+	
 	// Add menu item named "My Window" to the Window menu
 	[MenuItem("LevelBuilding/Window")]
 	public static void ShowWindow()
@@ -30,7 +30,7 @@ public class LevelBuilding : EditorWindow
 			CreatePlatforms();
 		}
 	}
-
+	
 	void CreatePlatforms(){
 		if (Selection.activeGameObject != null) {
 			if(Selection.activeGameObject.GetComponent<PlayOnTouch>() != null){
@@ -39,7 +39,7 @@ public class LevelBuilding : EditorWindow
 			}
 			GameObject holder = new GameObject ("Platform " + platformNote);
 			GameObject replaceable = Selection.activeGameObject;
-
+			
 			if(Selection.activeGameObject.GetComponent<PlayOnTouch>() != null){
 				holder.transform.position = replaceable.transform.position;
 				holder.transform.parent = replaceable.transform.parent.transform;
@@ -47,9 +47,9 @@ public class LevelBuilding : EditorWindow
 				holder.transform.position = replaceable.transform.position;
 				holder.transform.parent = replaceable.transform;
 			}
-		
+			
 			bool paired = platformLength % 2 == 0;
-
+			
 			for (float i = -Mathf.Floor(platformLength / 2); i <= Mathf.Floor(platformLength / 2); i++) {
 				if(!paired || i != Mathf.Floor(platformLength / 2)){
 					GameObject newPlatform = (GameObject)PrefabUtility.InstantiatePrefab (platform);

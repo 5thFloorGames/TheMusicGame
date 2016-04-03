@@ -34,7 +34,7 @@ public class Spawn : MonoBehaviour, Beater {
 		if (shotQueue.Count > 0) {
 			Transform platformTransform = shotQueue.Dequeue ();
 			Instantiate (toSpawn, new Vector3 (platformTransform.position.x, platformTransform.position.y, platformTransform.position.z + 440), Quaternion.identity);
-			audioSource.PlayOneShot (shootingSounds [(int)player.activeNote], 0.4f);
+			audioSource.PlayOneShot (shootingSounds [(int)player.activeNote], 0.2f);
 		}
 	}
 
