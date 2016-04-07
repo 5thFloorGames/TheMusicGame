@@ -7,18 +7,13 @@ public class BeatMatcher : MonoBehaviour {
 	public List<Beater> notifiables;
 	private float startTime;
 	private int counter = 0;
-	private float BPM = 120f;
-	private float missThreshold = 0.0f;
-	private float quantLength;
-	private float beatLength;
 	private List<Quanter> callbacks;
+	private List<SuperQuanter> quantCallbacks;
 	private List<Quanter> oneOffs;
 
 	// Use this for initialization
 	void Awake () {
-		beatLength = 60 / BPM;
-		quantLength = beatLength / 4;
-
+		quantCallbacks = new List<SuperQuanter> ();
 		callbacks = new List<Quanter> ();
 		oneOffs = new List<Quanter> ();
 		
@@ -48,6 +43,12 @@ public class BeatMatcher : MonoBehaviour {
 		}
 	}
 
+	public void ReportQuant(){
+		foreach (SuperQuanter notify in quantCallbacks) {
+			notify.Quant();
+		}
+	}
+	
 	public void registerBeat(Beater callback){
 		notifiables.Add (callback);
 	}
@@ -56,6 +57,10 @@ public class BeatMatcher : MonoBehaviour {
 		callbacks.Add (callback);
 	}
 
+	public void registerActualQuant(SuperQuanter callback){
+		quantCallbacks.Add (callback);
+	}
+	
 	public void registerQuantOneOff(Quanter callback){
 		oneOffs.Add (callback);
 	}

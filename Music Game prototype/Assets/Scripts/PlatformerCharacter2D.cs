@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace UnityStandardAssets._2D
 {
-    public class PlatformerCharacter2D : MonoBehaviour, Quanter
+    public class PlatformerCharacter2D : MonoBehaviour, Quanter, SuperQuanter
     {
         [SerializeField] private float m_MaxSpeed = 10f;                    // The fastest the player can travel in the x axis.
         [SerializeField] private float m_JumpForce = 400f;                  // Amount of force added when the player jumps.
@@ -33,13 +33,16 @@ namespace UnityStandardAssets._2D
 		private BeatMatcher beat;
 		private bool loopedBeat;
 		private bool loopedQuant;
+		private bool loopedActualQuant;
 		private Queue<Direction> inputBuffer;
 		private AudioClip[] melodies;
 		private AudioClip[] notes;
 		private AudioClip[] pulses;
+		private AudioClip[] arpeggios;
 		public Note activeNote;
 		private Dictionary<Note, AudioClip[]> noteToMelody;
 		private Dictionary<Note, AudioClip[]> noteToDashMelody;
+		private Dictionary<Note, AudioClip[]> shootingSequence;
 		private AudioClip[] dashes;
 		private int gracePeriodMilliseconds = 1000;
 		private int gracePeriodSamples;
@@ -61,6 +64,7 @@ namespace UnityStandardAssets._2D
 			notes = Resources.LoadAll<AudioClip>("Audio/PlatformNotes/Bass");
 			pulses = Resources.LoadAll<AudioClip>("Audio/PlatformNotes/Pulse");
 			dashes = Resources.LoadAll<AudioClip>("Audio/Dashes");
+			arpeggios = Resources.LoadAll<AudioClip> ("Audio/Shooting/Arpeggios");
 			noteToMelody = new Dictionary<Note, AudioClip[]> ();
 			noteToMelody.Add (Note.i, buildMelodyClipArray (melodies, 2, 3, 6, 7, 9));
 			noteToMelody.Add (Note.III, buildMelodyClipArray (melodies, 6, 7, 9, 1));
@@ -76,11 +80,18 @@ namespace UnityStandardAssets._2D
 			noteToDashMelody.Add (Note.VI, buildMelodyClipArray (dashes,0,2,3,6,7));
 			noteToDashMelody.Add (Note.VII, buildMelodyClipArray (dashes,1,4,5,8));
 			gracePeriodSamples = gracePeriodMilliseconds * 48;
-
+			shootingSequence = new Dictionary<Note, AudioClip[]> ();
+			shootingSequence.Add (Note.i, buildMelodyClipArray (arpeggios, 2, 5,6));
+			shootingSequence.Add (Note.III, buildMelodyClipArray (arpeggios, 4, 6,1));
+			shootingSequence.Add (Note.iv, buildMelodyClipArray (arpeggios, 2,5,0));
+			shootingSequence.Add (Note.v, buildMelodyClipArray (arpeggios, 3,6,1));
+			shootingSequence.Add (Note.VI, buildMelodyClipArray (arpeggios, 2,4,0));
+			shootingSequence.Add (Note.VII, buildMelodyClipArray (arpeggios, 3, 5, 1));	
 		}
-
+		
 		private void Start(){
 			beat.registerQuant (this);
+			beat.registerActualQuant (this);
 			activeNote = Note.v;
 			setClip (Note.i);
 			setClip (Note.i);
@@ -153,6 +164,14 @@ namespace UnityStandardAssets._2D
 			if (drums.timeSamples % 12000 > 6000 && Mathf.Abs((drums.timeSamples % 12000) - 12000) > 4000) {
 				loopedQuant = false;
 			}
+
+			if ((Mathf.Min(drums.timeSamples % 6000, Mathf.Abs((drums.timeSamples % 6000) - 6000)) < 2000) && !loopedQuant) {
+				loopedActualQuant = true;
+				beat.ReportQuant();
+			}
+			if (drums.timeSamples % 6000 > 3000 && Mathf.Abs((drums.timeSamples % 6000) - 6000) > 4000) {
+				loopedActualQuant = false;
+			}
 		}
 
         private void FixedUpdate()
@@ -219,6 +238,11 @@ namespace UnityStandardAssets._2D
 				}
 			}
 		}
+
+		public void Quant(){
+			//teleport.PlayOneShot (shootingSequence [activeNote] [UnityEngine.Random.Range (0, shootingSequence[activeNote].Length)], teleport.volume);
+		}
+
 
 		public void CheckForDestructibles(){
 			RaycastHit2D hit;
