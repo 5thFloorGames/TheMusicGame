@@ -16,7 +16,9 @@ public class PlayOnTouch : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D col){
-		player.setClip (note);
+		if (col.tag == "Player") {
+			player.setClip (note);
+		}
 	}
 
 	void OnTriggerExit2D(Collider2D col){

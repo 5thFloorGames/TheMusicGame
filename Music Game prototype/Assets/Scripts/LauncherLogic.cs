@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LauncherLogic : MonoBehaviour, Beater{
+public class LauncherLogic : MonoBehaviour, Quanter{
 
 	private ShootProjectiles[] launchers;
 	public GameObject character;
@@ -10,7 +10,7 @@ public class LauncherLogic : MonoBehaviour, Beater{
 	// Use this for initialization
 	void Start () {
 		launchers = GetComponentsInChildren<ShootProjectiles>();
-		FindObjectOfType<BeatMatcher> ().registerBeat (this);
+		FindObjectOfType<BeatMatcher> ().registerQuant (this);
 	}
 	
 	// Update is called once per frame
@@ -18,7 +18,7 @@ public class LauncherLogic : MonoBehaviour, Beater{
 		
 	}
 
-	public void Beat(){
+	public void Act(){
 		if (enabled) {
 			transform.position = (character.transform.position + Vector3.right * 9);
 			launchers [Random.Range (0, launchers.Length)].Shoot ();

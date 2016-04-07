@@ -150,13 +150,15 @@ namespace UnityStandardAssets._2D
 		}
 
 		private void Update(){
-			if ((Mathf.Min(drums.timeSamples % 24000, Mathf.Abs((drums.timeSamples % 24000) - 24000)) < 2000) && !loopedBeat) {
-				loopedBeat = true;
-				beat.ReportBeat();
-			}
-			if (drums.timeSamples % 24000 > 12000 && Mathf.Abs((drums.timeSamples % 24000) - 24000) > 4000) {
-				loopedBeat = false;
-			}
+//			if ((Mathf.Min(drums.timeSamples % 6000, Mathf.Abs((drums.timeSamples % 6000) - 6000)) < 1500) && !loopedQuant) {
+//				loopedActualQuant = true;
+//				beat.ReportQuant();
+//				//print (drums.timeSamples);
+//			}
+//			if (drums.timeSamples % 6000 > 1500 && Mathf.Abs((drums.timeSamples % 6000) - 6000) > 1500) {
+//				loopedActualQuant = false;
+//			}
+
 			if ((Mathf.Min(drums.timeSamples % 12000, Mathf.Abs((drums.timeSamples % 12000) - 12000)) < 2000) && !loopedQuant) {
 				loopedQuant = true;
 				beat.ReportDoubleQuant();
@@ -165,13 +167,16 @@ namespace UnityStandardAssets._2D
 				loopedQuant = false;
 			}
 
-			if ((Mathf.Min(drums.timeSamples % 6000, Mathf.Abs((drums.timeSamples % 6000) - 6000)) < 2000) && !loopedQuant) {
-				loopedActualQuant = true;
-				beat.ReportQuant();
+			if ((Mathf.Min(drums.timeSamples % 24000, Mathf.Abs((drums.timeSamples % 24000) - 24000)) < 2000) && !loopedBeat) {
+				loopedBeat = true;
+				beat.ReportBeat();
 			}
-			if (drums.timeSamples % 6000 > 3000 && Mathf.Abs((drums.timeSamples % 6000) - 6000) > 4000) {
-				loopedActualQuant = false;
+			if (drums.timeSamples % 24000 > 12000 && Mathf.Abs((drums.timeSamples % 24000) - 24000) > 4000) {
+				loopedBeat = false;
 			}
+
+
+			//print (drums.timeSamples);
 		}
 
         private void FixedUpdate()
@@ -240,7 +245,7 @@ namespace UnityStandardAssets._2D
 		}
 
 		public void Quant(){
-			//teleport.PlayOneShot (shootingSequence [activeNote] [UnityEngine.Random.Range (0, shootingSequence[activeNote].Length)], teleport.volume);
+			//teleport.PlayOneShot (shootingSequence [activeNote] [UnityEngine.Random.Range (0, shootingSequence [activeNote].Length)], 0.5f);
 		}
 
 
