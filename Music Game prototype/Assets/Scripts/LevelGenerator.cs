@@ -5,6 +5,7 @@ public class LevelGenerator : MonoBehaviour {
 
 	private GameObject platform;
 	private GameObject lastCreated;
+	private int lastLength = 1;
 	private Note lastNote;
 	private ComposingLogic composingLogic;
 	private int levelCounter = 0;
@@ -16,10 +17,15 @@ public class LevelGenerator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		CreatePlatforms (Note.i, 1, transform);
+		CreatePlatforms (Note.i, Random.Range (1, 5), transform);
 		for (int i = 0; i < 100; i++) {
-
-			CreatePlatforms(composingLogic.nextNote(lastNote, levelCounter),2,lastCreated.transform);
+			int platformLength;
+			if(lastLength > 1){
+				platformLength = Random.Range (1, 5);
+			} else {
+				platformLength = Random.Range (2, 5);
+			}
+			CreatePlatforms(composingLogic.nextNote(lastNote, levelCounter),platformLength,lastCreated.transform);
 			levelCounter++;
 			if (levelCounter > 3) {
 				levelCounter = 0;
@@ -35,12 +41,14 @@ public class LevelGenerator : MonoBehaviour {
 	void CreatePlatforms(Note platformNote, int platformLength, Transform lastPlatform){
 		GameObject holder = new GameObject ("Platform " + platformNote);
 		GameObject parent = gameObject;
-
+		holder.transform.parent = parent.transform;
+		
 		bool up = Random.Range (0, 2) == 0;
 
 		int dashBlock = Random.Range (0, 5);
 
-		holder.transform.position = lastPlatform.position + Vector3.right * 10;
+		holder.transform.position = lastPlatform.position + (lastLength + platformLength - 1) * (Vector3.right * 5f) + Vector3.right;
+
 		if (up) {
 			holder.transform.position += Vector3.up * 4;
 		} else {
@@ -50,8 +58,6 @@ public class LevelGenerator : MonoBehaviour {
 		if (dashBlock == 0) {
 			holder.AddComponent<CreateBlock>();
 		}
-
-		holder.transform.parent = parent.transform;
 
 		bool paired = platformLength % 2 == 0;
 		
@@ -65,8 +71,9 @@ public class LevelGenerator : MonoBehaviour {
 					newPlatform.transform.position = holder.transform.position + new Vector3 (i * 10, 0, 0);
 				}
 				newPlatform.transform.parent = holder.transform;
-				lastCreated = newPlatform;
+				lastCreated = holder;
 				lastNote = platformNote;
+				lastLength = platformLength;
 			}
 		}
 	}
