@@ -66,7 +66,7 @@ public class ComposingLogic : MonoBehaviour {
 			));
 	}
 
-	public Note nextNotes(Note note, int level){
+	public Note nextNote(Note note, int level){
 		Note[] notes = noteTransitions [note].Get(level);
 
 		return notes[Random.Range(0, notes.Length)];
@@ -74,12 +74,12 @@ public class ComposingLogic : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		Note newNote = nextNotes (lastNote, level);
-		print (newNote);
-		lastNote = newNote;
-		level++;
-		if (level > 3) {
-			level = 0;
-		}
+//		Note newNote = nextNote (lastNote, level);
+//		print (newNote);
+//		lastNote = newNote;
+//		level++;
+//		if (level > 3) {
+//			level = 0;
+//		}
 	}
 }
