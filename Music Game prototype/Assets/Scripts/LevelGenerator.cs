@@ -10,10 +10,12 @@ public class LevelGenerator : MonoBehaviour {
 	private ComposingLogic composingLogic;
 	private int levelCounter = 0;
 	private GameObject launcherTrigger;
+	private GameObject theDrop;
 
 	void Awake(){
 		platform = (GameObject)Resources.Load ("Platforms/MusicPlatform");
 		launcherTrigger = Resources.Load<GameObject>("LauncherTrigger");
+		theDrop = Resources.Load<GameObject>("Drop");
 		composingLogic = GetComponent<ComposingLogic> ();
 	}
 
@@ -21,9 +23,25 @@ public class LevelGenerator : MonoBehaviour {
 	void Start () {
 		CreatePlatforms (Note.i, Random.Range (1, 5), transform);
 		int tunnel = Random.Range (25, 100);
+		int drop = Random.Range (50, 100);
+		drop = 3;
 		int platformLength;
 		for (int i = 0; i < 100; i++) {
-			if(i != tunnel){
+			if(i == tunnel){
+				Transform start = lastCreated.transform;
+				int lastLength = lastCreatedLength;
+				Instantiate(launcherTrigger,lastCreated.transform.position, Quaternion.identity);
+				CreatePlatforms(composingLogic.randomHighNote(),25,start, lastLength, 4);
+				CreatePlatforms(Note.i,25,start, lastLength, 0);
+				CreatePlatforms(composingLogic.randomLowNote(),25,start, lastLength, -4);
+				GameObject shutdownTrigger = (GameObject)Instantiate(launcherTrigger,lastCreated.transform.position + Vector3.right * 125f, Quaternion.identity);
+				shutdownTrigger.GetComponent<ActivateLauncherOnTouch>().type = TriggerType.Deactivate;
+			} else if(i == drop){
+				GameObject dropObject = (GameObject)Instantiate(theDrop, lastCreated.transform.position + (lastCreatedLength + 1.5f - 1) * (Vector3.right * 5f) + Vector3.right * 3.15f + Vector3.up * 0.75f, Quaternion.identity);
+				lastCreated = dropObject.transform.FindChild("Landing").gameObject;
+				lastCreatedLength = 2;
+			}
+				else {
 				if(lastCreatedLength > 1){
 					platformLength = Random.Range (1, 5);
 				} else {
@@ -34,15 +52,6 @@ public class LevelGenerator : MonoBehaviour {
 				if (levelCounter > 3) {
 					levelCounter = 0;
 				}
-			} else {
-				Transform start = lastCreated.transform;
-				int lastLength = lastCreatedLength;
-				Instantiate(launcherTrigger,lastCreated.transform.position, Quaternion.identity);
-				CreatePlatforms(composingLogic.randomHighNote(),25,start, lastLength, 4);
-				CreatePlatforms(Note.i,25,start, lastLength, 0);
-				CreatePlatforms(composingLogic.randomLowNote(),25,start, lastLength, -4);
-				GameObject shutdownTrigger = (GameObject)Instantiate(launcherTrigger,lastCreated.transform.position + Vector3.right * 125f, Quaternion.identity);
-				shutdownTrigger.GetComponent<ActivateLauncherOnTouch>().type = TriggerType.Deactivate;
 			}
 		}
 	}

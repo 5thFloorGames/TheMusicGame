@@ -25,20 +25,23 @@ public class DropCamera : MonoBehaviour {
 		audioSource = GetComponentInParent<AudioSource> ();
 		player = GameObject.FindWithTag("Player");
 		mixer = audioSource.outputAudioMixerGroup.audioMixer;
+
 	}
 
 	// Use this for initialization
 	void Start () {
 		//audioSource.PlayOneShot(boom);
-
-		for (int i = 0; i < platformYFirstMarkers.Length; i++) {
-			Instantiate(marker1,new Vector3(transform.position.x, platformYFirstMarkers[i], 0f), Quaternion.identity);
-		}
-		for (int i = 0; i < platformYSecondMarkers.Length; i++) {
-			Instantiate(marker1,new Vector3(transform.position.x, platformYSecondMarkers[i], 0f), Quaternion.identity);
-		}
-		for (int i = 0; i < platformYBlocks.Length; i++) {
-			Instantiate(marker1,new Vector3(transform.position.x, platformYBlocks[i], 0f), Quaternion.identity);
+		if (enable) {
+			float yOffset = transform.position.y - 140f;
+			for (int i = 0; i < platformYFirstMarkers.Length; i++) {
+				Instantiate (marker1, new Vector3 (transform.position.x, platformYFirstMarkers [i] + yOffset, 0f), Quaternion.identity);
+			}
+			for (int i = 0; i < platformYSecondMarkers.Length; i++) {
+				Instantiate (marker1, new Vector3 (transform.position.x, platformYSecondMarkers [i] + yOffset, 0f), Quaternion.identity);
+			}
+			for (int i = 0; i < platformYBlocks.Length; i++) {
+				Instantiate (marker1, new Vector3 (transform.position.x, platformYBlocks [i] + yOffset, 0f), Quaternion.identity);
+			}
 		}
 	}
 	
