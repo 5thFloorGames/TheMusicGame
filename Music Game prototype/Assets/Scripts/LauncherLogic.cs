@@ -24,4 +24,12 @@ public class LauncherLogic : MonoBehaviour, Quanter{
 			launchers [Random.Range (0, launchers.Length)].Shoot ();
 		}
 	}
+
+	public void StartLauncher(){
+		enabled = true;
+	}
+
+	public void StopLauncher(){
+		enabled = false;
+	}
 }

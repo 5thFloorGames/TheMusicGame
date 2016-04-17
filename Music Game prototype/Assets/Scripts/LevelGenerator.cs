@@ -18,17 +18,22 @@ public class LevelGenerator : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		CreatePlatforms (Note.i, Random.Range (1, 5), transform);
+		int tunnel = Random.Range (25, 100);
+		int platformLength;
 		for (int i = 0; i < 100; i++) {
-			int platformLength;
-			if(lastLength > 1){
-				platformLength = Random.Range (1, 5);
+			if(i != tunnel){
+				if(lastLength > 1){
+					platformLength = Random.Range (1, 5);
+				} else {
+					platformLength = Random.Range (2, 5);
+				}
+				CreatePlatforms(composingLogic.nextNote(lastNote, levelCounter),platformLength,lastCreated.transform);
+				levelCounter++;
+				if (levelCounter > 3) {
+					levelCounter = 0;
+				}
 			} else {
-				platformLength = Random.Range (2, 5);
-			}
-			CreatePlatforms(composingLogic.nextNote(lastNote, levelCounter),platformLength,lastCreated.transform);
-			levelCounter++;
-			if (levelCounter > 3) {
-				levelCounter = 0;
+				
 			}
 		}
 	}
@@ -37,6 +42,9 @@ public class LevelGenerator : MonoBehaviour {
 	void Update () {
 	
 	}
+
+	// Generate a hole with random vertical blocks
+	// 3 layered thing that activates the projectiles and then shuts them off at the end
 
 	void CreatePlatforms(Note platformNote, int platformLength, Transform lastPlatform){
 		GameObject holder = new GameObject ("Platform " + platformNote);

@@ -72,6 +72,25 @@ public class ComposingLogic : MonoBehaviour {
 		return notes[Random.Range(0, notes.Length)];
 	}
 
+	public Note[] threePlatforms(){
+		Note[] notes = new Note[3];
+
+		notes [1] = Note.i;
+
+		return notes;
+	}
+
+	private Note randomHighNote(){
+		// III and IV
+		return Note.III;
+	}
+
+	private Note randomLowNote(){
+		// VI, VII, v
+		Note[] notes = {Note.VI, Note.VII, Note.v};
+		return Note.VI;
+	}
+
 	// Update is called once per frame
 	void Update () {
 //		Note newNote = nextNote (lastNote, level);

@@ -150,12 +150,13 @@ namespace UnityStandardAssets._2D
 		}
 
 		private void Update(){
-//			if ((Mathf.Min(drums.timeSamples % 6000, Mathf.Abs((drums.timeSamples % 6000) - 6000)) < 1500) && !loopedQuant) {
+//			if ((Mathf.Min(drums.timeSamples % 6000, Mathf.Abs((drums.timeSamples % 6000) - 6000)) < 500) && !loopedQuant) {
 //				loopedActualQuant = true;
 //				beat.ReportQuant();
+//				teleport.PlayOneShot (noteToMelody [activeNote] [UnityEngine.Random.Range (0, noteToMelody [activeNote].Length)], teleport.volume);
 //				//print (drums.timeSamples);
 //			}
-//			if (drums.timeSamples % 6000 > 1500 && Mathf.Abs((drums.timeSamples % 6000) - 6000) > 1500) {
+//			if (drums.timeSamples % 6000 > 500 && Mathf.Abs((drums.timeSamples % 6000) - 6000) > 500) {
 //				loopedActualQuant = false;
 //			}
 
@@ -179,6 +180,8 @@ namespace UnityStandardAssets._2D
 			//print (drums.timeSamples);
 		}
 
+
+		// try with 100 FPS or something
         private void FixedUpdate()
         {
             m_Grounded = false;
