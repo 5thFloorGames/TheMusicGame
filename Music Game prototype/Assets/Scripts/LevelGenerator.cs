@@ -5,13 +5,15 @@ public class LevelGenerator : MonoBehaviour {
 
 	private GameObject platform;
 	private GameObject lastCreated;
-	private int lastLength = 1;
+	private int lastCreatedLength = 1;
 	private Note lastNote;
 	private ComposingLogic composingLogic;
 	private int levelCounter = 0;
+	private GameObject launcherTrigger;
 
 	void Awake(){
 		platform = (GameObject)Resources.Load ("Platforms/MusicPlatform");
+		launcherTrigger = Resources.Load<GameObject>("LauncherTrigger");
 		composingLogic = GetComponent<ComposingLogic> ();
 	}
 
@@ -22,7 +24,7 @@ public class LevelGenerator : MonoBehaviour {
 		int platformLength;
 		for (int i = 0; i < 100; i++) {
 			if(i != tunnel){
-				if(lastLength > 1){
+				if(lastCreatedLength > 1){
 					platformLength = Random.Range (1, 5);
 				} else {
 					platformLength = Random.Range (2, 5);
@@ -33,7 +35,14 @@ public class LevelGenerator : MonoBehaviour {
 					levelCounter = 0;
 				}
 			} else {
-				
+				Transform start = lastCreated.transform;
+				int lastLength = lastCreatedLength;
+				Instantiate(launcherTrigger,lastCreated.transform.position, Quaternion.identity);
+				CreatePlatforms(composingLogic.randomHighNote(),25,start, lastLength, 4);
+				CreatePlatforms(Note.i,25,start, lastLength, 0);
+				CreatePlatforms(composingLogic.randomLowNote(),25,start, lastLength, -4);
+				GameObject shutdownTrigger = (GameObject)Instantiate(launcherTrigger,lastCreated.transform.position + Vector3.right * 125f, Quaternion.identity);
+				shutdownTrigger.GetComponent<ActivateLauncherOnTouch>().type = TriggerType.Deactivate;
 			}
 		}
 	}
@@ -43,27 +52,20 @@ public class LevelGenerator : MonoBehaviour {
 	
 	}
 
-	// Generate a hole with random vertical blocks
-	// 3 layered thing that activates the projectiles and then shuts them off at the end
-
-	void CreatePlatforms(Note platformNote, int platformLength, Transform lastPlatform){
+	void CreatePlatforms(Note platformNote, int platformLength, Transform lastPlatform, int lastLength, int heightOffset){
 		GameObject holder = new GameObject ("Platform " + platformNote);
 		GameObject parent = gameObject;
 		holder.transform.parent = parent.transform;
 		
 		bool up = Random.Range (0, 2) == 0;
-
+		
 		int dashBlock = Random.Range (0, 5);
 		int shotBlock = Random.Range (0, 1);
-
+		
 		holder.transform.position = lastPlatform.position + (lastLength + platformLength - 1) * (Vector3.right * 5f) + Vector3.right;
-
-		if (up) {
-			holder.transform.position += Vector3.up * 4;
-		} else {
-			holder.transform.position += Vector3.up * -4;
-		}
-
+		
+		holder.transform.position += Vector3.up * heightOffset;
+		
 		if (dashBlock == 0) {
 			holder.AddComponent<CreateBlock>();
 		}
@@ -72,7 +74,7 @@ public class LevelGenerator : MonoBehaviour {
 			// or add 
 			holder.AddComponent<ShootOnTouch>();
 		}
-
+		
 		bool paired = platformLength % 2 == 0;
 		
 		for (float i = -Mathf.Floor(platformLength / 2); i <= Mathf.Floor(platformLength / 2); i++) {
@@ -88,8 +90,17 @@ public class LevelGenerator : MonoBehaviour {
 				newPlatform.transform.parent = holder.transform;
 				lastCreated = holder;
 				lastNote = platformNote;
-				lastLength = platformLength;
+				lastCreatedLength = platformLength;
 			}
 		}
+
+	}
+
+	// Generate a hole with random vertical blocks
+	// 3 layered thing that activates the projectiles and then shuts them off at the end
+
+	void CreatePlatforms(Note platformNote, int platformLength, Transform lastPlatform){
+		int heightoffset = 4 - (8 * Random.Range (0, 2));
+		CreatePlatforms (platformNote, platformLength, lastPlatform, lastCreatedLength, heightoffset);
 	}
 }

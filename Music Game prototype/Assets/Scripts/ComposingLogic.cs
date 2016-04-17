@@ -72,21 +72,13 @@ public class ComposingLogic : MonoBehaviour {
 		return notes[Random.Range(0, notes.Length)];
 	}
 
-	public Note[] threePlatforms(){
-		Note[] notes = new Note[3];
-
-		notes [1] = Note.i;
-
-		return notes;
-	}
-
-	private Note randomHighNote(){
+	public Note randomHighNote(){
 		// III and IV
 		Note[] notes = {Note.III, Note.iv};
 		return notes[Random.Range(0, notes.Length)];	
 	}
 
-	private Note randomLowNote(){
+	public Note randomLowNote(){
 		// VI, VII, v
 		Note[] notes = {Note.VI, Note.VII, Note.v};
 		return notes[Random.Range(0, notes.Length)];

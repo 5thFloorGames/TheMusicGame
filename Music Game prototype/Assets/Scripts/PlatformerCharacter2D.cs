@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace UnityStandardAssets._2D
 {
-    public class PlatformerCharacter2D : MonoBehaviour, Quanter, SuperQuanter
+    public class PlatformerCharacter2D : MonoBehaviour, Quanter
     {
         [SerializeField] private float m_MaxSpeed = 10f;                    // The fastest the player can travel in the x axis.
         [SerializeField] private float m_JumpForce = 400f;                  // Amount of force added when the player jumps.
@@ -91,7 +91,6 @@ namespace UnityStandardAssets._2D
 		
 		private void Start(){
 			beat.registerQuant (this);
-			beat.registerActualQuant (this);
 			activeNote = Note.v;
 			setClip (Note.i);
 			setClip (Note.i);
@@ -254,7 +253,6 @@ namespace UnityStandardAssets._2D
 		public void Quant(){
 			//teleport.PlayOneShot (shootingSequence [activeNote] [UnityEngine.Random.Range (0, shootingSequence [activeNote].Length)], 0.5f);
 		}
-
 
 		public void CheckForDestructibles(){
 			RaycastHit2D hit;
