@@ -22,11 +22,10 @@ public class LevelGenerator : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		CreatePlatforms (Note.i, Random.Range (1, 5), transform);
-		int tunnel = Random.Range (25, 100);
-		int drop = Random.Range (50, 100);
-		drop = 3;
+		int tunnel = Random.Range (10, 25);
+		int drop = Random.Range (25, 40);
 		int platformLength;
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 50; i++) {
 			if(i == tunnel){
 				Transform start = lastCreated.transform;
 				int lastLength = lastCreatedLength;
