@@ -150,6 +150,10 @@ namespace UnityStandardAssets._2D
 		}
 
 		private void Update(){
+			if (Input.GetKeyDown(KeyCode.H)) {
+				print (transform.position);
+			}
+
 //			if ((Mathf.Min(drums.timeSamples % 6000, Mathf.Abs((drums.timeSamples % 6000) - 6000)) < 500) && !loopedQuant) {
 //				loopedActualQuant = true;
 //				beat.ReportQuant();
@@ -368,5 +372,13 @@ namespace UnityStandardAssets._2D
             theScale.x *= -1;
             transform.localScale = theScale;
         }
-    }
+
+		public void Mute(){
+			mixer.SetFloat ("Mute",-80f);
+		}
+
+		public void UnMute(){
+			mixer.SetFloat ("Mute",0f);
+		}
+	}
 }

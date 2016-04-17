@@ -82,13 +82,14 @@ public class ComposingLogic : MonoBehaviour {
 
 	private Note randomHighNote(){
 		// III and IV
-		return Note.III;
+		Note[] notes = {Note.III, Note.iv};
+		return notes[Random.Range(0, notes.Length)];	
 	}
 
 	private Note randomLowNote(){
 		// VI, VII, v
 		Note[] notes = {Note.VI, Note.VII, Note.v};
-		return Note.VI;
+		return notes[Random.Range(0, notes.Length)];
 	}
 
 	// Update is called once per frame

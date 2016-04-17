@@ -17,7 +17,7 @@ public class ShootOnTouch : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D col){
-		if (!shot) {
+		if (!shot && col.tag == "Player") {
 			spawner.SpawnProjectile (transform);
 			shot = true;
 		}

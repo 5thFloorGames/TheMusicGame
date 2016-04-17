@@ -54,6 +54,7 @@ public class LevelGenerator : MonoBehaviour {
 		bool up = Random.Range (0, 2) == 0;
 
 		int dashBlock = Random.Range (0, 5);
+		int shotBlock = Random.Range (0, 1);
 
 		holder.transform.position = lastPlatform.position + (lastLength + platformLength - 1) * (Vector3.right * 5f) + Vector3.right;
 
@@ -66,6 +67,11 @@ public class LevelGenerator : MonoBehaviour {
 		if (dashBlock == 0) {
 			holder.AddComponent<CreateBlock>();
 		}
+		if (shotBlock == 0) {
+			// actually add this to a block with a trigger
+			// or add 
+			holder.AddComponent<ShootOnTouch>();
+		}
 
 		bool paired = platformLength % 2 == 0;
 		
@@ -73,6 +79,7 @@ public class LevelGenerator : MonoBehaviour {
 			if(!paired || i != Mathf.Floor(platformLength / 2)){
 				GameObject newPlatform = (GameObject)Instantiate (platform);
 				newPlatform.GetComponent<PlayOnTouch>().SetNote(platformNote);
+				// create a common 2D collider of right size and offset it in y by 1.4 and make it a trigger
 				if(paired){
 					newPlatform.transform.position = holder.transform.position + new Vector3 ((i * 10) + 5, 0, 0);
 				} else {
