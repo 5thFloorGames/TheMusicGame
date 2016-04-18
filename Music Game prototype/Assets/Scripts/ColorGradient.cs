@@ -3,10 +3,10 @@ using System.Collections;
 
 public class ColorGradient : MonoBehaviour {
 	
-	private Color[] colors = {Color.blue, Color.red, Color.green, Color.yellow, Color.cyan, Color.magenta};
+	private Color[] colors = {Color.blue, Color.cyan, Color.clear};
 	int choice = 1;
 	Color lerped;
-	float lerpProgress = 0.02f;
+	float lerpProgress = 0.022f;
 	
 	// Use this for initialization
 	void Start () {
@@ -17,7 +17,7 @@ public class ColorGradient : MonoBehaviour {
 	void Update () {
 		
 		lerped = Color.Lerp (lerped, colors [choice], lerpProgress);;
-		GetComponent<Renderer>().material.color = lerped;
+		GetComponent<Renderer>().material.SetColor("_TintColor", lerped);
 
 		if (sameColor(lerped, colors[choice])) {
 			choice++;

@@ -13,13 +13,13 @@ public class MoveLeft : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.position = (transform.position + Vector3.left * 0.1f);
+		transform.position = (transform.position + Vector3.left * 0.09f);
 	}
 
 	IEnumerator CheckForDestruction(){
 		while (true) {
 			yield return new WaitForSeconds(1f);
-			if (transform.position.x - startingX < -40){
+			if (transform.position.x - startingX < -60){
 				Destroy(gameObject);
 			}
 		}
