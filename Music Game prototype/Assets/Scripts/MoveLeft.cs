@@ -19,7 +19,7 @@ public class MoveLeft : MonoBehaviour {
 	IEnumerator CheckForDestruction(){
 		while (true) {
 			yield return new WaitForSeconds(1f);
-			if (transform.position.x - startingX < -60){
+			if (transform.position.x - startingX < -40){
 				Destroy(gameObject);
 			}
 		}
