@@ -23,6 +23,7 @@ public class LevelGenerator : MonoBehaviour {
 	void Start () {
 		CreatePlatforms (Note.i, Random.Range (1, 5), transform);
 		int tunnel = Random.Range (10, 25);
+		tunnel = 1;
 		int drop = Random.Range (25, 40);
 		int platformLength;
 		for (int i = 0; i < 50; i++) {
