@@ -7,7 +7,7 @@ public class Spawn : MonoBehaviour, Beater {
 
 	public GameObject toSpawn;
 	private AudioSource audioSource;
-	private PlatformerCharacter2D player;
+	private CharacterMusicSystem player;
 	private AudioClip[] shootingSounds;
 	private Queue<Transform> shotQueue;
 	private BeatMatcher beat;
@@ -15,7 +15,7 @@ public class Spawn : MonoBehaviour, Beater {
 	void Awake() {
 		audioSource = GetComponent<AudioSource> ();
 		shootingSounds = Resources.LoadAll<AudioClip>("Audio/Projectiles/Short");
-		player = FindObjectOfType<PlatformerCharacter2D> ();
+		player = FindObjectOfType<CharacterMusicSystem> ();
 		shotQueue = new Queue<Transform> ();
 		beat = FindObjectOfType<BeatMatcher> ();
 	}

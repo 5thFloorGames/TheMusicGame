@@ -5,10 +5,10 @@ using UnityStandardAssets._2D;
 public class PlayOnTouch : MonoBehaviour {
 
 	public Note note;
-	private PlatformerCharacter2D player;
+	private CharacterMusicSystem player;
 
 	void Awake() {
-		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<PlatformerCharacter2D> ();
+		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<CharacterMusicSystem> ();
 	}
 	
 	// Update is called once per frame
