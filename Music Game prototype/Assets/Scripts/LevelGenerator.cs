@@ -26,6 +26,7 @@ public class LevelGenerator : MonoBehaviour {
 		int tunnel = Random.Range (10, 25);
 		int drop = Random.Range (25, 40);
 		drop = 1;
+		//tunnel = 1;
 		int platformLength;
 		for (int i = 0; i < 50; i++) {
 			if(i == tunnel){
@@ -35,7 +36,7 @@ public class LevelGenerator : MonoBehaviour {
 				CreatePlatforms(composingLogic.randomHighNote(),25,start, lastLength, 4);
 				CreatePlatforms(Note.i,25,start, lastLength, 0);
 				CreatePlatforms(composingLogic.randomLowNote(),25,start, lastLength, -4);
-				GameObject shutdownTrigger = (GameObject)Instantiate(launcherTrigger,lastCreated.transform.position + Vector3.right * 125f, Quaternion.identity);
+				GameObject shutdownTrigger = (GameObject)Instantiate(launcherTrigger,lastCreated.transform.position + Vector3.right * 110f, Quaternion.identity);
 				shutdownTrigger.GetComponent<ActivateLauncherOnTouch>().type = TriggerType.Deactivate;
 			} else if(i == drop){
 				GameObject dropObject = (GameObject)Instantiate(theDrop, lastCreated.transform.position + (lastCreatedLength + 1.5f - 1) * (Vector3.right * 5f) + Vector3.right * 3.15f + Vector3.up * 0.75f, Quaternion.identity);

@@ -24,4 +24,10 @@ public class MoveLeft : MonoBehaviour {
 			}
 		}
 	}
+
+	void OnTriggerEnter2D(Collider2D col){
+		if (col.tag == "Player") {
+			print ("HIT");
+		}
+	}
 }

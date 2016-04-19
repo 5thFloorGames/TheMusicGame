@@ -9,11 +9,6 @@ public class ChangeColorOnBeat : MonoBehaviour, Beater {
 	void Start () {
 		rend = gameObject.GetComponent<Renderer> ();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
 	public void Beat (){
 		if (rend.material.color == Color.green) {

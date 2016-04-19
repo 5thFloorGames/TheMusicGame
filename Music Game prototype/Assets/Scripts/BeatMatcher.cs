@@ -25,10 +25,6 @@ public class BeatMatcher : MonoBehaviour {
 		startTime = Time.time;
 	}
 
-	// Update is called once per frame
-	void Update () {
-	}
-
 	public void ReportBeat(){
 		foreach (Beater notify in notifiables) {
 			notify.Beat();
