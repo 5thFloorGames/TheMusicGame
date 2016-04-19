@@ -7,6 +7,7 @@ public class LevelGenerator : MonoBehaviour {
 	private GameObject lastCreated;
 	private int lastCreatedLength = 1;
 	private Note lastNote;
+	private bool lastDouble = false;
 	private ComposingLogic composingLogic;
 	private int levelCounter = 0;
 	private GameObject launcherTrigger;
@@ -24,6 +25,7 @@ public class LevelGenerator : MonoBehaviour {
 		CreatePlatforms (Note.i, Random.Range (1, 5), transform);
 		int tunnel = Random.Range (10, 25);
 		int drop = Random.Range (25, 40);
+		drop = 1;
 		int platformLength;
 		for (int i = 0; i < 50; i++) {
 			if(i == tunnel){
@@ -39,14 +41,19 @@ public class LevelGenerator : MonoBehaviour {
 				GameObject dropObject = (GameObject)Instantiate(theDrop, lastCreated.transform.position + (lastCreatedLength + 1.5f - 1) * (Vector3.right * 5f) + Vector3.right * 3.15f + Vector3.up * 0.75f, Quaternion.identity);
 				lastCreated = dropObject.transform.FindChild("Landing").gameObject;
 				lastCreatedLength = 2;
-			}
-				else {
+			} else {
 				if(lastCreatedLength > 1){
 					platformLength = Random.Range (1, 5);
 				} else {
 					platformLength = Random.Range (2, 5);
 				}
-				CreatePlatforms(composingLogic.nextNote(lastNote, levelCounter),platformLength,lastCreated.transform);
+				if(Random.Range (0,10) < 2){
+					CreateDoublePlatform(composingLogic.nextNote(lastNote, levelCounter),platformLength,lastCreated.transform);
+					lastDouble = true;
+				} else {
+					CreatePlatforms(composingLogic.nextNote(lastNote, levelCounter),platformLength,lastCreated.transform);
+					lastDouble = false;
+				}
 				levelCounter++;
 				if (levelCounter > 3) {
 					levelCounter = 0;
@@ -103,6 +110,15 @@ public class LevelGenerator : MonoBehaviour {
 
 	void CreatePlatforms(Note platformNote, int platformLength, Transform lastPlatform){
 		int heightoffset = 4 - (8 * Random.Range (0, 2));
+		if (lastDouble) {
+			heightoffset = 4;
+		}
 		CreatePlatforms (platformNote, platformLength, lastPlatform, lastCreatedLength, heightoffset);
+	}
+
+	void CreateDoublePlatform(Note platformNote, int platformLength, Transform lastPlatform){
+		int lastLength = lastCreatedLength;
+		CreatePlatforms (platformNote, platformLength, lastPlatform, lastLength, 4);
+		CreatePlatforms (platformNote, platformLength, lastPlatform, lastLength, -4);
 	}
 }

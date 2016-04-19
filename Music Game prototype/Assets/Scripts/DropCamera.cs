@@ -2,7 +2,7 @@
 using UnityEngine.Audio;
 using System.Collections;
 
-public class DropCamera : MonoBehaviour {
+public class DropCamera : MonoBehaviour, Quanter {
 
 	public bool enable = true;
 	private Camera2DFollow cameraSettings;
@@ -16,6 +16,8 @@ public class DropCamera : MonoBehaviour {
 	private AudioSource audioSource;
 	private GameObject player;
 	private AudioMixer mixer;
+	private BeatMatcher beat;
+	private int beatCounter = 2; 
 
 	void Awake(){
 		cameraSettings = FindObjectOfType<Camera2DFollow> ();
@@ -25,7 +27,7 @@ public class DropCamera : MonoBehaviour {
 		audioSource = GetComponentInParent<AudioSource> ();
 		player = GameObject.FindWithTag("Player");
 		mixer = audioSource.outputAudioMixerGroup.audioMixer;
-
+		beat = FindObjectOfType<BeatMatcher> ();
 	}
 
 	// Use this for initialization
@@ -55,14 +57,21 @@ public class DropCamera : MonoBehaviour {
 		}
 	}
 
+	public void Act(){
+		player.GetComponent<Rigidbody2D> ().isKinematic = false;
+		player.SendMessage("Mute");
+		audioSource.Play();
+	}
+
 	void OnTriggerEnter2D(Collider2D col){
 		if (col.tag == "Player" && !done && enable) {
 			cameraSettings.damping = 0.05f;
 			cameraSettings.lookAheadFactor = 0f;
 			col.gameObject.GetComponent<Rigidbody2D> ().gravityScale = 0.6f;
+			player.GetComponent<Rigidbody2D> ().isKinematic = true;
+			player.transform.position = transform.position;
 			done = true;
-			audioSource.Play();
-			col.SendMessage("Mute");
+			beat.registerBarOneOff (this);
 		}
 		if (col.tag == "Player" && !done && !enable) {
 			cameraSettings.damping = 0.5f;

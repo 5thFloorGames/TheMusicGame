@@ -26,7 +26,7 @@ public class Destructible : MonoBehaviour, Quanter {
 	}
 
 	void DestroyOnQuant(){
-		beat.registerQuantOneOff (this);
+		beat.registerBeatOneOff (this);
 		rend.material = cracked;
 		gameObject.GetComponent<ChangeTextureOnBeat> ().updateTextures (cracked, cracked);
 	}
