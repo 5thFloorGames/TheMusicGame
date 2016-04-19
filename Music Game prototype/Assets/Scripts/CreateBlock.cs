@@ -5,10 +5,7 @@ public class CreateBlock : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Instantiate (Resources.LoadAll<GameObject>("DashBlocks")[Random.Range(0,6)], transform.position + Vector3.up * 3f, Quaternion.identity);
-		if (GetComponent<MeshRenderer> () != null) {
-			GetComponent<MeshRenderer> ().enabled = false;
-		}
+		Instantiate (Resources.LoadAll<GameObject>("DashBlocks")[Random.Range(1,6)], transform.position + Vector3.up * 3f, Quaternion.identity);
 	}
 	
 	// Update is called once per frame

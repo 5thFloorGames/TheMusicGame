@@ -52,7 +52,6 @@ public class DropCamera : MonoBehaviour {
 
 			mixer.SetFloat ("drymix", (100f - 55f * distancefromCenter) / 100f);
 			mixer.SetFloat ("wetmix", (45f * distancefromCenter) / 100);
-			print ("drymix" + (100f - 55f * distancefromCenter) + " wetmix " + (45f * distancefromCenter));
 		}
 	}
 

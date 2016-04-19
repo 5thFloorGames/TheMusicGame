@@ -23,7 +23,6 @@ public class LevelGenerator : MonoBehaviour {
 	void Start () {
 		CreatePlatforms (Note.i, Random.Range (1, 5), transform);
 		int tunnel = Random.Range (10, 25);
-		tunnel = 1;
 		int drop = Random.Range (25, 40);
 		int platformLength;
 		for (int i = 0; i < 50; i++) {
@@ -67,22 +66,10 @@ public class LevelGenerator : MonoBehaviour {
 		holder.transform.parent = parent.transform;
 		
 		bool up = Random.Range (0, 2) == 0;
-		
-		int dashBlock = Random.Range (0, 5);
-		int shotBlock = Random.Range (0, 1);
-		
+
 		holder.transform.position = lastPlatform.position + (lastLength + platformLength - 1) * (Vector3.right * 5f) + Vector3.right;
 		
 		holder.transform.position += Vector3.up * heightOffset;
-		
-		if (dashBlock == 0) {
-			holder.AddComponent<CreateBlock>();
-		}
-		if (shotBlock == 0) {
-			// actually add this to a block with a trigger
-			// or add 
-			holder.AddComponent<ShootOnTouch>();
-		}
 		
 		bool paired = platformLength % 2 == 0;
 		
@@ -97,6 +84,12 @@ public class LevelGenerator : MonoBehaviour {
 					newPlatform.transform.position = holder.transform.position + new Vector3 (i * 10, 0, 0);
 				}
 				newPlatform.transform.parent = holder.transform;
+				if(Random.Range(0,5) == 0){
+					newPlatform.AddComponent<CreateBlock>();
+				}
+				if (Random.Range(0,15) == 0) {
+					//newPlatform.AddComponent<ShootOnTouch>();
+				}
 				lastCreated = holder;
 				lastNote = platformNote;
 				lastCreatedLength = platformLength;
