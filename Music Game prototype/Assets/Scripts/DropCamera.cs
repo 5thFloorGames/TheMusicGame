@@ -58,7 +58,7 @@ public class DropCamera : MonoBehaviour, Quanter {
 	}
 
 	public void Act(){
-		player.GetComponent<Rigidbody2D> ().isKinematic = false;
+		player.SendMessage("Unfreeze");
 		player.SendMessage("Mute");
 		audioSource.Play();
 	}
@@ -68,7 +68,7 @@ public class DropCamera : MonoBehaviour, Quanter {
 			cameraSettings.damping = 0.05f;
 			cameraSettings.lookAheadFactor = 0f;
 			col.gameObject.GetComponent<Rigidbody2D> ().gravityScale = 0.6f;
-			player.GetComponent<Rigidbody2D> ().isKinematic = true;
+			player.SendMessage("Freeze");
 			player.transform.position = transform.position;
 			done = true;
 			beat.registerBarOneOff (this);

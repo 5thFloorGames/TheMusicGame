@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityStandardAssets._2D;
 
 public class MoveLeft : MonoBehaviour {
 
 	private float startingX;
+	private bool held = false;
 
 	// Use this for initialization
 	void Start () {
@@ -20,6 +22,9 @@ public class MoveLeft : MonoBehaviour {
 		while (true) {
 			yield return new WaitForSeconds(1f);
 			if (transform.position.x - startingX < -40){
+				if(held){
+					GameObject.FindGameObjectWithTag("Player").SendMessage("Unfreeze");
+				}
 				Destroy(gameObject);
 			}
 		}
@@ -27,7 +32,18 @@ public class MoveLeft : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D col){
 		if (col.tag == "Player") {
-			print ("HIT");
+			if(!col.GetComponent<PlatformerCharacter2D>().frozen){
+				held = true;
+				StartCoroutine(HoldPlayer(col.gameObject));
+			}
+		}
+	}
+
+	IEnumerator HoldPlayer(GameObject player){
+		player.SendMessage("Freeze");
+		while (true) {
+			yield return new WaitForEndOfFrame();
+			player.transform.position = transform.position;
 		}
 	}
 }

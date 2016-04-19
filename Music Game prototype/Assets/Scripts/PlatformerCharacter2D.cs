@@ -28,6 +28,7 @@ namespace UnityStandardAssets._2D
 		private int teleportCharges = 1;
 		private int maxCharges = 1;
 		private CharacterMusicSystem musicSystem;
+		public bool frozen = false;
 
 		private void Awake()
         {
@@ -108,7 +109,7 @@ namespace UnityStandardAssets._2D
 		public void Act(){
 			if (inputBuffer.Count > 0) {
 				Direction direction = inputBuffer.Dequeue ();
-				if (direction != null) {
+				if (direction != null && !frozen) {
 					if(direction == Direction.UP || direction == Direction.DOWN){
 						Teleport(direction);
 					} else {
@@ -156,7 +157,11 @@ namespace UnityStandardAssets._2D
 
         public void Move(float move, bool crouch, bool jump)
         {
-			musicSystem.MoveSounds (move, m_Grounded);
+			if (frozen) {
+				musicSystem.MoveSounds (0, m_Grounded);
+			} else {
+				musicSystem.MoveSounds (move, m_Grounded);
+			}
             // If crouching, check to see if the character can stand up
             if (!crouch && m_Anim.GetBool("Crouch"))
             {
@@ -180,7 +185,9 @@ namespace UnityStandardAssets._2D
                 m_Anim.SetFloat("Speed", Mathf.Abs(move));
 
                 // Move the character
-                m_Rigidbody2D.velocity = new Vector2(move*m_MaxSpeed, m_Rigidbody2D.velocity.y);
+				if(!frozen){
+                	m_Rigidbody2D.velocity = new Vector2(move*m_MaxSpeed, m_Rigidbody2D.velocity.y);
+				}
 
                 // If the input is moving the player right and the player is facing left...
                 if (move > 0 && !m_FacingRight)
@@ -216,5 +223,16 @@ namespace UnityStandardAssets._2D
             theScale.x *= -1;
             transform.localScale = theScale;
         }
+
+		public void Freeze(){
+			frozen = true;
+			teleportCharges = 0;
+			m_Rigidbody2D.isKinematic = true;
+		}
+
+		public void Unfreeze(){
+			frozen = false;
+			m_Rigidbody2D.isKinematic = false;
+		}
 	}
 }
