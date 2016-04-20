@@ -12,20 +12,24 @@ public class LevelGenerator : MonoBehaviour {
 	private int levelCounter = 0;
 	private GameObject launcherTrigger;
 	private GameObject theDrop;
+	private GameObject bigRing;
+	private GameObject smallRing;
 
 	void Awake(){
 		platform = (GameObject)Resources.Load ("Platforms/MusicPlatform");
 		launcherTrigger = Resources.Load<GameObject>("LauncherTrigger");
+		bigRing = Resources.Load<GameObject>("Rings/BigRing");
+		smallRing = Resources.Load<GameObject>("Rings/SmallRing");
 		theDrop = Resources.Load<GameObject>("Drop");
 		composingLogic = GetComponent<ComposingLogic> ();
 	}
 
 	// Use this for initialization
 	void Start () {
-		CreatePlatforms (Note.i, Random.Range (1, 5), transform);
+		CreatePlatforms (Note.i, Random.Range (1, 5), transform, false);
 		int tunnel = Random.Range (10, 25);
 		int drop = Random.Range (25, 40);
-		drop = 1;
+		//drop = 1;
 		//tunnel = 1;
 		int platformLength;
 		for (int i = 0; i < 50; i++) {
@@ -33,9 +37,9 @@ public class LevelGenerator : MonoBehaviour {
 				Transform start = lastCreated.transform;
 				int lastLength = lastCreatedLength;
 				Instantiate(launcherTrigger,lastCreated.transform.position, Quaternion.identity);
-				CreatePlatforms(composingLogic.randomHighNote(),25,start, lastLength, 4);
-				CreatePlatforms(Note.i,25,start, lastLength, 0);
-				CreatePlatforms(composingLogic.randomLowNote(),25,start, lastLength, -4);
+				CreatePlatforms(composingLogic.randomHighNote(),25,start, lastLength, 4, true);
+				CreatePlatforms(Note.i,25,start, lastLength, 0, true);
+				CreatePlatforms(composingLogic.randomLowNote(),25,start, lastLength, -4, true);
 				GameObject shutdownTrigger = (GameObject)Instantiate(launcherTrigger,lastCreated.transform.position + Vector3.right * 110f, Quaternion.identity);
 				shutdownTrigger.GetComponent<ActivateLauncherOnTouch>().type = TriggerType.Deactivate;
 			} else if(i == drop){
@@ -52,7 +56,7 @@ public class LevelGenerator : MonoBehaviour {
 					CreateDoublePlatform(composingLogic.nextNote(lastNote, levelCounter),platformLength,lastCreated.transform);
 					lastDouble = true;
 				} else {
-					CreatePlatforms(composingLogic.nextNote(lastNote, levelCounter),platformLength,lastCreated.transform);
+					CreatePlatforms(composingLogic.nextNote(lastNote, levelCounter),platformLength,lastCreated.transform, false);
 					lastDouble = false;
 				}
 				levelCounter++;
@@ -63,7 +67,7 @@ public class LevelGenerator : MonoBehaviour {
 		}
 	}
 
-	void CreatePlatforms(Note platformNote, int platformLength, Transform lastPlatform, int lastLength, int heightOffset){
+	void CreatePlatforms(Note platformNote, int platformLength, Transform lastPlatform, int lastLength, int heightOffset, bool parallelplatforms){
 		GameObject holder = new GameObject ("Platform " + platformNote);
 		GameObject parent = gameObject;
 		holder.transform.parent = parent.transform;
@@ -89,10 +93,17 @@ public class LevelGenerator : MonoBehaviour {
 				newPlatform.transform.parent = holder.transform;
 				if(Random.Range(0,5) == 0){
 					newPlatform.AddComponent<CreateBlock>();
+				} else if(Random.Range(0,10) == 0){
+					if(parallelplatforms){
+						Instantiate(bigRing,newPlatform.transform.position  + (-1) * heightOffset * Vector3.up, Quaternion.Euler(90f,90f,0));
+					} else {
+						Instantiate(smallRing,newPlatform.transform.position, Quaternion.Euler(90f,90f,0));
+					}
 				}
 				if (Random.Range(0,15) == 0) {
 					//newPlatform.AddComponent<ShootOnTouch>();
 				}
+
 				lastCreated = holder;
 				lastNote = platformNote;
 				lastCreatedLength = platformLength;
@@ -104,17 +115,17 @@ public class LevelGenerator : MonoBehaviour {
 	// Generate a hole with random vertical blocks
 	// 3 layered thing that activates the projectiles and then shuts them off at the end
 
-	void CreatePlatforms(Note platformNote, int platformLength, Transform lastPlatform){
+	void CreatePlatforms(Note platformNote, int platformLength, Transform lastPlatform, bool parallelPlatforms){
 		int heightoffset = 4 - (8 * Random.Range (0, 2));
 		if (lastDouble) {
 			heightoffset = 4;
 		}
-		CreatePlatforms (platformNote, platformLength, lastPlatform, lastCreatedLength, heightoffset);
+		CreatePlatforms (platformNote, platformLength, lastPlatform, lastCreatedLength, heightoffset, parallelPlatforms);
 	}
 
 	void CreateDoublePlatform(Note platformNote, int platformLength, Transform lastPlatform){
 		int lastLength = lastCreatedLength;
-		CreatePlatforms (platformNote, platformLength, lastPlatform, lastLength, 4);
-		CreatePlatforms (platformNote, platformLength, lastPlatform, lastLength, -4);
+		CreatePlatforms (platformNote, platformLength, lastPlatform, lastLength, 4, true);
+		CreatePlatforms (platformNote, platformLength, lastPlatform, lastLength, -4, true);
 	}
 }
