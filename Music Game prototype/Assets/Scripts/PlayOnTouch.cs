@@ -10,10 +10,6 @@ public class PlayOnTouch : MonoBehaviour {
 	void Awake() {
 		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<CharacterMusicSystem> ();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	}
 
 	void OnTriggerEnter2D(Collider2D col){
 		if (col.tag == "Player") {

@@ -2,7 +2,7 @@
 using UnityEngine.Audio;
 using System.Collections;
 
-public class DropCamera : MonoBehaviour, Quanter {
+public class DropLogic : MonoBehaviour, Quanter {
 
 	public bool enable = true;
 	private Camera2DFollow cameraSettings;
@@ -71,7 +71,7 @@ public class DropCamera : MonoBehaviour, Quanter {
 			player.SendMessage("Freeze");
 			player.transform.position = transform.position;
 			done = true;
-			beat.registerBarOneOff (this);
+			beat.TriggerInXBars(this, 1);
 		}
 		if (col.tag == "Player" && !done && !enable) {
 			cameraSettings.damping = 0.5f;

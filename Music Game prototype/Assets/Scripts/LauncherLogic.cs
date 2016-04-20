@@ -6,20 +6,16 @@ public class LauncherLogic : MonoBehaviour, Beater{
 	private ShootProjectiles[] launchers;
 	public GameObject character;
 	public bool enabled;
+	public bool paused = false;
 
 	// Use this for initialization
 	void Start () {
 		launchers = GetComponentsInChildren<ShootProjectiles>();
 		FindObjectOfType<BeatMatcher> ().registerBeat (this);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
 	public void Beat(){
-		if (enabled) {
+		if (enabled && !paused) {
 			transform.position = (character.transform.position + Vector3.right * 9);
 			launchers [Random.Range (0, launchers.Length)].Shoot ();
 		}
@@ -31,5 +27,13 @@ public class LauncherLogic : MonoBehaviour, Beater{
 
 	public void StopLauncher(){
 		enabled = false;
+	}
+
+	public void PauseLauncher(){
+		paused = true;
+	}
+
+	public void UnpauseLauncher(){
+		paused = false;
 	}
 }
