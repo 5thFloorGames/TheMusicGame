@@ -30,10 +30,12 @@ public class LauncherLogic : MonoBehaviour, Beater{
 	}
 
 	public void PauseLauncher(){
+		print ("Paused");
 		paused = true;
 	}
 
 	public void UnpauseLauncher(){
+		print ("Unpaused");
 		paused = false;
 	}
 }

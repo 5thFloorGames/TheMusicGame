@@ -24,6 +24,7 @@ public class ActivateLauncherOnTouch : MonoBehaviour {
 		if (col.tag == "Player") {
 			if(type == TriggerType.Activate){
 				launcher.enabled = true;
+				launcher.UnpauseLauncher();
 			} else if(type == TriggerType.Deactivate){
 				launcher.enabled = false;
 			}

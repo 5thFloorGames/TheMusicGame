@@ -9,9 +9,10 @@ public class DropLogic : MonoBehaviour, Quanter {
 	private bool done = false;
 	private float[] platformYFirstMarkers = 	{134f, 108f, 57f, -17f, -116f, -253f, -380f, -551f};
 	private float[] platformYSecondMarkers = 	{131f, 100f, 44f, -35f, -136f, -278f, -412f, -585f};
-	private float[] platformYBlocks = 			{128f, 92f, 31f, -53f, -156f, -303f, -444f, -619f};
+	private float[] platformYBlocks = 			{128f, 92f, 31f, -53f, -156f, -303f, -444f}; // -619f
 	private GameObject marker1;
 	private GameObject marker2;
+	private GameObject obstacle;
 	private AudioClip boom;
 	private AudioSource audioSource;
 	private GameObject player;
@@ -21,8 +22,9 @@ public class DropLogic : MonoBehaviour, Quanter {
 
 	void Awake(){
 		cameraSettings = FindObjectOfType<Camera2DFollow> ();
-		marker1 = Resources.Load<GameObject> ("Marker1");
-		marker2 = Resources.Load<GameObject> ("Marker2");
+		marker1 = Resources.Load<GameObject> ("Markers/Marker1");
+		marker2 = Resources.Load<GameObject> ("Markers/Marker2");
+		obstacle = Resources.Load<GameObject> ("Markers/Obstacle");
 		boom = Resources.Load<AudioClip> ("Audio/Boom");
 		audioSource = GetComponentInParent<AudioSource> ();
 		player = GameObject.FindWithTag("Player");
@@ -39,10 +41,10 @@ public class DropLogic : MonoBehaviour, Quanter {
 				Instantiate (marker1, new Vector3 (transform.position.x, platformYFirstMarkers [i] + yOffset, 0f), Quaternion.identity);
 			}
 			for (int i = 0; i < platformYSecondMarkers.Length; i++) {
-				Instantiate (marker1, new Vector3 (transform.position.x, platformYSecondMarkers [i] + yOffset, 0f), Quaternion.identity);
+				Instantiate (marker2, new Vector3 (transform.position.x, platformYSecondMarkers [i] + yOffset, 0f), Quaternion.identity);
 			}
 			for (int i = 0; i < platformYBlocks.Length; i++) {
-				Instantiate (marker1, new Vector3 (transform.position.x, platformYBlocks [i] + yOffset, 0f), Quaternion.identity);
+				Instantiate (obstacle, new Vector3 (transform.position.x, platformYBlocks [i] + yOffset, 0f), Quaternion.identity);
 			}
 		}
 	}

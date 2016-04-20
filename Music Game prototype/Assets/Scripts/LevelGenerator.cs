@@ -32,11 +32,15 @@ public class LevelGenerator : MonoBehaviour {
 		//drop = 1;
 		//tunnel = 1;
 		int platformLength;
+
+		// TRACK lowest platform until the drop to make a good respawn mechanic
+
 		for (int i = 0; i < 50; i++) {
 			if(i == tunnel){
 				Transform start = lastCreated.transform;
 				int lastLength = lastCreatedLength;
-				Instantiate(launcherTrigger,lastCreated.transform.position, Quaternion.identity);
+				//Instantiate(Resources.Load<GameObject>("LauncherPauser"), lastCreated.transform.position + ((lastCreatedLength - 1.5f) * 5f) * Vector3.right, Quaternion.identity);
+				Instantiate(launcherTrigger,lastCreated.transform.position + (lastCreatedLength * 5f) * Vector3.right, Quaternion.identity);
 				CreatePlatforms(composingLogic.randomHighNote(),25,start, lastLength, 4, true);
 				CreatePlatforms(Note.i,25,start, lastLength, 0, true);
 				CreatePlatforms(composingLogic.randomLowNote(),25,start, lastLength, -4, true);
