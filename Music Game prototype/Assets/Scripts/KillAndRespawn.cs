@@ -16,6 +16,6 @@ public class KillAndRespawn : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D col){
-		col.transform.position = respawn.position;
+		//col.transform.position = respawn.position;
 	}
 }

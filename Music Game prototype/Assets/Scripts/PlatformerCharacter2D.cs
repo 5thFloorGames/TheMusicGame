@@ -48,9 +48,9 @@ namespace UnityStandardAssets._2D
 		}
 
 		private void Update(){
-			if (Input.GetKeyDown(KeyCode.H)) {
-				print (transform.position);
-			}
+//			if (Input.GetKeyDown(KeyCode.H)) {
+//				print (transform.position);
+//			}
 		}
 
 

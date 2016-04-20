@@ -24,11 +24,12 @@ namespace UnityStandardAssets._2D
         {
             if (!teleUp)
             {
-                // Read the jump input in Update so button presses aren't missed.
-
 				teleUp = CrossPlatformInputManager.GetButtonDown("Teleport");
-				dash = CrossPlatformInputManager.GetButtonDown("Dash");
             }
+
+			if (!dash) {
+				dash = CrossPlatformInputManager.GetButtonDown("Dash");
+			}
         }
 
 
