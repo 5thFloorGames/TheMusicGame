@@ -97,7 +97,7 @@ public class LevelGenerator : MonoBehaviour {
 				newPlatform.transform.parent = holder.transform;
 				if(Random.Range(0,5) == 0){
 					newPlatform.AddComponent<CreateBlock>();
-				} else if(Random.Range(0,10) == 0){
+				} else if(Random.Range(0,10) == 100){ // rings disabled
 					if(parallelplatforms){
 						Instantiate(bigRing,newPlatform.transform.position  + (-1) * heightOffset * Vector3.up, Quaternion.Euler(90f,90f,0));
 					} else {
