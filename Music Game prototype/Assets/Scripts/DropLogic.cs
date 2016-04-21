@@ -81,6 +81,7 @@ public class DropLogic : MonoBehaviour, Quanter {
 			cameraSettings.lookAheadFactor = 15f;
 			col.gameObject.GetComponent<Rigidbody2D> ().gravityScale = 3f;
 			done = true;
+			FindObjectOfType<ScreenShake> ().jiggleCam (0.5f, 0.5f);
 			player.SendMessage("AutoRun");
 			audioSource.PlayOneShot(boom);
 			col.SendMessage("UnMute");
