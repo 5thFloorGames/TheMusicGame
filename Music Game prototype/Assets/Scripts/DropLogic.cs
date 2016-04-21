@@ -73,7 +73,7 @@ public class DropLogic : MonoBehaviour, Quanter {
 			player.SendMessage("Freeze");
 			player.transform.position = transform.position;
 			done = true;
-			beat.TriggerInXBars(this, 1);
+			beat.TriggerInXBars(this, 0);
 		}
 		if (col.tag == "Player" && !done && !enable) {
 			cameraSettings.damping = 0.5f;

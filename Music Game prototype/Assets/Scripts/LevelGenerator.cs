@@ -14,6 +14,9 @@ public class LevelGenerator : MonoBehaviour {
 	private GameObject theDrop;
 	private GameObject bigRing;
 	private GameObject smallRing;
+	private bool postDrop = false;
+	private bool girlTanks = true;
+	private float lowestY;
 
 	void Awake(){
 		platform = (GameObject)Resources.Load ("Platforms/MusicPlatform");
@@ -28,15 +31,20 @@ public class LevelGenerator : MonoBehaviour {
 	void Start () {
 		CreatePlatforms (Note.i, Random.Range (1, 5), transform, false);
 		int tunnel = Random.Range (10, 25);
-		int drop = Random.Range (25, 40);
+		int drop = Random.Range (25, 35);
+		int tunnel2 = Random.Range (45, 60);
 		//drop = 1;
-		//tunnel = 1;
+		tunnel = 1;
 		int platformLength;
 
 		// TRACK lowest platform until the drop to make a good respawn mechanic
 
-		for (int i = 0; i < 50; i++) {
-			if(i == tunnel){
+		for (int i = 0; i < 75; i++) {
+			girlTanks = true;
+			if(i == tunnel || i == tunnel2){
+				if(i == tunnel){
+					girlTanks = false;
+				}
 				Transform start = lastCreated.transform;
 				int lastLength = lastCreatedLength;
 				//Instantiate(Resources.Load<GameObject>("LauncherPauser"), lastCreated.transform.position + ((lastCreatedLength - 1.5f) * 5f) * Vector3.right, Quaternion.identity);
@@ -50,6 +58,7 @@ public class LevelGenerator : MonoBehaviour {
 				GameObject dropObject = (GameObject)Instantiate(theDrop, lastCreated.transform.position + (lastCreatedLength + 1.5f - 1) * (Vector3.right * 5f) + Vector3.right * 3.15f + Vector3.up * 0.75f, Quaternion.identity);
 				lastCreated = dropObject.transform.FindChild("Landing").gameObject;
 				lastCreatedLength = 2;
+				postDrop = true;
 			} else {
 				if(lastCreatedLength > 1){
 					platformLength = Random.Range (1, 5);
@@ -95,9 +104,9 @@ public class LevelGenerator : MonoBehaviour {
 					newPlatform.transform.position = holder.transform.position + new Vector3 (i * 10, 0, 0);
 				}
 				newPlatform.transform.parent = holder.transform;
-				if(Random.Range(0,5) == 0){
+				if(Random.Range(0,5) == 0 && girlTanks){
 					newPlatform.AddComponent<CreateBlock>();
-				} else if(Random.Range(0,10) == 0){ // rings disabled
+				} else if(Random.Range(0,10) < 2 && postDrop){
 					if(parallelplatforms){
 						Instantiate(bigRing,newPlatform.transform.position  + (-1) * heightOffset * Vector3.up, Quaternion.Euler(90f,90f,0));
 					} else {

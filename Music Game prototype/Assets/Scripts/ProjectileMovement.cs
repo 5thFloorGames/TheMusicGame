@@ -16,7 +16,7 @@ public class ProjectileMovement : MonoBehaviour, Quanter {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.position = (transform.position + Vector3.left * 0.09f);
+		transform.position = (transform.position + Vector3.left * 3.5f * Time.deltaTime);
 	}
 
 	IEnumerator CheckForDestruction(){
@@ -55,7 +55,7 @@ public class ProjectileMovement : MonoBehaviour, Quanter {
 	IEnumerator HoldPlayer(GameObject player){
 		player.SendMessage("Freeze");
 		FindObjectOfType<LauncherLogic>().PauseLauncher();
-		FindObjectOfType<BeatMatcher> ().TriggerInXBars (this, 1);
+		FindObjectOfType<BeatMatcher> ().TriggerInXBeats (this, 4);
 		while (true) {
 			yield return new WaitForEndOfFrame();
 			player.transform.position = transform.position;

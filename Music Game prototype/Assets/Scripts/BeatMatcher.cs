@@ -12,6 +12,7 @@ public class BeatMatcher : MonoBehaviour {
 	private List<Quanter> oneOffs;
 	private List<Quanter> barOneOffs;
 	private Dictionary<Quanter, int> barWaitOneOffs;
+	private Dictionary<Quanter, int> beatWaitOneOffs;
 
 	// Use this for initialization
 	void Awake () {
@@ -20,6 +21,7 @@ public class BeatMatcher : MonoBehaviour {
 		oneOffs = new List<Quanter> ();
 		barOneOffs = new List<Quanter> ();
 		barWaitOneOffs = new Dictionary<Quanter, int> ();
+		beatWaitOneOffs = new Dictionary<Quanter, int> ();
 		
 		notifiables = new List<Beater>();
 		notifiables.AddRange(FindObjectsOfType<ChangeColorOnBeat> ());
@@ -54,6 +56,20 @@ public class BeatMatcher : MonoBehaviour {
 				barWaitOneOffs.Clear();
 			}
 			barOneOffs.Clear();
+		}
+		foreach(Quanter notify in beatWaitOneOffs.Keys){
+			if(notify == null){
+				print ("NULL THING FOUND");
+				clear = true;
+			} else {
+				if (barCounter >= beatWaitOneOffs[notify]){
+					notify.Act();
+					clear = true;
+				}
+			}
+		}
+		if(clear){
+			beatWaitOneOffs.Clear();
 		}
 		barCounter++;
 		oneOffs.Clear ();
@@ -93,6 +109,10 @@ public class BeatMatcher : MonoBehaviour {
 
 	public void TriggerInXBars(Quanter callback, int bars){
 		barWaitOneOffs.Add (callback, barCounter + bars * 4);
+	}
+
+	public void TriggerInXBeats(Quanter callback, int beats){
+		beatWaitOneOffs.Add (callback, barCounter + beats);
 	}
 
 }
