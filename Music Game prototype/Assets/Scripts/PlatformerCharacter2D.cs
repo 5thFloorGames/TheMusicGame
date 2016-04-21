@@ -51,9 +51,6 @@ namespace UnityStandardAssets._2D
 //			if (Input.GetKeyDown(KeyCode.H)) {
 //				print (transform.position);
 //			}
-			if (Input.GetKeyDown(KeyCode.R)) {
-				Application.LoadLevel("BackgroundAssets");
-			}
 		}
 
 
