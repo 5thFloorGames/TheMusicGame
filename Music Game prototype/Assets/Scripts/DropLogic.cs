@@ -71,6 +71,7 @@ public class DropLogic : MonoBehaviour, Quanter {
 			cameraSettings.lookAheadFactor = 0f;
 			col.gameObject.GetComponent<Rigidbody2D> ().gravityScale = 0.6f;
 			player.SendMessage("Freeze");
+			player.SendMessage("FreeControl");
 			player.transform.position = transform.position;
 			done = true;
 			beat.TriggerInXBars(this, 0);
@@ -80,6 +81,7 @@ public class DropLogic : MonoBehaviour, Quanter {
 			cameraSettings.lookAheadFactor = 15f;
 			col.gameObject.GetComponent<Rigidbody2D> ().gravityScale = 3f;
 			done = true;
+			player.SendMessage("AutoRun");
 			audioSource.PlayOneShot(boom);
 			col.SendMessage("UnMute");
 		}

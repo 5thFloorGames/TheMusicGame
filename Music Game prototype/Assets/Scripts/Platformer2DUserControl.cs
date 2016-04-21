@@ -12,6 +12,7 @@ namespace UnityStandardAssets._2D
 		private bool teleUp;
 		private bool dash;
 		private BeatMatcher matcher;
+		private bool autoRun = true;
 
         private void Awake()
         {
@@ -32,6 +33,14 @@ namespace UnityStandardAssets._2D
 			}
         }
 
+		public void FreeControl(){
+			autoRun = false;
+		}
+
+		public void AutoRun(){
+			autoRun = true;
+		}
+
 
         private void FixedUpdate()
         {
@@ -47,7 +56,11 @@ namespace UnityStandardAssets._2D
 				h = keyboard;
 			}
             // Pass all parameters to the character control script.
-            m_Character.Move(h, crouch, m_Jump);
+			if (autoRun) {
+				m_Character.Move (1, crouch, m_Jump);
+			} else {
+				m_Character.Move (h, crouch, m_Jump);
+			}
 
 			if (teleUp) {
 				m_Character.Teleport (CrossPlatformInputManager.GetAxis("Teleport"));
