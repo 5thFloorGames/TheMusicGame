@@ -3,7 +3,8 @@ using System.Collections;
 
 public class ColorGradient : MonoBehaviour {
 	
-	private Color[] colors = {Color.blue, Color.cyan, Color.clear};
+	private Color[] colors = {Color.blue, Color.cyan, Color.green};
+	// new Color(1f, 0f, 0.9f, 1f)
 	int choice = 1;
 	Color lerped;
 	float lerpProgress = 0.022f;

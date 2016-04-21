@@ -34,7 +34,7 @@ public class LevelGenerator : MonoBehaviour {
 		int drop = Random.Range (25, 35);
 		int tunnel2 = Random.Range (45, 60);
 		//drop = 1;
-		//tunnel = 1;
+		tunnel = 1;
 		int platformLength;
 
 		// TRACK lowest platform until the drop to make a good respawn mechanic
