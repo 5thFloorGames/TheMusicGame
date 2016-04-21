@@ -31,7 +31,7 @@ namespace UnityStandardAssets._2D
 			if (!dash) {
 				dash = CrossPlatformInputManager.GetButtonDown("Dash");
 			}
-			if (Input.GetKeyDown(CrossPlatformInputManager.GetButtonDown("Reset")) {
+			if (CrossPlatformInputManager.GetButtonDown("Reset")) {
 				Application.LoadLevel("BackgroundAssets");
 			}
 		}
