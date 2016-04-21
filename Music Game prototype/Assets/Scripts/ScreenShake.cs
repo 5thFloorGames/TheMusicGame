@@ -2,13 +2,10 @@
 using System.Collections;
 
 public class ScreenShake : MonoBehaviour {
-	
-	float jiggleAmt=0.0f; // how much to shake
-	Vector3 startingPosition;
-	
-	// Use this for initialization
+
+	private float jiggleAmt=0.0f; // how much to shake
+
 	void Start () {
-		startingPosition = transform.position;
 	}
 	
 	// Update is called once per frame
@@ -16,7 +13,7 @@ public class ScreenShake : MonoBehaviour {
 		if(jiggleAmt>0) {
 			float quakeAmt = Random.value*jiggleAmt*2 - jiggleAmt;
 			Vector3 pp = transform.position;
-			pp.y+= quakeAmt; // can also add to x and/or z
+			pp.y+= quakeAmt;
 			transform.position = pp;
 		}
 	}
@@ -30,7 +27,6 @@ public class ScreenShake : MonoBehaviour {
 	
 	IEnumerator jiggleCam2(float duration) {
 		yield return new WaitForSeconds(duration);
-		jiggleAmt=0;
-		//transform.position = startingPosition;
+		jiggleAmt = 0f;
 	}
 }
