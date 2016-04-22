@@ -35,6 +35,11 @@ namespace UnityStandardAssets._2D
 				FindObjectOfType<LevelGenerator>().DisableTutorial();
 				Application.LoadLevel("BackgroundAssets");
 			}
+
+			if (CrossPlatformInputManager.GetButtonDown ("SuperReset")) {
+				FindObjectOfType<LevelGenerator>().EnableTutorial();
+				Application.LoadLevel("BackgroundAssets");
+			}
 		}
 
 		public void FreeControl(){
@@ -71,10 +76,6 @@ namespace UnityStandardAssets._2D
 			}
 			if (dash) {
 				m_Character.Dash (CrossPlatformInputManager.GetAxis("Dash"));
-			}
-
-			if (Input.GetButtonDown ("Cheat")) {
-				m_Character.Cheat();
 			}
 
             teleUp = false;

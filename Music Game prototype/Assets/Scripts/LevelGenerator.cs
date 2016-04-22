@@ -50,7 +50,6 @@ public class LevelGenerator : MonoBehaviour {
 					lastCreated = tutorialObject.transform.FindChild("LastPlatform").gameObject;
 					lastCreatedLength = 6;
 				} else {
-
 					CreatePlatforms (Note.i, Random.Range (3, 6), transform, false);
 				}
 			} else {
@@ -158,5 +157,10 @@ public class LevelGenerator : MonoBehaviour {
 
 	public void DisableTutorial(){
 		tutorialEnabled = false;
+	}
+
+	public void EnableTutorial(){
+		tutorialEnabled = true;
+
 	}
 }
