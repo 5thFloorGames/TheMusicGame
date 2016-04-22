@@ -23,6 +23,7 @@ namespace UnityStandardAssets._2D
         private Rigidbody2D m_Rigidbody2D;
         private bool m_FacingRight = true;  // For determining which way the player is currently facing.
 		private int rayMask = 0;
+		private int platformMask = 0;
 		private BeatMatcher beat;
 		private Queue<Direction> inputBuffer;
 		private int teleportCharges = 1;
@@ -38,6 +39,7 @@ namespace UnityStandardAssets._2D
             m_Anim = GetComponent<Animator>();
             m_Rigidbody2D = GetComponent<Rigidbody2D>();
 			rayMask |= 1 << LayerMask.NameToLayer ("Destructible");
+			platformMask |= 1 << LayerMask.NameToLayer ("Platform");
 			beat = FindObjectOfType<BeatMatcher> ();
 			inputBuffer = new Queue<Direction> ();
 			musicSystem = GetComponent<CharacterMusicSystem> ();
@@ -86,7 +88,15 @@ namespace UnityStandardAssets._2D
 					m_Rigidbody2D.velocity = Vector2.zero;
 				} 
 				if (direction == Direction.DOWN) {
-					transform.position = transform.position + Vector3.down * (4);
+					if(!m_Grounded){
+						transform.position = transform.position + Vector3.down * (2);
+						print ("Halftele");
+					} else {
+						RaycastHit2D hit = Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y - 4f), Vector2.down, 10f, platformMask);
+						if(hit){
+							transform.position = transform.position + Vector3.down * (4);
+						}
+					}
 					m_Rigidbody2D.velocity = Vector2.zero;
 				}
 				musicSystem.TeleportSound();
