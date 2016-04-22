@@ -86,24 +86,31 @@ namespace UnityStandardAssets._2D
 				if (direction == Direction.UP) {
 					transform.position = transform.position + Vector3.up * (4);
 					m_Rigidbody2D.velocity = Vector2.zero;
+					Teleported();
 				} 
 				if (direction == Direction.DOWN) {
 					if(!m_Grounded){
 						transform.position = transform.position + Vector3.down * (2);
-						print ("Halftele");
+						Teleported();
 					} else {
 						RaycastHit2D hit = Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y - 4f), Vector2.down, 10f, platformMask);
 						if(hit){
 							transform.position = transform.position + Vector3.down * (4);
+							m_Rigidbody2D.velocity = Vector2.zero;
+
+							Teleported();
 						}
 					}
-					m_Rigidbody2D.velocity = Vector2.zero;
 				}
-				musicSystem.TeleportSound();
-				teleportCharges--;
+
 			}
 		}
 
+		private void Teleported(){
+			musicSystem.TeleportSound();
+			teleportCharges--;
+		}
+		
 		private void Dash(Direction direction){
 			if (direction == Direction.LEFT) {
 				transform.position = transform.position + Vector3.left * (3);
