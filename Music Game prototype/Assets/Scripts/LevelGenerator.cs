@@ -14,9 +14,11 @@ public class LevelGenerator : MonoBehaviour {
 	private GameObject theDrop;
 	private GameObject bigRing;
 	private GameObject smallRing;
+	private GameObject tutorial;
 	private bool postDrop = false;
 	private bool girlTanks = true;
 	private float lowestY;
+	private static bool tutorialEnabled = true;
 
 	void Awake(){
 		platform = (GameObject)Resources.Load ("Platforms/MusicPlatform");
@@ -24,12 +26,13 @@ public class LevelGenerator : MonoBehaviour {
 		bigRing = Resources.Load<GameObject>("Rings/BigRing");
 		smallRing = Resources.Load<GameObject>("Rings/SmallRing");
 		theDrop = Resources.Load<GameObject>("Drop");
+		tutorial = Resources.Load<GameObject> ("Tutorial");
 		composingLogic = GetComponent<ComposingLogic> ();
 	}
 
 	// Use this for initialization
 	void Start () {
-		CreatePlatforms (Note.i, Random.Range (1, 5), transform, false);
+		//
 		int tunnel = Random.Range (10, 25);
 		int drop = Random.Range (25, 35);
 		int tunnel2 = Random.Range (45, 60);
@@ -41,40 +44,51 @@ public class LevelGenerator : MonoBehaviour {
 
 		for (int i = 0; i < 75; i++) {
 			girlTanks = true;
-			if(i == tunnel || i == tunnel2){
-				if(i == tunnel){
-					girlTanks = false;
+			if(i == 0){
+				if(tutorialEnabled){
+					GameObject tutorialObject = (GameObject)Instantiate(tutorial, transform.position + Vector3.right * 20f, Quaternion.identity);
+					lastCreated = tutorialObject.transform.FindChild("LastPlatform").gameObject;
+					lastCreatedLength = 6;
+				} else {
+
+					CreatePlatforms (Note.i, Random.Range (3, 6), transform, false);
 				}
-				Transform start = lastCreated.transform;
-				int lastLength = lastCreatedLength;
-				//Instantiate(Resources.Load<GameObject>("LauncherPauser"), lastCreated.transform.position + ((lastCreatedLength - 1.5f) * 5f) * Vector3.right, Quaternion.identity);
-				Instantiate(launcherTrigger,lastCreated.transform.position + (lastCreatedLength * 5f) * Vector3.right, Quaternion.identity);
-				CreatePlatforms(composingLogic.randomHighNote(),25,start, lastLength, 4, true);
-				CreatePlatforms(Note.i,25,start, lastLength, 0, true);
-				CreatePlatforms(composingLogic.randomLowNote(),25,start, lastLength, -4, true);
-				GameObject shutdownTrigger = (GameObject)Instantiate(launcherTrigger,lastCreated.transform.position + Vector3.right * 110f, Quaternion.identity);
-				shutdownTrigger.GetComponent<ActivateLauncherOnTouch>().type = TriggerType.Deactivate;
-			} else if(i == drop){
-				GameObject dropObject = (GameObject)Instantiate(theDrop, lastCreated.transform.position + (lastCreatedLength + 1.5f - 1) * (Vector3.right * 5f) + Vector3.right * 3.15f + Vector3.up * 0.75f, Quaternion.identity);
-				lastCreated = dropObject.transform.FindChild("Landing").gameObject;
-				lastCreatedLength = 2;
-				postDrop = true;
 			} else {
-				if(lastCreatedLength > 1){
-					platformLength = Random.Range (1, 5);
+				if(i == tunnel || i == tunnel2){
+					if(i == tunnel){
+						girlTanks = false;
+					}
+					Transform start = lastCreated.transform;
+					int lastLength = lastCreatedLength;
+					//Instantiate(Resources.Load<GameObject>("LauncherPauser"), lastCreated.transform.position + ((lastCreatedLength - 1.5f) * 5f) * Vector3.right, Quaternion.identity);
+					Instantiate(launcherTrigger,lastCreated.transform.position + (lastCreatedLength * 5f) * Vector3.right, Quaternion.identity);
+					CreatePlatforms(composingLogic.randomHighNote(),25,start, lastLength, 4, true);
+					CreatePlatforms(Note.i,25,start, lastLength, 0, true);
+					CreatePlatforms(composingLogic.randomLowNote(),25,start, lastLength, -4, true);
+					GameObject shutdownTrigger = (GameObject)Instantiate(launcherTrigger,lastCreated.transform.position + Vector3.right * 110f, Quaternion.identity);
+					shutdownTrigger.GetComponent<ActivateLauncherOnTouch>().type = TriggerType.Deactivate;
+				} else if(i == drop){
+					GameObject dropObject = (GameObject)Instantiate(theDrop, lastCreated.transform.position + (lastCreatedLength + 1.5f - 1) * (Vector3.right * 5f) + Vector3.right * 3.15f + Vector3.up * 0.75f, Quaternion.identity);
+					lastCreated = dropObject.transform.FindChild("Landing").gameObject;
+					lastCreatedLength = 3;
+					postDrop = true;
 				} else {
-					platformLength = Random.Range (2, 5);
-				}
-				if(Random.Range (0,10) < 2){
-					CreateDoublePlatform(composingLogic.nextNote(lastNote, levelCounter),platformLength,lastCreated.transform);
-					lastDouble = true;
-				} else {
-					CreatePlatforms(composingLogic.nextNote(lastNote, levelCounter),platformLength,lastCreated.transform, false);
-					lastDouble = false;
-				}
-				levelCounter++;
-				if (levelCounter > 3) {
-					levelCounter = 0;
+					if(lastCreatedLength > 1){
+						platformLength = Random.Range (1, 5);
+					} else {
+						platformLength = Random.Range (2, 5);
+					}
+					if(Random.Range (0,10) < 2){
+						CreateDoublePlatform(composingLogic.nextNote(lastNote, levelCounter),platformLength,lastCreated.transform);
+						lastDouble = true;
+					} else {
+						CreatePlatforms(composingLogic.nextNote(lastNote, levelCounter),platformLength,lastCreated.transform, false);
+						lastDouble = false;
+					}
+					levelCounter++;
+					if (levelCounter > 3) {
+						levelCounter = 0;
+					}
 				}
 			}
 		}
@@ -140,5 +154,9 @@ public class LevelGenerator : MonoBehaviour {
 		int lastLength = lastCreatedLength;
 		CreatePlatforms (platformNote, platformLength, lastPlatform, lastLength, 4, true);
 		CreatePlatforms (platformNote, platformLength, lastPlatform, lastLength, -4, true);
+	}
+
+	public void DisableTutorial(){
+		tutorialEnabled = false;
 	}
 }
