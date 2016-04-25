@@ -16,6 +16,7 @@ public class KillAndRespawn : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D col){
+		Application.LoadLevel("BackgroundAssets");
 		//col.transform.position = respawn.position;
 	}
 }

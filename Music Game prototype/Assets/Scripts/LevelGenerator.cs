@@ -32,11 +32,10 @@ public class LevelGenerator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//
 		int tunnel = Random.Range (10, 25);
 		int drop = Random.Range (25, 35);
 		int tunnel2 = Random.Range (45, 60);
-		//drop = 4;
+		//drop = 1;
 		//tunnel = 1;
 		int platformLength;
 
