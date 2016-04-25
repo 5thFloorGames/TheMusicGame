@@ -13,8 +13,9 @@ namespace UnityStandardAssets._2D
 		private bool dash;
 		private BeatMatcher matcher;
 		private bool autoRun = true;
-
-        private void Awake()
+		private bool startHold = true;
+		
+		private void Awake()
         {
             m_Character = GetComponent<PlatformerCharacter2D>();
 			matcher = FindObjectOfType<BeatMatcher> ();
@@ -23,13 +24,14 @@ namespace UnityStandardAssets._2D
 
         private void Update()
         {
-            if (!teleUp)
-            {
-				teleUp = CrossPlatformInputManager.GetButtonDown("Teleport");
-            }
+			if (!startHold) {
+				if (!teleUp) {
+					teleUp = CrossPlatformInputManager.GetButtonDown ("Teleport");
+				}
 
-			if (!dash) {
-				dash = CrossPlatformInputManager.GetButtonDown("Dash");
+				if (!dash) {
+					dash = CrossPlatformInputManager.GetButtonDown ("Dash");
+				}
 			}
 			if (CrossPlatformInputManager.GetButtonDown("Reset")) {
 				FindObjectOfType<LevelGenerator>().DisableTutorial();
@@ -64,18 +66,27 @@ namespace UnityStandardAssets._2D
 			} else {
 				h = keyboard;
 			}
-            // Pass all parameters to the character control script.
-			if (autoRun) {
-				m_Character.Move (1, crouch, m_Jump);
+
+			if (!startHold) {
+				// Pass all parameters to the character control script.
+				if (autoRun) {
+					m_Character.Move (1, crouch, m_Jump);
+				} else {
+					m_Character.Move (h, crouch, m_Jump);
+				}
+
+				if (teleUp) {
+					m_Character.Teleport (CrossPlatformInputManager.GetAxis ("Teleport"));
+				}
+				if (dash) {
+					m_Character.Dash (CrossPlatformInputManager.GetAxis ("Dash"));
+				}
 			} else {
-				m_Character.Move (h, crouch, m_Jump);
+				m_Character.Move (0, crouch, m_Jump);
 			}
 
-			if (teleUp) {
-				m_Character.Teleport (CrossPlatformInputManager.GetAxis("Teleport"));
-			}
-			if (dash) {
-				m_Character.Dash (CrossPlatformInputManager.GetAxis("Dash"));
+			if (Input.anyKeyDown && startHold) {
+				startHold = false;
 			}
 
             teleUp = false;
