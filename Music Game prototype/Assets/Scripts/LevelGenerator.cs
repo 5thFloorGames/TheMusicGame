@@ -39,7 +39,6 @@ public class LevelGenerator : MonoBehaviour {
 		//tunnel = 1;
 		int platformLength;
 
-		// TRACK lowest platform until the drop to make a good respawn mechanic
 
 		for (int i = 0; i < 75; i++) {
 			girlTanks = true;

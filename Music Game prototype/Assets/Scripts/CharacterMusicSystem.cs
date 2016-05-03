@@ -146,11 +146,6 @@ using System.Collections.Generic;
 		
 		public void MoveSounds(float move, bool m_Grounded)
 		{
-			if (!m_Grounded) {
-				mixer.SetFloat ("highpass", 1000f); // Placeholder, sounds cool though
-			} else {
-				mixer.SetFloat ("highpass", 0f);
-			}
 			drums.volume = Mathf.Abs (move / 4);
 			bass.volume = Math.Abs (move) + 0.7f;
 			pulse.volume = Math.Abs (move) + 0.2f;
