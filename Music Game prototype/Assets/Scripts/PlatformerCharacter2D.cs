@@ -30,6 +30,7 @@ namespace UnityStandardAssets._2D
 		private int maxCharges = 1;
 		private CharacterMusicSystem musicSystem;
 		public bool frozen = false;
+		private float speed = 1f;
 
 		private void Awake()
         {
@@ -203,7 +204,7 @@ namespace UnityStandardAssets._2D
 
                 // Move the character
 				if(!frozen){
-                	m_Rigidbody2D.velocity = new Vector2(move*m_MaxSpeed, m_Rigidbody2D.velocity.y);
+                	m_Rigidbody2D.velocity = new Vector2(move * speed * m_MaxSpeed, m_Rigidbody2D.velocity.y);
 				}
 
                 // If the input is moving the player right and the player is facing left...
@@ -229,6 +230,15 @@ namespace UnityStandardAssets._2D
             }
         }
 
+		public void SpeedBoost(){
+			StartCoroutine (SpeedForSecond ());
+		}
+
+		IEnumerator SpeedForSecond(){
+			speed = 1.5f;
+			yield return new WaitForSeconds (1f);
+			speed = 1.0f;
+		}
 
         private void Flip()
         {
