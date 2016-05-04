@@ -2,9 +2,7 @@
 using System.Collections;
 
 public class KillAndRespawn : MonoBehaviour {
-
-	public Transform respawn;
-
+	
 	// Use this for initialization
 	void Start () {
 	
@@ -19,6 +17,5 @@ public class KillAndRespawn : MonoBehaviour {
 		if (col.tag == "Player") {
 			Application.LoadLevel("BackgroundAssets");
 		}
-		//col.transform.position = respawn.position;
 	}
 }

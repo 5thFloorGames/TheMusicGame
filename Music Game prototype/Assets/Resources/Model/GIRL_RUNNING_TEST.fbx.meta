@@ -1,0 +1,588 @@
+fileFormatVersion: 2
+guid: c11e7b1f637cc4e61bd9bccf59e970a6
+timeCreated: 1462300522
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: Body
+    100002: Eyes1
+    100004: //RootNode
+    100006: group2
+    100008: group3
+    100010: HEAD
+    100012: Head
+    100014: HIP
+    100016: ikHandle1_LFoot
+    100018: ikHandle2_RFoot
+    100020: ikHandle3_LArm
+    100022: ikHandle4_RArm
+    100024: ikHandle5_LToe
+    100026: ikHandle6_RToe
+    100028: joint10
+    100030: joint11
+    100032: joint13
+    100034: joint14
+    100036: joint15
+    100038: joint16
+    100040: joint18
+    100042: joint19
+    100044: joint20
+    100046: joint21
+    100048: joint23
+    100050: joint24
+    100052: joint25
+    100054: joint26
+    100056: joint28
+    100058: joint29
+    100060: joint30
+    100062: joint31
+    100064: joint7
+    100066: joint8
+    100068: joint9
+    100070: L_ANKLE
+    100072: L_ARM
+    100074: L_ARM 1
+    100076: L_Clavicle
+    100078: L_Elbow
+    100080: L_ELBOW_AIM
+    100082: L_FingerA_1
+    100084: L_FingerA_2
+    100086: L_FingerA_3
+    100088: L_FingerA_4
+    100090: L_FingerB_1
+    100092: L_FingerB_2
+    100094: L_FingerB_3
+    100096: L_FingerB_4
+    100098: L_FingerC_1
+    100100: L_FingerC_2
+    100102: L_FingerC_3
+    100104: L_FingerC_4
+    100106: L_FKIK
+    100108: L_FOOT
+    100110: L_Heel
+    100112: L_Hip
+    100114: L_KNEE
+    100116: L_Knee
+    100118: L_SHOULDER
+    100120: L_Shoulder
+    100122: L_Thumb_1
+    100124: L_Thumb_2
+    100126: L_Thumb_3
+    100128: L_Thumb_4
+    100130: L_Toe
+    100132: L_WRIST
+    100134: L_Wrist
+    100136: MASTER
+    100138: Pony1_01
+    100140: Pony1_02
+    100142: Pony1_03
+    100144: Pony1_04
+    100146: Pony2_01
+    100148: Pony2_02
+    100150: Pony2_03
+    100152: Pony2_04
+    100154: Pony3_01
+    100156: Pony3_02
+    100158: Pony3_03
+    100160: Pony3_04
+    100162: Ponytail_1
+    100164: Ponytail_2
+    100166: Ponytail_3
+    100168: R_ANKLE1
+    100170: R_ARM
+    100172: R_ARM 1
+    100174: R_Clavicle
+    100176: R_Elbow
+    100178: R_ELBOW_AIM
+    100180: R_FingerA_1
+    100182: R_FingerA_2
+    100184: R_FingerA_3
+    100186: R_FingerA_4
+    100188: R_FingerB_1
+    100190: R_FingerB_2
+    100192: R_FingerB_3
+    100194: R_FingerB_4
+    100196: R_FingerC_1
+    100198: R_FingerC_2
+    100200: R_FingerC_3
+    100202: R_FingerC_4
+    100204: R_FKIK
+    100206: R_FOOT1
+    100208: R_Hip
+    100210: R_Knee
+    100212: R_Knee 1
+    100214: R_KNEE1
+    100216: R_Shoulder
+    100218: R_SHOULDER1
+    100220: R_Thumb_1
+    100222: R_Thumb_2
+    100224: R_Thumb_3
+    100226: R_Thumb_4
+    100228: R_Toe
+    100230: R_WRIST
+    100232: R_Wrist
+    100234: SPINE1
+    100236: SPINE2
+    100238: SPINE3
+    100240: Spine_Root
+    400000: Body
+    400002: Eyes1
+    400004: //RootNode
+    400006: group2
+    400008: group3
+    400010: HEAD
+    400012: Head
+    400014: HIP
+    400016: ikHandle1_LFoot
+    400018: ikHandle2_RFoot
+    400020: ikHandle3_LArm
+    400022: ikHandle4_RArm
+    400024: ikHandle5_LToe
+    400026: ikHandle6_RToe
+    400028: joint10
+    400030: joint11
+    400032: joint13
+    400034: joint14
+    400036: joint15
+    400038: joint16
+    400040: joint18
+    400042: joint19
+    400044: joint20
+    400046: joint21
+    400048: joint23
+    400050: joint24
+    400052: joint25
+    400054: joint26
+    400056: joint28
+    400058: joint29
+    400060: joint30
+    400062: joint31
+    400064: joint7
+    400066: joint8
+    400068: joint9
+    400070: L_ANKLE
+    400072: L_ARM
+    400074: L_ARM 1
+    400076: L_Clavicle
+    400078: L_Elbow
+    400080: L_ELBOW_AIM
+    400082: L_FingerA_1
+    400084: L_FingerA_2
+    400086: L_FingerA_3
+    400088: L_FingerA_4
+    400090: L_FingerB_1
+    400092: L_FingerB_2
+    400094: L_FingerB_3
+    400096: L_FingerB_4
+    400098: L_FingerC_1
+    400100: L_FingerC_2
+    400102: L_FingerC_3
+    400104: L_FingerC_4
+    400106: L_FKIK
+    400108: L_FOOT
+    400110: L_Heel
+    400112: L_Hip
+    400114: L_KNEE
+    400116: L_Knee
+    400118: L_SHOULDER
+    400120: L_Shoulder
+    400122: L_Thumb_1
+    400124: L_Thumb_2
+    400126: L_Thumb_3
+    400128: L_Thumb_4
+    400130: L_Toe
+    400132: L_WRIST
+    400134: L_Wrist
+    400136: MASTER
+    400138: Pony1_01
+    400140: Pony1_02
+    400142: Pony1_03
+    400144: Pony1_04
+    400146: Pony2_01
+    400148: Pony2_02
+    400150: Pony2_03
+    400152: Pony2_04
+    400154: Pony3_01
+    400156: Pony3_02
+    400158: Pony3_03
+    400160: Pony3_04
+    400162: Ponytail_1
+    400164: Ponytail_2
+    400166: Ponytail_3
+    400168: R_ANKLE1
+    400170: R_ARM
+    400172: R_ARM 1
+    400174: R_Clavicle
+    400176: R_Elbow
+    400178: R_ELBOW_AIM
+    400180: R_FingerA_1
+    400182: R_FingerA_2
+    400184: R_FingerA_3
+    400186: R_FingerA_4
+    400188: R_FingerB_1
+    400190: R_FingerB_2
+    400192: R_FingerB_3
+    400194: R_FingerB_4
+    400196: R_FingerC_1
+    400198: R_FingerC_2
+    400200: R_FingerC_3
+    400202: R_FingerC_4
+    400204: R_FKIK
+    400206: R_FOOT1
+    400208: R_Hip
+    400210: R_Knee
+    400212: R_Knee 1
+    400214: R_KNEE1
+    400216: R_Shoulder
+    400218: R_SHOULDER1
+    400220: R_Thumb_1
+    400222: R_Thumb_2
+    400224: R_Thumb_3
+    400226: R_Thumb_4
+    400228: R_Toe
+    400230: R_WRIST
+    400232: R_Wrist
+    400234: SPINE1
+    400236: SPINE2
+    400238: SPINE3
+    400240: Spine_Root
+    2300000: Eyes1
+    3300000: Eyes1
+    4300000: Eyes1
+    4300002: Body
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: Body
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 14
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Body
+        weight: 1
+      - path: Eyes1
+        weight: 1
+      - path: MASTER
+        weight: 1
+      - path: MASTER/HIP
+        weight: 1
+      - path: MASTER/HIP/SPINE1
+        weight: 1
+      - path: MASTER/HIP/SPINE1/SPINE2
+        weight: 1
+      - path: MASTER/HIP/SPINE1/SPINE2/SPINE3
+        weight: 1
+      - path: MASTER/HIP/SPINE1/SPINE2/SPINE3/HEAD
+        weight: 1
+      - path: MASTER/HIP/SPINE1/SPINE2/SPINE3/L_SHOULDER
+        weight: 1
+      - path: MASTER/HIP/SPINE1/SPINE2/SPINE3/L_SHOULDER/L_ARM 1
+        weight: 1
+      - path: MASTER/HIP/SPINE1/SPINE2/SPINE3/L_SHOULDER/L_ARM 1/L_WRIST
+        weight: 1
+      - path: MASTER/HIP/SPINE1/SPINE2/SPINE3/R_SHOULDER1
+        weight: 1
+      - path: MASTER/HIP/SPINE1/SPINE2/SPINE3/R_SHOULDER1/R_ARM 1
+        weight: 1
+      - path: MASTER/HIP/SPINE1/SPINE2/SPINE3/R_SHOULDER1/R_ARM 1/R_WRIST
+        weight: 1
+      - path: MASTER/L_ANKLE
+        weight: 1
+      - path: MASTER/L_ARM
+        weight: 1
+      - path: MASTER/L_ARM/ikHandle3_LArm
+        weight: 1
+      - path: MASTER/L_ELBOW_AIM
+        weight: 1
+      - path: MASTER/L_FKIK
+        weight: 1
+      - path: MASTER/L_FOOT
+        weight: 1
+      - path: MASTER/L_FOOT/group2
+        weight: 1
+      - path: MASTER/L_FOOT/group2/ikHandle1_LFoot
+        weight: 1
+      - path: MASTER/L_FOOT/group2/ikHandle5_LToe
+        weight: 1
+      - path: MASTER/L_KNEE
+        weight: 1
+      - path: MASTER/R_ANKLE1
+        weight: 1
+      - path: MASTER/R_ARM
+        weight: 1
+      - path: MASTER/R_ARM/ikHandle4_RArm
+        weight: 1
+      - path: MASTER/R_ELBOW_AIM
+        weight: 1
+      - path: MASTER/R_FKIK
+        weight: 1
+      - path: MASTER/R_FOOT1
+        weight: 1
+      - path: MASTER/R_FOOT1/group3
+        weight: 1
+      - path: MASTER/R_FOOT1/group3/ikHandle2_RFoot
+        weight: 1
+      - path: MASTER/R_FOOT1/group3/ikHandle6_RToe
+        weight: 1
+      - path: MASTER/R_KNEE1
+        weight: 1
+      - path: Spine_Root
+        weight: 1
+      - path: Spine_Root/joint7
+        weight: 1
+      - path: Spine_Root/joint7/joint8
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head/joint13
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head/Pony1_01
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head/Pony1_01/Pony1_02
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head/Pony1_01/Pony1_02/Pony1_03
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head/Pony1_01/Pony1_02/Pony1_03/Pony1_04
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head/Pony2_01
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head/Pony2_01/Pony2_02
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head/Pony2_01/Pony2_02/Pony2_03
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head/Pony2_01/Pony2_02/Pony2_03/Pony2_04
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head/Pony3_01
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head/Pony3_01/Pony3_02
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head/Pony3_01/Pony3_02/Pony3_03
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head/Pony3_01/Pony3_02/Pony3_03/Pony3_04
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head/Ponytail_1
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head/Ponytail_1/joint18
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head/Ponytail_1/joint18/joint19
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head/Ponytail_1/joint18/joint19/joint20
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head/Ponytail_1/joint18/joint19/joint20/joint21
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head/Ponytail_2
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head/Ponytail_2/joint23
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head/Ponytail_2/joint23/joint24
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head/Ponytail_2/joint23/joint24/joint25
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head/Ponytail_2/joint23/joint24/joint25/joint26
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head/Ponytail_3
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head/Ponytail_3/joint28
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head/Ponytail_3/joint28/joint29
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head/Ponytail_3/joint28/joint29/joint30
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint10/joint11/Head/Ponytail_3/joint28/joint29/joint30/joint31
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/joint16
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/L_Clavicle
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/L_Clavicle/L_Shoulder
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/L_Clavicle/L_Shoulder/L_Elbow
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/L_Clavicle/L_Shoulder/L_Elbow/L_Wrist
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/L_Clavicle/L_Shoulder/L_Elbow/L_Wrist/L_FingerA_1
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/L_Clavicle/L_Shoulder/L_Elbow/L_Wrist/L_FingerA_1/L_FingerA_2
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/L_Clavicle/L_Shoulder/L_Elbow/L_Wrist/L_FingerA_1/L_FingerA_2/L_FingerA_3
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/L_Clavicle/L_Shoulder/L_Elbow/L_Wrist/L_FingerA_1/L_FingerA_2/L_FingerA_3/L_FingerA_4
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/L_Clavicle/L_Shoulder/L_Elbow/L_Wrist/L_FingerB_1
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/L_Clavicle/L_Shoulder/L_Elbow/L_Wrist/L_FingerB_1/L_FingerB_2
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/L_Clavicle/L_Shoulder/L_Elbow/L_Wrist/L_FingerB_1/L_FingerB_2/L_FingerB_3
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/L_Clavicle/L_Shoulder/L_Elbow/L_Wrist/L_FingerB_1/L_FingerB_2/L_FingerB_3/L_FingerB_4
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/L_Clavicle/L_Shoulder/L_Elbow/L_Wrist/L_FingerC_1
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/L_Clavicle/L_Shoulder/L_Elbow/L_Wrist/L_FingerC_1/L_FingerC_2
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/L_Clavicle/L_Shoulder/L_Elbow/L_Wrist/L_FingerC_1/L_FingerC_2/L_FingerC_3
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/L_Clavicle/L_Shoulder/L_Elbow/L_Wrist/L_FingerC_1/L_FingerC_2/L_FingerC_3/L_FingerC_4
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/L_Clavicle/L_Shoulder/L_Elbow/L_Wrist/L_Thumb_1
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/L_Clavicle/L_Shoulder/L_Elbow/L_Wrist/L_Thumb_1/L_Thumb_2
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/L_Clavicle/L_Shoulder/L_Elbow/L_Wrist/L_Thumb_1/L_Thumb_2/L_Thumb_3
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/L_Clavicle/L_Shoulder/L_Elbow/L_Wrist/L_Thumb_1/L_Thumb_2/L_Thumb_3/L_Thumb_4
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/R_Clavicle
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/R_Clavicle/R_Shoulder
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/R_Clavicle/R_Shoulder/R_Elbow
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/R_Clavicle/R_Shoulder/R_Elbow/R_Wrist
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/R_Clavicle/R_Shoulder/R_Elbow/R_Wrist/R_FingerA_1
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/R_Clavicle/R_Shoulder/R_Elbow/R_Wrist/R_FingerA_1/R_FingerA_2
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/R_Clavicle/R_Shoulder/R_Elbow/R_Wrist/R_FingerA_1/R_FingerA_2/R_FingerA_3
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/R_Clavicle/R_Shoulder/R_Elbow/R_Wrist/R_FingerA_1/R_FingerA_2/R_FingerA_3/R_FingerA_4
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/R_Clavicle/R_Shoulder/R_Elbow/R_Wrist/R_FingerB_1
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/R_Clavicle/R_Shoulder/R_Elbow/R_Wrist/R_FingerB_1/R_FingerB_2
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/R_Clavicle/R_Shoulder/R_Elbow/R_Wrist/R_FingerB_1/R_FingerB_2/R_FingerB_3
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/R_Clavicle/R_Shoulder/R_Elbow/R_Wrist/R_FingerB_1/R_FingerB_2/R_FingerB_3/R_FingerB_4
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/R_Clavicle/R_Shoulder/R_Elbow/R_Wrist/R_FingerC_1
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/R_Clavicle/R_Shoulder/R_Elbow/R_Wrist/R_FingerC_1/R_FingerC_2
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/R_Clavicle/R_Shoulder/R_Elbow/R_Wrist/R_FingerC_1/R_FingerC_2/R_FingerC_3
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/R_Clavicle/R_Shoulder/R_Elbow/R_Wrist/R_FingerC_1/R_FingerC_2/R_FingerC_3/R_FingerC_4
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/R_Clavicle/R_Shoulder/R_Elbow/R_Wrist/R_Thumb_1
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/R_Clavicle/R_Shoulder/R_Elbow/R_Wrist/R_Thumb_1/R_Thumb_2
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/R_Clavicle/R_Shoulder/R_Elbow/R_Wrist/R_Thumb_1/R_Thumb_2/R_Thumb_3
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint9/R_Clavicle/R_Shoulder/R_Elbow/R_Wrist/R_Thumb_1/R_Thumb_2/R_Thumb_3/R_Thumb_4
+        weight: 1
+      - path: Spine_Root/joint7/joint8/joint15
+        weight: 1
+      - path: Spine_Root/joint7/joint14
+        weight: 1
+      - path: Spine_Root/L_Hip
+        weight: 1
+      - path: Spine_Root/L_Hip/L_Knee
+        weight: 1
+      - path: Spine_Root/L_Hip/L_Knee/L_Heel
+        weight: 1
+      - path: Spine_Root/L_Hip/L_Knee/L_Heel/L_Toe
+        weight: 1
+      - path: Spine_Root/R_Hip
+        weight: 1
+      - path: Spine_Root/R_Hip/R_Knee
+        weight: 1
+      - path: Spine_Root/R_Hip/R_Knee/R_Knee 1
+        weight: 1
+      - path: Spine_Root/R_Hip/R_Knee/R_Knee 1/R_Toe
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
