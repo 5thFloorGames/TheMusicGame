@@ -26,6 +26,7 @@ using System.Collections.Generic;
 		private Dictionary<Note, AudioClip[]> noteToDashMelody;
 		private Dictionary<Note, AudioClip[]> shootingSequence;
 		private AudioClip[] dashes;
+		public Animator animator;
 		
 		private void Awake()
 		{
@@ -129,6 +130,7 @@ using System.Collections.Generic;
 			if ((Mathf.Min(drums.timeSamples % 24000, Mathf.Abs((drums.timeSamples % 24000) - 24000)) < 2000) && !loopedBeat) {
 				loopedBeat = true;
 				beat.ReportBeat();
+				animator.SetTrigger("SyncTrigger");
 			}
 			if (drums.timeSamples % 24000 > 12000 && Mathf.Abs((drums.timeSamples % 24000) - 24000) > 4000) {
 				loopedBeat = false;
