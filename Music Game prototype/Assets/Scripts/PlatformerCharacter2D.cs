@@ -243,6 +243,9 @@ namespace UnityStandardAssets._2D
 
 		IEnumerator SpeedForSecond(){
 			speed += 0.5f;
+			if (speed > 2.5f) {
+				speed = 2.5f;
+			}
 			yield return new WaitForSeconds (1f);
 			speed = 1.0f;
 		}
