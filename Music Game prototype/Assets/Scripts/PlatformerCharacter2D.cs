@@ -31,6 +31,7 @@ namespace UnityStandardAssets._2D
 		private CharacterMusicSystem musicSystem;
 		public bool frozen = false;
 		private float speed = 1f;
+		private Coroutine boosting;
 
 		private void Awake()
         {
@@ -231,11 +232,14 @@ namespace UnityStandardAssets._2D
         }
 
 		public void SpeedBoost(){
-			StartCoroutine (SpeedForSecond ());
+			if (boosting != null) {
+				StopCoroutine(boosting);
+			}
+			boosting = StartCoroutine (SpeedForSecond ());
 		}
 
 		IEnumerator SpeedForSecond(){
-			speed = 1.5f;
+			speed += 0.5f;
 			yield return new WaitForSeconds (1f);
 			speed = 1.0f;
 		}

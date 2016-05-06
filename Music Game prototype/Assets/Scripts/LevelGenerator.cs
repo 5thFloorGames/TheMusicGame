@@ -7,6 +7,7 @@ public class LevelGenerator : MonoBehaviour {
 	private GameObject killBlock;
 	private GameObject halfKillBlock;
 	private GameObject lastCreated;
+	public GameObject downLevelBackground;
 	private int lastCreatedLength = 1;
 	private int lastOffSet = 0;
 	private Note lastNote;
@@ -72,6 +73,7 @@ public class LevelGenerator : MonoBehaviour {
 				} else if(i == drop){
 					GameObject dropObject = (GameObject)Instantiate(theDrop, lastCreated.transform.position + (lastCreatedLength + 1.5f - 1) * (Vector3.right * 5f) + Vector3.right * 3.15f + Vector3.up * 0.75f, Quaternion.identity);
 					lastCreated = dropObject.transform.FindChild("Landing").gameObject;
+					Instantiate(downLevelBackground, new Vector3(lastCreated.transform.position.x, lastCreated.transform.position.y, 9.1875f), Quaternion.identity);
 					lastCreatedLength = 3;
 					postDrop = true;
 				} else {
