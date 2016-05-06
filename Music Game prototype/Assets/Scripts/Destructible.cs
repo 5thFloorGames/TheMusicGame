@@ -35,6 +35,7 @@ public class Destructible : MonoBehaviour, Quanter {
 		Instantiate (destructionEffect);
 		rend.material = destroyedOn;
 		FindObjectOfType<ScreenShake> ().jiggleCam (0.1f, 0.2f);
+		FindObjectOfType<ScoreCounter> ().IncreaseScore ();
 		gameObject.GetComponent<ChangeTextureOnBeat> ().updateTextures (destroyedOn, destroyedOff);
 		gameObject.GetComponent<Collider2D> ().enabled = false;
 	}

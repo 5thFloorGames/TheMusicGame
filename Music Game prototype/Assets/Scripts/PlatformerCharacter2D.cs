@@ -32,6 +32,7 @@ namespace UnityStandardAssets._2D
 		public bool frozen = false;
 		private float speed = 1f;
 		private Coroutine boosting;
+		private ScoreCounter scoreCounter;
 
 		private void Awake()
         {
@@ -45,6 +46,7 @@ namespace UnityStandardAssets._2D
 			beat = FindObjectOfType<BeatMatcher> ();
 			inputBuffer = new Queue<Direction> ();
 			musicSystem = GetComponent<CharacterMusicSystem> ();
+			scoreCounter = FindObjectOfType<ScoreCounter> ();
 		}
 		
 		private void Start(){
@@ -232,6 +234,7 @@ namespace UnityStandardAssets._2D
         }
 
 		public void SpeedBoost(){
+			scoreCounter.IncreaseScore ();
 			if (boosting != null) {
 				StopCoroutine(boosting);
 			}
@@ -256,6 +259,7 @@ namespace UnityStandardAssets._2D
         }
 
 		public void Freeze(){
+			scoreCounter.DecreaseScore ();
 			frozen = true;
 			teleportCharges = 0;
 			m_Rigidbody2D.isKinematic = true;
