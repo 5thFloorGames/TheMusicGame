@@ -23,6 +23,8 @@ public class LevelGenerator : MonoBehaviour {
 	private bool girlTanks = true;
 	private float lowestY;
 	private static bool tutorialEnabled = true;
+	private float levelProgress = 0f;
+	private int levelLength = 75;
 
 	void Awake(){
 		platform = (GameObject)Resources.Load ("Platforms/MusicPlatform");
@@ -46,7 +48,9 @@ public class LevelGenerator : MonoBehaviour {
 		int platformLength;
 
 
-		for (int i = 0; i < 75; i++) {
+		for (int i = 0; i < levelLength; i++) {
+			print((0.2f + 0.2f * levelProgress));
+			levelProgress = (float)i/levelLength;
 			girlTanks = true;
 			if(i == 0){
 				if(tutorialEnabled){
@@ -82,7 +86,7 @@ public class LevelGenerator : MonoBehaviour {
 					} else {
 						platformLength = Random.Range (2, 5);
 					}
-					if(Random.Range (0,10) < 2){
+					if(RandomChance(0.2f + 0.2f * levelProgress)){
 						CreateDoublePlatform(composingLogic.nextNote(lastNote, levelCounter),platformLength,lastCreated.transform);
 						lastDouble = true;
 					} else {
@@ -96,6 +100,10 @@ public class LevelGenerator : MonoBehaviour {
 				}
 			}
 		}
+	}
+
+	private bool RandomChance(float percent){
+		return Random.Range (0f, 1f) < percent;
 	}
 
 	void CreatePlatforms(Note platformNote, int platformLength, Transform lastPlatform, int lastLength, int heightOffset, bool parallelplatforms, bool killBlock){
@@ -116,24 +124,22 @@ public class LevelGenerator : MonoBehaviour {
 			if(!even || i != Mathf.Floor(platformLength / 2)){
 				GameObject newPlatform = (GameObject)Instantiate (platform);
 				newPlatform.GetComponent<PlayOnTouch>().SetNote(platformNote);
-				// create a common 2D collider of right size and offset it in y by 1.4 and make it a trigger
-				// if down, create a full killblock, if going up, create a half one
 				if(even){
 					newPlatform.transform.position = holder.transform.position + new Vector3 ((i * 10) + 5, 0, 0);
 				} else {
 					newPlatform.transform.position = holder.transform.position + new Vector3 (i * 10, 0, 0);
 				}
 				newPlatform.transform.parent = holder.transform;
-				if(Random.Range(0,5) == 0 && girlTanks){
+				if(RandomChance(0.2f + 0.2f * levelProgress) && girlTanks){
 					newPlatform.AddComponent<CreateBlock>();
-				} else if(Random.Range(0,10) < 2 && postDrop){
+				} else if(RandomChance(0.1f + 0.2f * levelProgress) && postDrop){
 					if(parallelplatforms){
 						Instantiate(bigRing,newPlatform.transform.position  + (-1) * heightOffset * Vector3.up, Quaternion.Euler(90f,90f,0));
 					} else {
 						Instantiate(smallRing,newPlatform.transform.position, Quaternion.Euler(90f,90f,0));
 					}
 				}
-				if (Random.Range(0,15) == 0) {
+				if (RandomChance(0.03f)) {
 					//newPlatform.AddComponent<ShootOnTouch>();
 				}
 
