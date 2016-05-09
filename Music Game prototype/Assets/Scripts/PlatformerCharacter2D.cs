@@ -33,6 +33,7 @@ namespace UnityStandardAssets._2D
 		private float speed = 1f;
 		private Coroutine boosting;
 		private ScoreCounter scoreCounter;
+		private bool muted = false;
 
 		private void Awake()
         {
@@ -160,28 +161,34 @@ namespace UnityStandardAssets._2D
 
 		public void Teleport(float direction){
 			if (direction > 0) {
-				inputBuffer.Enqueue(Direction.UP);
+				AddToBuffer(Direction.UP);
 			} 
 			if (direction < 0) {
-				inputBuffer.Enqueue(Direction.DOWN);
+				AddToBuffer(Direction.DOWN);
 			}
 		}
 
 		public void Dash(float direction){
 			if (direction > 0) {
-				inputBuffer.Enqueue(Direction.LEFT);
+				AddToBuffer(Direction.LEFT);
 			} 
 			if (direction < 0) {
-				inputBuffer.Enqueue(Direction.RIGHT);
+				AddToBuffer(Direction.RIGHT);
+			}
+		}
+
+		private void AddToBuffer(Direction direction){
+			if (inputBuffer.Count < 2) {
+				inputBuffer.Enqueue (direction);
 			}
 		}
 
         public void Move(float move, bool crouch, bool jump)
         {
-			if (frozen) {
+			if (muted) {
 				musicSystem.MoveSounds (0, m_Grounded);
 			} else {
-				musicSystem.MoveSounds (move, m_Grounded);
+				musicSystem.MoveSounds (1, m_Grounded);
 			}
             // If crouching, check to see if the character can stand up
             if (!crouch && m_Anim.GetBool("Crouch"))
@@ -261,6 +268,14 @@ namespace UnityStandardAssets._2D
             transform.localScale = theScale;
         }
 
+		public void MuteMovement(){
+			muted = true;
+		}
+
+		public void UnmuteMovement(){
+			muted = false;
+		}
+		
 		public void Freeze(){
 			scoreCounter.DecreaseScore ();
 			frozen = true;
@@ -270,6 +285,7 @@ namespace UnityStandardAssets._2D
 
 		public void Unfreeze(){
 			frozen = false;
+			UnmuteMovement ();
 			m_Rigidbody2D.isKinematic = false;
 		}
 	}

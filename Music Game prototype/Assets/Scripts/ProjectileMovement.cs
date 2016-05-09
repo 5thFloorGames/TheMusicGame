@@ -54,6 +54,7 @@ public class ProjectileMovement : MonoBehaviour, Quanter {
 
 	IEnumerator HoldPlayer(GameObject player){
 		player.SendMessage("Freeze");
+		player.SendMessage("MuteMovement");
 		FindObjectOfType<ScreenShake> ().jiggleCam (0.1f, 2f);
 		FindObjectOfType<LauncherLogic>().PauseLauncher();
 		FindObjectOfType<BeatMatcher> ().TriggerInXBeats (this, 4);
