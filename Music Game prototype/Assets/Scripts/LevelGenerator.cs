@@ -49,7 +49,6 @@ public class LevelGenerator : MonoBehaviour {
 
 
 		for (int i = 0; i < levelLength; i++) {
-			print((0.2f + 0.2f * levelProgress));
 			levelProgress = (float)i/levelLength;
 			girlTanks = true;
 			if(i == 0){
