@@ -3,9 +3,11 @@ using System.Collections;
 
 public class TimedDestroy : MonoBehaviour {
 
+	public float secondsToLive = 2f;
+
 	// Use this for initialization
 	void Start () {
-		StartCoroutine (DestroyInXSeconds (2f));
+		StartCoroutine (DestroyInXSeconds (secondsToLive));
 	}
 	
 	// Update is called once per frame
