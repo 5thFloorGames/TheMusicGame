@@ -131,7 +131,7 @@ public class LevelGenerator : MonoBehaviour {
 				newPlatform.transform.parent = holder.transform;
 				if(RandomChance(0.2f + 0.2f * levelProgress) && girlTanks){
 					newPlatform.AddComponent<CreateBlock>();
-				} else if(RandomChance(0.1f + 0.2f * levelProgress) && postDrop){
+				} else if(RandomChance(0.1f + 0.2f * levelProgress) && !postDrop){
 					if(parallelplatforms){
 						Instantiate(bigRing,newPlatform.transform.position  + (-1) * heightOffset * Vector3.up, Quaternion.Euler(90f,90f,0));
 					} else {

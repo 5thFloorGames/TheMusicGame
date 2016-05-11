@@ -8,7 +8,6 @@ namespace UnityStandardAssets._2D
     public class Platformer2DUserControl : MonoBehaviour
     {
         private PlatformerCharacter2D m_Character;
-        private bool m_Jump;
 		private bool teleUp;
 		private bool dash;
 		private BeatMatcher matcher;
@@ -53,10 +52,8 @@ namespace UnityStandardAssets._2D
 		}
 
 
-        private void FixedUpdate()
-        {
+        private void FixedUpdate() {
             // Read the inputs.
-            bool crouch = Input.GetKey(KeyCode.LeftControl);
 			float keyboard = CrossPlatformInputManager.GetAxis ("Horizontal");
 			float gamepad = CrossPlatformInputManager.GetAxis ("HorizontalGamepad");
 
@@ -70,9 +67,9 @@ namespace UnityStandardAssets._2D
 			if (!startHold) {
 				// Pass all parameters to the character control script.
 				if (autoRun) {
-					m_Character.Move (1, crouch, m_Jump);
+					m_Character.Move (1);
 				} else {
-					m_Character.Move (h, crouch, m_Jump);
+					m_Character.Move (h);
 				}
 
 				if (teleUp) {
@@ -82,7 +79,7 @@ namespace UnityStandardAssets._2D
 					m_Character.Dash (CrossPlatformInputManager.GetAxis ("Dash"));
 				}
 			} else {
-				m_Character.Move (0, crouch, m_Jump);
+				m_Character.Move (0);
 			}
 
 			if (Input.anyKeyDown && startHold) {

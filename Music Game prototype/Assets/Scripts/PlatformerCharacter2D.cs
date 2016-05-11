@@ -34,7 +34,10 @@ namespace UnityStandardAssets._2D
 		private Coroutine boosting;
 		private ScoreCounter scoreCounter;
 		private bool muted = false;
-
+		private GameObject teleportParticle;
+		private GameObject dashParticle;
+		private GameObject ringParticle;
+		
 		private void Awake()
         {
 			beat = FindObjectOfType<BeatMatcher> ();
@@ -48,6 +51,9 @@ namespace UnityStandardAssets._2D
 			inputBuffer = new Queue<Direction> ();
 			musicSystem = GetComponent<CharacterMusicSystem> ();
 			scoreCounter = FindObjectOfType<ScoreCounter> ();
+			teleportParticle = Resources.Load<GameObject> ("ParticleEffects/TeleportParticle");
+			dashParticle = Resources.Load<GameObject>("ParticleEffects/DashParticle");
+			ringParticle = Resources.Load<GameObject> ("ParticleEffects/RingParticle");
 		}
 		
 		private void Start(){
@@ -89,21 +95,20 @@ namespace UnityStandardAssets._2D
 		private void Teleport(Direction direction){
 			if (teleportCharges > 0) {
 				if (direction == Direction.UP) {
+					Teleported();
 					transform.position = transform.position + Vector3.up * (4);
 					m_Rigidbody2D.velocity = Vector2.zero;
-					Teleported();
 				} 
 				if (direction == Direction.DOWN) {
 					if(!m_Grounded){
-						transform.position = transform.position + Vector3.down * (2);
 						Teleported();
+						transform.position = transform.position + Vector3.down * (2);
 					} else {
 						RaycastHit2D hit = Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y - 4f), Vector2.down, 10f, platformMask);
 						if(hit){
+							Teleported();
 							transform.position = transform.position + Vector3.down * (4);
 							m_Rigidbody2D.velocity = Vector2.zero;
-
-							Teleported();
 						}
 					}
 				}
@@ -112,6 +117,7 @@ namespace UnityStandardAssets._2D
 		}
 
 		private void Teleported(){
+			Instantiate (teleportParticle, transform.position, Quaternion.identity);
 			musicSystem.TeleportSound();
 			teleportCharges--;
 		}
@@ -125,6 +131,7 @@ namespace UnityStandardAssets._2D
 				transform.position = transform.position + Vector3.right * (3);
 				CheckForDestructibles();
 			}
+			Instantiate (dashParticle, transform.position, Quaternion.identity);
 			musicSystem.DashSound ();
 		}
 		
@@ -183,31 +190,17 @@ namespace UnityStandardAssets._2D
 			}
 		}
 
-        public void Move(float move, bool crouch, bool jump)
+        public void Move(float move)
         {
 			if (muted) {
 				musicSystem.MoveSounds (0, m_Grounded);
 			} else {
 				musicSystem.MoveSounds (1, m_Grounded);
 			}
-            // If crouching, check to see if the character can stand up
-            if (!crouch && m_Anim.GetBool("Crouch"))
-            {
-                // If the character has a ceiling preventing them from standing up, keep them crouching
-                if (Physics2D.OverlapCircle(m_CeilingCheck.position, k_CeilingRadius, m_WhatIsGround))
-                {
-                    crouch = true;
-                }
-            }
-
-            // Set whether or not the character is crouching in the animator
-            m_Anim.SetBool("Crouch", crouch);
 
             //only control the player if grounded or airControl is turned on
             if (m_Grounded || m_AirControl)
             {
-                // Reduce the speed if crouching by the crouchSpeed multiplier
-                move = (crouch ? move*m_CrouchSpeed : move);
 
                 // The Speed animator parameter is set to the absolute value of the horizontal input.
                 m_Anim.SetFloat("Speed", Mathf.Abs(move));
@@ -230,14 +223,6 @@ namespace UnityStandardAssets._2D
                     Flip();
                 }
             }
-            // If the player should jump...
-            if (m_Grounded && jump && m_Anim.GetBool("Ground"))
-            {
-                // Add a vertical force to the player.
-                m_Grounded = false;
-                m_Anim.SetBool("Ground", false);
-                m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
-            }
         }
 
 		public void SpeedBoost(){
@@ -245,6 +230,8 @@ namespace UnityStandardAssets._2D
 			if (boosting != null) {
 				StopCoroutine(boosting);
 			}
+			GameObject newParticle = (GameObject)Instantiate (ringParticle, transform.position, Quaternion.identity);
+			newParticle.transform.parent = transform;
 			boosting = StartCoroutine (SpeedForSecond ());
 		}
 
