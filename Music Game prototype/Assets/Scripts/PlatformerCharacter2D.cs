@@ -117,12 +117,13 @@ namespace UnityStandardAssets._2D
 		}
 
 		private void Teleported(){
-			Instantiate (teleportParticle, transform.position, Quaternion.identity);
+			Instantiate (teleportParticle, transform.position + Vector3.left * 4f, Quaternion.identity);
 			musicSystem.TeleportSound();
 			teleportCharges--;
 		}
 		
 		private void Dash(Direction direction){
+			Instantiate (dashParticle, transform.position + Vector3.left * 4f, Quaternion.identity);
 			if (direction == Direction.LEFT) {
 				transform.position = transform.position + Vector3.left * (3);
 				CheckForDestructibles();
@@ -131,7 +132,6 @@ namespace UnityStandardAssets._2D
 				transform.position = transform.position + Vector3.right * (3);
 				CheckForDestructibles();
 			}
-			Instantiate (dashParticle, transform.position, Quaternion.identity);
 			musicSystem.DashSound ();
 		}
 		
