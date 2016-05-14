@@ -24,7 +24,7 @@ public class LevelGenerator : MonoBehaviour {
 	private float lowestY;
 	private static bool tutorialEnabled = true;
 	private float levelProgress = 0f;
-	private int levelLength = 75;
+	private int levelLength = 100;
 
 	void Awake(){
 		platform = (GameObject)Resources.Load ("Platforms/MusicPlatform");
@@ -43,8 +43,8 @@ public class LevelGenerator : MonoBehaviour {
 		int tunnel = Random.Range (10, 25);
 		int drop = Random.Range (25, 35);
 		int tunnel2 = Random.Range (45, 60);
-		drop = 1;
-		tunnel = 2;
+		//drop = 1;
+		//tunnel = 2;
 		int platformLength;
 
 
@@ -80,8 +80,8 @@ public class LevelGenerator : MonoBehaviour {
 					lastCreatedLength = 3;
 					postDrop = true;
 				} else {
-					if(lastCreatedLength > 1){
-						platformLength = Random.Range (1, 5);
+					if (postDrop){
+						platformLength = Random.Range (3, 6);
 					} else {
 						platformLength = Random.Range (2, 5);
 					}
@@ -131,7 +131,7 @@ public class LevelGenerator : MonoBehaviour {
 				newPlatform.transform.parent = holder.transform;
 				if(RandomChance(0.2f + 0.2f * levelProgress) && girlTanks){
 					newPlatform.AddComponent<CreateBlock>();
-				} else if(RandomChance(0.1f + 0.2f * levelProgress) && !postDrop){
+				} else if(RandomChance(0.1f + 0.2f * levelProgress) && postDrop){
 					if(parallelplatforms){
 						Instantiate(bigRing,newPlatform.transform.position  + (-1) * heightOffset * Vector3.up, Quaternion.Euler(90f,90f,0));
 					} else {

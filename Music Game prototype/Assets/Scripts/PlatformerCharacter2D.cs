@@ -235,7 +235,7 @@ namespace UnityStandardAssets._2D
 		}
 
 		IEnumerator SpeedForSecond(){
-			speed += 0.4f;
+			speed += 0.2f;
 			if (speed > 2.2f) {
 				speed = 2.2f;
 			}

@@ -9,10 +9,12 @@ public class Destructible : MonoBehaviour, Quanter {
 	public Material cracked;
 	public Material destroyedOn;
 	public Material destroyedOff;
+	private GameObject player;
 	
 	void Awake(){
 		beat = FindObjectOfType<BeatMatcher> ();
 		rend = gameObject.GetComponent<Renderer> ();
+		player = GameObject.FindGameObjectWithTag("Player");
 	}
 
 	// Use this for initialization
@@ -32,10 +34,10 @@ public class Destructible : MonoBehaviour, Quanter {
 	}
 
 	public void Act(){
+		player.SendMessage ("SpeedBoost");
 		Instantiate (destructionEffect);
 		rend.material = destroyedOn;
 		FindObjectOfType<ScreenShake> ().jiggleCam (0.1f, 0.2f);
-		FindObjectOfType<ScoreCounter> ().IncreaseScore ();
 		gameObject.GetComponent<ChangeTextureOnBeat> ().updateTextures (destroyedOn, destroyedOff);
 		gameObject.GetComponent<Collider2D> ().enabled = false;
 	}
