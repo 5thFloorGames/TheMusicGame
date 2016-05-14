@@ -63,6 +63,7 @@ public class DropLogic : MonoBehaviour, Quanter {
 
 	public void Act(){
 		player.SendMessage("Unfreeze");
+		player.SendMessage("Mute");
 		audioSource.Play();
 	}
 
@@ -73,7 +74,6 @@ public class DropLogic : MonoBehaviour, Quanter {
 			col.gameObject.GetComponent<Rigidbody2D> ().gravityScale = 0.6f;
 			player.SendMessage("Freeze");
 			player.SendMessage("FreeControl");
-			player.SendMessage("Mute");
 			audioSource.PlayOneShot(preDrop);
 			player.transform.position = transform.position;
 			done = true;
@@ -87,7 +87,7 @@ public class DropLogic : MonoBehaviour, Quanter {
 			FindObjectOfType<ScreenShake> ().jiggleCam (0.5f, 0.5f);
 			player.SendMessage("AutoRun");
 			player.SendMessage("LevelUp");
-			audioSource.PlayOneShot(boom);
+			GetComponent<AudioSource> ().Play();
 			col.SendMessage("UnMute");
 		}
 	}

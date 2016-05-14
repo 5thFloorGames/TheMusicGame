@@ -4,7 +4,7 @@ using UnityEngine.Audio;
 using System.Collections;
 using System.Collections.Generic;
 
-public class CharacterMusicSystem : MonoBehaviour {
+public class CharacterMusicSystem : MonoBehaviour, Quanter {
 
 	public AudioSource drums;
 	public AudioSource bass;
@@ -25,6 +25,7 @@ public class CharacterMusicSystem : MonoBehaviour {
 	private AudioClip[] notes3;
 	private AudioClip[] arpeggios;
 	public Note activeNote;
+	public Note nextNote;
 	private Dictionary<Note, AudioClip[]> pulses;
 	private Dictionary<Note, AudioClip[]> noteToMelody;
 	private Dictionary<Note, AudioClip[]> noteToDashMelody;
@@ -34,6 +35,7 @@ public class CharacterMusicSystem : MonoBehaviour {
 	public Animator animator;
 	private int rayMask = 0;
 	private int level = 0;
+	private bool clipChange = false;
 	
 	private void Awake() {
 		mixer = bass.outputAudioMixerGroup.audioMixer;
@@ -121,26 +123,40 @@ public class CharacterMusicSystem : MonoBehaviour {
 		}
 		source.mute = true;
 	}
+
+	private void ChangeClip () {
+		activeNote = nextNote;
+		bassSwap.clip = bass.clip;
+		pulseSwap.clip = pulse.clip;
+		StartCoroutine (fadeOut (bassSwap.outputAudioMixerGroup.audioMixer, bassSwap));
+		StartCoroutine (fadeOut (pulseSwap.outputAudioMixerGroup.audioMixer, pulseSwap));
+		bass.clip = notes [level] [(int)activeNote];
+		pulse.clip = pulses [activeNote] [UnityEngine.Random.Range (0, pulses [activeNote].Length)];
+		StartCoroutine (fadeIn (bass.outputAudioMixerGroup.audioMixer));
+		StartCoroutine (fadeIn (pulse.outputAudioMixerGroup.audioMixer));
+		bass.Play ();
+		pulse.Play ();
+		bassSwap.Play ();
+		pulseSwap.Play ();
+		bass.timeSamples = drums.timeSamples;
+		pulse.timeSamples = drums.timeSamples % 96000;
+		bassSwap.timeSamples = drums.timeSamples;
+		pulseSwap.timeSamples = drums.timeSamples % 96000;
+	}
+
+	public void Act(){
+		if (clipChange) {
+			ChangeClip();
+			print ("Changed clip");
+			clipChange = false;
+		}
+	}
 	
 	public void setClip(Note note){
-		if (note != activeNote) {
-			activeNote = note;
-			bassSwap.clip = bass.clip;
-			pulseSwap.clip = pulse.clip;
-			StartCoroutine (fadeOut (bassSwap.outputAudioMixerGroup.audioMixer, bassSwap));
-			StartCoroutine (fadeOut (pulseSwap.outputAudioMixerGroup.audioMixer, pulseSwap));
-			bass.clip = notes[level] [(int) note];
-			pulse.clip = pulses [note] [UnityEngine.Random.Range (0, pulses [note].Length)];
-			StartCoroutine (fadeIn (bass.outputAudioMixerGroup.audioMixer));
-			StartCoroutine (fadeIn (pulse.outputAudioMixerGroup.audioMixer));
-			bass.Play ();
-			pulse.Play ();
-			bassSwap.Play ();
-			pulseSwap.Play ();
-			bass.timeSamples = drums.timeSamples;
-			pulse.timeSamples = drums.timeSamples % 96000;
-			bassSwap.timeSamples = drums.timeSamples;
-			pulseSwap.timeSamples = drums.timeSamples % 96000;
+		if (note != activeNote && !clipChange) {
+			nextNote = note;
+			clipChange = true;
+			beat.registerBeatOneOff(this);
 		}
 	}
 	
