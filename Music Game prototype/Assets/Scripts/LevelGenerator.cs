@@ -43,8 +43,8 @@ public class LevelGenerator : MonoBehaviour {
 		int tunnel = Random.Range (10, 25);
 		int drop = Random.Range (25, 35);
 		int tunnel2 = Random.Range (45, 60);
-		//drop = 1;
-		//tunnel = 2;
+		//drop = 2;
+		//tunnel = 1;
 		int platformLength;
 
 
@@ -162,12 +162,12 @@ public class LevelGenerator : MonoBehaviour {
 	}
 
 	void AddHalfKillBlock(GameObject holder, float xOffset){
-		GameObject newBlock = (GameObject)Instantiate (halfKillBlock, holder.transform.position + Vector3.down * 5f + xOffset * Vector3.right, Quaternion.identity);
+		GameObject newBlock = (GameObject)Instantiate (halfKillBlock, holder.transform.position + Vector3.down * 6f + xOffset * Vector3.right, Quaternion.identity);
 		newBlock.transform.parent = holder.transform;
 	}
 
 	void AddKillBlock(GameObject holder){
-		GameObject newBlock = (GameObject)Instantiate (killBlock, holder.transform.position + Vector3.down * 5f, Quaternion.identity);
+		GameObject newBlock = (GameObject)Instantiate (killBlock, holder.transform.position + Vector3.down * 6f, Quaternion.identity);
 		newBlock.transform.parent = holder.transform;
 	}
 	

@@ -29,7 +29,6 @@ public class CharacterMusicSystem : MonoBehaviour, Quanter {
 	private Dictionary<Note, AudioClip[]> pulses;
 	private Dictionary<Note, AudioClip[]> noteToMelody;
 	private Dictionary<Note, AudioClip[]> noteToDashMelody;
-	private Dictionary<Note, AudioClip[]> shootingSequence;
 	private Dictionary<Note, AudioClip[]> teleports;
 	private AudioClip[] dashes;
 	public Animator animator;
@@ -64,7 +63,6 @@ public class CharacterMusicSystem : MonoBehaviour, Quanter {
 		pulses.Add (Note.VI, Resources.LoadAll<AudioClip>("Audio/Final/Pulse/Ab"));
 		pulses.Add (Note.VII, Resources.LoadAll<AudioClip>("Audio/Final/Pulse/Bb"));
 		dashes = Resources.LoadAll<AudioClip>("Audio/Final/Dashes");
-		arpeggios = Resources.LoadAll<AudioClip> ("Audio/Shooting/Arpeggios");
 		noteToMelody = new Dictionary<Note, AudioClip[]> ();
 		noteToMelody.Add (Note.i, buildMelodyClipArray (melodies, 2, 3, 6, 7, 9));
 		noteToMelody.Add (Note.III, buildMelodyClipArray (melodies, 6, 7, 9, 1));
@@ -79,13 +77,6 @@ public class CharacterMusicSystem : MonoBehaviour, Quanter {
 		noteToDashMelody.Add (Note.v, buildMelodyClipArray (dashes,9,1,4,5));
 		noteToDashMelody.Add (Note.VI, buildMelodyClipArray (dashes,0,2,3,6,7));
 		noteToDashMelody.Add (Note.VII, buildMelodyClipArray (dashes,1,4,5,8));
-		shootingSequence = new Dictionary<Note, AudioClip[]> ();
-		shootingSequence.Add (Note.i, buildMelodyClipArray (arpeggios, 2, 5,6));
-		shootingSequence.Add (Note.III, buildMelodyClipArray (arpeggios, 4, 6,1));
-		shootingSequence.Add (Note.iv, buildMelodyClipArray (arpeggios, 2,5,0));
-		shootingSequence.Add (Note.v, buildMelodyClipArray (arpeggios, 3,6,1));
-		shootingSequence.Add (Note.VI, buildMelodyClipArray (arpeggios, 2,4,0));
-		shootingSequence.Add (Note.VII, buildMelodyClipArray (arpeggios, 3, 5, 1));	
 	}
 	
 	private void Start(){
@@ -213,7 +204,7 @@ public class CharacterMusicSystem : MonoBehaviour, Quanter {
 	
 	public void MoveSounds(float move, bool m_Grounded)
 	{
-		drums.volume = Mathf.Abs (move / 4);
+		drums.volume = Mathf.Abs (move / 1.5f);
 		bass.volume = Math.Abs (move) + 0.7f;
 		pulse.volume = Math.Abs (move) + 0.2f;
 		mixer.SetFloat ("lowpass",(Mathf.Abs (move) * 19500f) + 2500f);
