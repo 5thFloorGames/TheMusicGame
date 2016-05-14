@@ -24,4 +24,8 @@ public class PlayOnTouch : MonoBehaviour {
 	public void SetNote(Note note){
 		this.note = note;
 	}
+
+	public Note GetNote(){
+		return note;
+	}
 }

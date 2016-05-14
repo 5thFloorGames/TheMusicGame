@@ -94,20 +94,21 @@ namespace UnityStandardAssets._2D
 
 		private void Teleport(Direction direction){
 			if (teleportCharges > 0) {
+				Instantiate (teleportParticle, transform.position + Vector3.left * 4f, Quaternion.identity);
 				if (direction == Direction.UP) {
-					Teleported();
 					transform.position = transform.position + Vector3.up * (4);
+					Teleported(direction);
 					m_Rigidbody2D.velocity = Vector2.zero;
 				} 
 				if (direction == Direction.DOWN) {
 					if(!m_Grounded){
-						Teleported();
 						transform.position = transform.position + Vector3.down * (2);
+						Teleported(direction);
 					} else {
 						RaycastHit2D hit = Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y - 4f), Vector2.down, 10f, platformMask);
 						if(hit){
-							Teleported();
 							transform.position = transform.position + Vector3.down * (4);
+							Teleported(direction);
 							m_Rigidbody2D.velocity = Vector2.zero;
 						}
 					}
@@ -116,9 +117,8 @@ namespace UnityStandardAssets._2D
 			}
 		}
 
-		private void Teleported(){
-			Instantiate (teleportParticle, transform.position + Vector3.left * 4f, Quaternion.identity);
-			musicSystem.TeleportSound();
+		private void Teleported(Direction direction){
+			musicSystem.TeleportSound(direction);
 			teleportCharges--;
 		}
 		
@@ -163,7 +163,6 @@ namespace UnityStandardAssets._2D
 					hit.collider.SendMessage("DestroyOnQuant");
 				}
 			}
-
 		}
 
 		public void Teleport(float direction){

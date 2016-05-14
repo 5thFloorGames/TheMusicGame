@@ -41,6 +41,10 @@ namespace UnityStandardAssets._2D
 				FindObjectOfType<LevelGenerator>().EnableTutorial();
 				Application.LoadLevel("BackgroundAssets");
 			}
+
+			if (Input.GetKeyDown (KeyCode.L)) {
+				m_Character.gameObject.SendMessage("LevelUp");
+			}
 		}
 
 		public void FreeControl(){

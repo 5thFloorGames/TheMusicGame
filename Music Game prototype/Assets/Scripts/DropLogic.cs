@@ -14,6 +14,7 @@ public class DropLogic : MonoBehaviour, Quanter {
 	private GameObject marker2;
 	private GameObject obstacle;
 	private AudioClip boom;
+	private AudioClip preDrop;
 	private AudioSource audioSource;
 	private GameObject player;
 	private AudioMixer mixer;
@@ -25,7 +26,8 @@ public class DropLogic : MonoBehaviour, Quanter {
 		marker1 = Resources.Load<GameObject> ("Markers/Marker1");
 		marker2 = Resources.Load<GameObject> ("Markers/Marker2");
 		obstacle = Resources.Load<GameObject> ("Markers/Obstacle");
-		boom = Resources.Load<AudioClip> ("Audio/Boom");
+		boom = Resources.Load<AudioClip> ("Audio/Final/Boom");
+		preDrop = Resources.Load<AudioClip> ("Audio/Final/Pre-drop");
 		audioSource = GetComponentInParent<AudioSource> ();
 		player = GameObject.FindWithTag("Player");
 		mixer = audioSource.outputAudioMixerGroup.audioMixer;
@@ -61,7 +63,6 @@ public class DropLogic : MonoBehaviour, Quanter {
 
 	public void Act(){
 		player.SendMessage("Unfreeze");
-		player.SendMessage("Mute");
 		audioSource.Play();
 	}
 
@@ -72,6 +73,8 @@ public class DropLogic : MonoBehaviour, Quanter {
 			col.gameObject.GetComponent<Rigidbody2D> ().gravityScale = 0.6f;
 			player.SendMessage("Freeze");
 			player.SendMessage("FreeControl");
+			player.SendMessage("Mute");
+			audioSource.PlayOneShot(preDrop);
 			player.transform.position = transform.position;
 			done = true;
 			beat.TriggerInXBars(this, 0);
@@ -83,6 +86,7 @@ public class DropLogic : MonoBehaviour, Quanter {
 			done = true;
 			FindObjectOfType<ScreenShake> ().jiggleCam (0.5f, 0.5f);
 			player.SendMessage("AutoRun");
+			player.SendMessage("LevelUp");
 			audioSource.PlayOneShot(boom);
 			col.SendMessage("UnMute");
 		}
