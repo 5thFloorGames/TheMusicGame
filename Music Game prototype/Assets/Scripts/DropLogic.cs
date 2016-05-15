@@ -40,13 +40,13 @@ public class DropLogic : MonoBehaviour, Quanter {
 		if (enable) {
 			float yOffset = transform.position.y - 140f;
 			for (int i = 0; i < platformYFirstMarkers.Length; i++) {
-				Instantiate (marker1, new Vector3 (transform.position.x, platformYFirstMarkers [i] + yOffset, 0f), Quaternion.identity);
+				//Instantiate (marker1, new Vector3 (transform.position.x, platformYFirstMarkers [i] + yOffset, 0f), Quaternion.identity);
 			}
 			for (int i = 0; i < platformYSecondMarkers.Length; i++) {
-				Instantiate (marker2, new Vector3 (transform.position.x, platformYSecondMarkers [i] + yOffset, 0f), Quaternion.identity);
+				//Instantiate (marker2, new Vector3 (transform.position.x, platformYSecondMarkers [i] + yOffset, 0f), Quaternion.identity);
 			}
 			for (int i = 0; i < platformYBlocks.Length; i++) {
-				Instantiate (obstacle, new Vector3 (transform.position.x, platformYBlocks [i] + yOffset, 0f), Quaternion.identity);
+				//Instantiate (obstacle, new Vector3 (transform.position.x, platformYBlocks [i] + yOffset, 0f), Quaternion.identity);
 			}
 		}
 	}

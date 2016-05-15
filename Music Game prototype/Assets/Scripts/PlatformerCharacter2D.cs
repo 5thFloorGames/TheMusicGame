@@ -46,6 +46,7 @@ namespace UnityStandardAssets._2D
             m_Anim = GetComponent<Animator>();
             m_Rigidbody2D = GetComponent<Rigidbody2D>();
 			rayMask |= 1 << LayerMask.NameToLayer ("Destructible");
+			rayMask |= 1 << LayerMask.NameToLayer ("Unpassable");
 			platformMask |= 1 << LayerMask.NameToLayer ("Platform");
 			beat = FindObjectOfType<BeatMatcher> ();
 			inputBuffer = new Queue<Direction> ();
@@ -124,11 +125,11 @@ namespace UnityStandardAssets._2D
 		
 		private void Dash(Direction direction){
 			Instantiate (dashParticle, transform.position + Vector3.left * 4f, Quaternion.identity);
-			if (direction == Direction.LEFT) {
+			if (direction == Direction.LEFT && !CheckUnpassables(direction)) {
 				transform.position = transform.position + Vector3.left * (3);
 				CheckForDestructibles();
 			} 
-			if (direction == Direction.RIGHT) {
+			if (direction == Direction.RIGHT && !CheckUnpassables(direction)) {
 				transform.position = transform.position + Vector3.right * (3);
 				CheckForDestructibles();
 			}
@@ -148,6 +149,22 @@ namespace UnityStandardAssets._2D
 			}
 		}
 
+		public bool CheckUnpassables(Direction direction){
+			RaycastHit2D hit;
+			Vector2 vectorDirection;
+			if (direction == Direction.RIGHT) {
+				vectorDirection = Vector2.right;
+			} else {
+				vectorDirection = Vector2.left;
+			}
+			//Debug.DrawRay (transform.position, direction,Color.green, 2f);
+			hit = Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y), vectorDirection, 2.5f, rayMask);
+			if (hit) {
+				return hit.collider.tag == "Unpassable";
+			}
+			return false;
+		}
+
 		public void CheckForDestructibles(){
 			RaycastHit2D hit;
 			Vector2 direction;
@@ -156,12 +173,12 @@ namespace UnityStandardAssets._2D
 			} else {
 				direction = Vector2.right;
 			}
-			Debug.DrawRay (transform.position, direction,Color.green, 2f);
+			//Debug.DrawRay (transform.position, direction,Color.green, 2f);
 			hit = Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y), direction, 2.5f, rayMask);
 			if (hit) {
 				if(hit.collider.tag == "Destructible"){
 					hit.collider.SendMessage("DestroyOnQuant");
-				}
+				} 
 			}
 		}
 

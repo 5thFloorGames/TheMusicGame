@@ -35,6 +35,9 @@ public class CharacterMusicSystem : MonoBehaviour, Quanter {
 	private int rayMask = 0;
 	private int level = 0;
 	private bool clipChange = false;
+	private bool swapped = false;
+	private AudioClip bubbleCatch;
+	private AudioClip bubbleRelease;
 	
 	private void Awake() {
 		mixer = bass.outputAudioMixerGroup.audioMixer;
@@ -63,6 +66,8 @@ public class CharacterMusicSystem : MonoBehaviour, Quanter {
 		pulses.Add (Note.VI, Resources.LoadAll<AudioClip>("Audio/Final/Pulse/Ab"));
 		pulses.Add (Note.VII, Resources.LoadAll<AudioClip>("Audio/Final/Pulse/Bb"));
 		dashes = Resources.LoadAll<AudioClip>("Audio/Final/Dashes");
+		bubbleCatch = Resources.Load<AudioClip> ("Audio/Final/Bubble_catch");
+		bubbleCatch = Resources.Load<AudioClip>("Audio/Final/Bubble_release");
 		noteToMelody = new Dictionary<Note, AudioClip[]> ();
 		noteToMelody.Add (Note.i, buildMelodyClipArray (melodies, 2, 3, 6, 7, 9));
 		noteToMelody.Add (Note.III, buildMelodyClipArray (melodies, 6, 7, 9, 1));
@@ -92,14 +97,37 @@ public class CharacterMusicSystem : MonoBehaviour, Quanter {
 		}
 		return melodyClips;
 	}
-	
-	
+
+	IEnumerator Crossfade(AudioMixer mixer1, AudioMixer mixer2){
+		for (int i = 0; i <= 100; i+= 5) {
+			if(!swapped){
+				mixer1.SetFloat("bassvolume", ConvertToDecibels(100 - i));
+				mixer2.SetFloat("swapvolume", ConvertToDecibels(i));
+			} else {
+				mixer1.SetFloat("bassvolume", ConvertToDecibels(i));
+				mixer2.SetFloat("swapvolume", ConvertToDecibels(100 - i));
+			}
+			yield return null;
+		}
+	}
+
+	// Converts values from 0 to 1 into decibels
+	public float ConvertToDecibels(int value){
+		if (value == 0) {
+			return -80f;
+		} else if (value == 100) {
+			return 0f;
+		} else {
+			return Mathf.Log((value/100f))/Mathf.Log(10)*20f;
+		}
+	}
+
 	// 0.0625 seconds in length
 	IEnumerator fadeIn(AudioMixer source){
 		float volume = -20f;
 		while (volume < 0f) {
 			volume += 1f;
-			source.SetFloat("bassvolume", volume);
+			source.SetFloat("volume", volume);
 			yield return null;
 		}
 	}
@@ -109,7 +137,7 @@ public class CharacterMusicSystem : MonoBehaviour, Quanter {
 		float volume = 0f;
 		while (volume > -20f) {
 			volume -= 1f;
-			mixer.SetFloat("swapvolume", volume);
+			mixer.SetFloat("volume", volume);
 			yield return null;
 		}
 		source.mute = true;
@@ -117,14 +145,32 @@ public class CharacterMusicSystem : MonoBehaviour, Quanter {
 
 	private void ChangeClip () {
 		activeNote = nextNote;
-		bassSwap.clip = bass.clip;
-		pulseSwap.clip = pulse.clip;
-		StartCoroutine (fadeOut (bassSwap.outputAudioMixerGroup.audioMixer, bassSwap));
-		StartCoroutine (fadeOut (pulseSwap.outputAudioMixerGroup.audioMixer, pulseSwap));
-		bass.clip = notes [level] [(int)activeNote];
-		pulse.clip = pulses [activeNote] [UnityEngine.Random.Range (0, pulses [activeNote].Length)];
-		StartCoroutine (fadeIn (bass.outputAudioMixerGroup.audioMixer));
-		StartCoroutine (fadeIn (pulse.outputAudioMixerGroup.audioMixer));
+		if (swapped) {
+			bass.clip = bassSwap.clip;
+			pulse.clip = pulseSwap.clip;
+		} else {
+			bassSwap.clip = bass.clip;
+			pulseSwap.clip = pulse.clip;
+		}
+//		StartCoroutine (fadeOut (bassSwap.outputAudioMixerGroup.audioMixer, bassSwap));
+//		StartCoroutine (fadeOut (pulseSwap.outputAudioMixerGroup.audioMixer, pulseSwap));
+		if (swapped) {
+			bassSwap.clip = notes [level] [(int)activeNote];
+			pulseSwap.clip = pulses [activeNote] [UnityEngine.Random.Range (0, pulses [activeNote].Length)];
+		} else {
+			bass.clip = notes [level] [(int)activeNote];
+			pulse.clip = pulses [activeNote] [UnityEngine.Random.Range (0, pulses [activeNote].Length)];
+		}
+//		StartCoroutine (fadeIn (bass.outputAudioMixerGroup.audioMixer));
+//		StartCoroutine (fadeIn (pulse.outputAudioMixerGroup.audioMixer));
+		if (swapped) {
+			StartCoroutine (Crossfade (bass.outputAudioMixerGroup.audioMixer, bassSwap.outputAudioMixerGroup.audioMixer));
+			StartCoroutine (Crossfade (pulse.outputAudioMixerGroup.audioMixer, pulseSwap.outputAudioMixerGroup.audioMixer));
+		} else {
+			StartCoroutine (Crossfade (bass.outputAudioMixerGroup.audioMixer, bassSwap.outputAudioMixerGroup.audioMixer));
+			StartCoroutine (Crossfade (pulse.outputAudioMixerGroup.audioMixer, pulseSwap.outputAudioMixerGroup.audioMixer));
+		}
+
 		bass.Play ();
 		pulse.Play ();
 		bassSwap.Play ();
@@ -133,6 +179,7 @@ public class CharacterMusicSystem : MonoBehaviour, Quanter {
 		pulse.timeSamples = drums.timeSamples % 96000;
 		bassSwap.timeSamples = drums.timeSamples;
 		pulseSwap.timeSamples = drums.timeSamples % 96000;
+		swapped = !swapped;
 	}
 
 	public void Act(){
@@ -149,6 +196,14 @@ public class CharacterMusicSystem : MonoBehaviour, Quanter {
 			clipChange = true;
 			beat.registerBeatOneOff(this);
 		}
+	}
+
+	public void BubbleCatch(){
+		teleport.PlayOneShot (bubbleCatch);
+	}
+
+	public void BubbleRelease(){
+		teleport.PlayOneShot (bubbleRelease);
 	}
 	
 	private void Update(){
