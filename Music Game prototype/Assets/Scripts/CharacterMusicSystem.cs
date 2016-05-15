@@ -13,6 +13,7 @@ public class CharacterMusicSystem : MonoBehaviour, Quanter {
 	public AudioSource pulseSwap;
 	public AudioSource teleport;
 	public AudioSource dash;
+	public AudioSource unfiltered;
 	private AudioMixer mixer;
 	private BeatMatcher beat;
 	private bool loopedBeat;
@@ -38,6 +39,7 @@ public class CharacterMusicSystem : MonoBehaviour, Quanter {
 	private bool swapped = false;
 	private AudioClip bubbleCatch;
 	private AudioClip bubbleRelease;
+	private bool bubbleMute = false;
 	
 	private void Awake() {
 		mixer = bass.outputAudioMixerGroup.audioMixer;
@@ -67,7 +69,7 @@ public class CharacterMusicSystem : MonoBehaviour, Quanter {
 		pulses.Add (Note.VII, Resources.LoadAll<AudioClip>("Audio/Final/Pulse/Bb"));
 		dashes = Resources.LoadAll<AudioClip>("Audio/Final/Dashes");
 		bubbleCatch = Resources.Load<AudioClip> ("Audio/Final/Bubble_catch");
-		bubbleCatch = Resources.Load<AudioClip>("Audio/Final/Bubble_release");
+		bubbleRelease = Resources.Load<AudioClip>("Audio/Final/Bubble_release");
 		noteToMelody = new Dictionary<Note, AudioClip[]> ();
 		noteToMelody.Add (Note.i, buildMelodyClipArray (melodies, 2, 3, 6, 7, 9));
 		noteToMelody.Add (Note.III, buildMelodyClipArray (melodies, 6, 7, 9, 1));
@@ -122,26 +124,6 @@ public class CharacterMusicSystem : MonoBehaviour, Quanter {
 		}
 	}
 
-	// 0.0625 seconds in length
-	IEnumerator fadeIn(AudioMixer source){
-		float volume = -20f;
-		while (volume < 0f) {
-			volume += 1f;
-			source.SetFloat("volume", volume);
-			yield return null;
-		}
-	}
-	
-	IEnumerator fadeOut(AudioMixer mixer, AudioSource source){
-		source.mute = false;
-		float volume = 0f;
-		while (volume > -20f) {
-			volume -= 1f;
-			mixer.SetFloat("volume", volume);
-			yield return null;
-		}
-		source.mute = true;
-	}
 
 	private void ChangeClip () {
 		activeNote = nextNote;
@@ -152,8 +134,6 @@ public class CharacterMusicSystem : MonoBehaviour, Quanter {
 			bassSwap.clip = bass.clip;
 			pulseSwap.clip = pulse.clip;
 		}
-//		StartCoroutine (fadeOut (bassSwap.outputAudioMixerGroup.audioMixer, bassSwap));
-//		StartCoroutine (fadeOut (pulseSwap.outputAudioMixerGroup.audioMixer, pulseSwap));
 		if (swapped) {
 			bassSwap.clip = notes [level] [(int)activeNote];
 			pulseSwap.clip = pulses [activeNote] [UnityEngine.Random.Range (0, pulses [activeNote].Length)];
@@ -161,8 +141,6 @@ public class CharacterMusicSystem : MonoBehaviour, Quanter {
 			bass.clip = notes [level] [(int)activeNote];
 			pulse.clip = pulses [activeNote] [UnityEngine.Random.Range (0, pulses [activeNote].Length)];
 		}
-//		StartCoroutine (fadeIn (bass.outputAudioMixerGroup.audioMixer));
-//		StartCoroutine (fadeIn (pulse.outputAudioMixerGroup.audioMixer));
 		if (swapped) {
 			StartCoroutine (Crossfade (bass.outputAudioMixerGroup.audioMixer, bassSwap.outputAudioMixerGroup.audioMixer));
 			StartCoroutine (Crossfade (pulse.outputAudioMixerGroup.audioMixer, pulseSwap.outputAudioMixerGroup.audioMixer));
@@ -184,9 +162,12 @@ public class CharacterMusicSystem : MonoBehaviour, Quanter {
 
 	public void Act(){
 		if (clipChange) {
-			ChangeClip();
-			print ("Changed clip");
+			ChangeClip ();
 			clipChange = false;
+		} 
+		if (bubbleMute) {
+			this.SendMessage("MuteMovement");
+			bubbleMute = false;
 		}
 	}
 	
@@ -199,11 +180,13 @@ public class CharacterMusicSystem : MonoBehaviour, Quanter {
 	}
 
 	public void BubbleCatch(){
-		teleport.PlayOneShot (bubbleCatch);
+		unfiltered.PlayOneShot (bubbleCatch);
+		bubbleMute = true;
+		beat.registerBeatOneOff (this);
 	}
 
 	public void BubbleRelease(){
-		teleport.PlayOneShot (bubbleRelease);
+		unfiltered.PlayOneShot (bubbleRelease, 0.5f);
 	}
 	
 	private void Update(){

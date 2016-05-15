@@ -34,7 +34,9 @@ public class ProjectileMovement : MonoBehaviour, Quanter {
 		if(held){
 			StopCoroutine(playerHeld);
 			playerHeld = null;
-			GameObject.FindGameObjectWithTag("Player").SendMessage("Unfreeze");
+			GameObject player = GameObject.FindGameObjectWithTag("Player");
+			player.SendMessage("Unfreeze");
+			player.SendMessage("BubbleRelease");
 			FindObjectOfType<LauncherLogic>().UnpauseLauncher();
 		}
 	}
@@ -54,7 +56,7 @@ public class ProjectileMovement : MonoBehaviour, Quanter {
 
 	IEnumerator HoldPlayer(GameObject player){
 		player.SendMessage("Freeze");
-		player.SendMessage("MuteMovement");
+		player.SendMessage("BubbleCatch");
 		FindObjectOfType<ScreenShake> ().jiggleCam (0.1f, 2f);
 		FindObjectOfType<LauncherLogic>().PauseLauncher();
 		FindObjectOfType<BeatMatcher> ().TriggerInXBeats (this, 4);
