@@ -40,6 +40,8 @@ public class CharacterMusicSystem : MonoBehaviour, Quanter {
 	private AudioClip bubbleCatch;
 	private AudioClip bubbleRelease;
 	private bool bubbleMute = false;
+	private AudioClip crash;
+	private bool prepareCrash = false;
 	
 	private void Awake() {
 		mixer = bass.outputAudioMixerGroup.audioMixer;
@@ -70,6 +72,7 @@ public class CharacterMusicSystem : MonoBehaviour, Quanter {
 		dashes = Resources.LoadAll<AudioClip>("Audio/Final/Dashes");
 		bubbleCatch = Resources.Load<AudioClip> ("Audio/Final/Bubble_catch");
 		bubbleRelease = Resources.Load<AudioClip>("Audio/Final/Bubble_release");
+		crash = Resources.Load<AudioClip> ("Audio/Final/Layer 2 crash");
 		noteToMelody = new Dictionary<Note, AudioClip[]> ();
 		noteToMelody.Add (Note.i, buildMelodyClipArray (melodies, 2, 3, 6, 7, 9));
 		noteToMelody.Add (Note.III, buildMelodyClipArray (melodies, 6, 7, 9, 1));
@@ -127,6 +130,10 @@ public class CharacterMusicSystem : MonoBehaviour, Quanter {
 
 	private void ChangeClip () {
 		activeNote = nextNote;
+		if (prepareCrash) {
+			unfiltered.PlayOneShot(crash);
+			prepareCrash = false;
+		}
 		if (swapped) {
 			bass.clip = bassSwap.clip;
 			pulse.clip = pulseSwap.clip;
@@ -148,7 +155,6 @@ public class CharacterMusicSystem : MonoBehaviour, Quanter {
 			StartCoroutine (Crossfade ());
 			StartCoroutine (Crossfade ());
 		}
-
 		bass.Play ();
 		pulse.Play ();
 		bassSwap.Play ();
@@ -258,6 +264,9 @@ public class CharacterMusicSystem : MonoBehaviour, Quanter {
 
 	public void LevelUp(){
 		level++;
+		if (level == 1) {
+			prepareCrash = true;
+		}
 		if (level > 2) {
 			level = 2;
 		}
