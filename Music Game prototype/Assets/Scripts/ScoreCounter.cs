@@ -14,11 +14,11 @@ public class ScoreCounter : MonoBehaviour {
 	
 	public void IncreaseScore(){
 		counter++;
-		text.text = "" + counter;
+		//text.text = "" + counter;
 	}
 
 	public void DecreaseScore(){
 		counter--;
-		text.text = "" + counter;
+		//text.text = "" + counter;
 	}
 }
