@@ -34,9 +34,9 @@ public class LevelGenerator : MonoBehaviour {
 		launcherTrigger = Resources.Load<GameObject>("LauncherTrigger");
 		bigRing = Resources.Load<GameObject>("Rings/BigRing");
 		smallRing = Resources.Load<GameObject>("Rings/SmallRing");
-		theDrop = Resources.Load<GameObject>("Drop");
+		//theDrop = Resources.Load<GameObject>("Drop");
+		theDrop = Resources.Load<GameObject>("ShortDrop");
 		theEnd = Resources.Load<GameObject>("End");
-		//theDrop = Resources.Load<GameObject>("ShortDrop");
 		tutorial = Resources.Load<GameObject> ("Tutorial");
 		composingLogic = GetComponent<ComposingLogic> ();
 	}
