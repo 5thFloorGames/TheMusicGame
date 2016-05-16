@@ -291,5 +291,21 @@ namespace UnityStandardAssets._2D
 			UnmuteMovement ();
 			m_Rigidbody2D.isKinematic = false;
 		}
+
+		public void FloatUp(){
+			Freeze ();
+			m_Rigidbody2D.isKinematic = false;
+			m_Rigidbody2D.gravityScale = 0f;
+			m_Rigidbody2D.velocity = Vector2.up * 10f;
+			StartCoroutine("Float");
+		}
+
+		IEnumerator Float(){
+			float highpass = 100;
+			while (transform.position.y < 256) {
+				musicSystem.HighPass(highpass++);
+				yield return null;
+			}
+		}
 	}
 }

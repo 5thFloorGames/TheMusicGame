@@ -13,6 +13,7 @@ public class Camera2DFollow : MonoBehaviour
     private Vector3 m_LastTargetPosition;
     private Vector3 m_CurrentVelocity;
     private Vector3 m_LookAheadPos;
+	private bool zoomOut = false;
 
     // Use this for initialization
     private void Start()
@@ -27,25 +28,34 @@ public class Camera2DFollow : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        // only update lookahead pos if accelerating or changed direction
-        float xMoveDelta = (target.position - m_LastTargetPosition).x;
+		if (zoomOut) {
+			if(transform.position.z > -600){
+				transform.position += Vector3.back * Time.deltaTime * 40;
+			}
+			transform.position += Vector3.left * 4 * Time.deltaTime * 40;
+			transform.position += Vector3.up / 2.8f * Time.deltaTime * 40;
+		} else {
+			// only update lookahead pos if accelerating or changed direction
+			float xMoveDelta = (target.position - m_LastTargetPosition).x;
 
-        bool updateLookAheadTarget = Mathf.Abs(xMoveDelta) > lookAheadMoveThreshold;
+			bool updateLookAheadTarget = Mathf.Abs (xMoveDelta) > lookAheadMoveThreshold;
 
-        if (updateLookAheadTarget)
-        {
-            m_LookAheadPos = lookAheadFactor*Vector3.right*Mathf.Sign(xMoveDelta);
-        }
-        else
-        {
-            m_LookAheadPos = Vector3.MoveTowards(m_LookAheadPos, Vector3.zero, Time.deltaTime*lookAheadReturnSpeed);
-        }
+			if (updateLookAheadTarget) {
+				m_LookAheadPos = lookAheadFactor * Vector3.right * Mathf.Sign (xMoveDelta);
+			} else {
+				m_LookAheadPos = Vector3.MoveTowards (m_LookAheadPos, Vector3.zero, Time.deltaTime * lookAheadReturnSpeed);
+			}
 
-        Vector3 aheadTargetPos = target.position + m_LookAheadPos + Vector3.forward*m_OffsetZ;
-        Vector3 newPos = Vector3.SmoothDamp(transform.position, aheadTargetPos, ref m_CurrentVelocity, damping);
+			Vector3 aheadTargetPos = target.position + m_LookAheadPos + Vector3.forward * m_OffsetZ;
+			Vector3 newPos = Vector3.SmoothDamp (transform.position, aheadTargetPos, ref m_CurrentVelocity, damping);
 
-        transform.position = newPos;
+			transform.position = newPos;
 
-        m_LastTargetPosition = target.position;
+			m_LastTargetPosition = target.position;
+		}
     }
+
+	public void ZoomOut(){
+		zoomOut = true;
+	}
 }

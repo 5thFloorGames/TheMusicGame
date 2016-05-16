@@ -19,6 +19,7 @@ public class LevelGenerator : MonoBehaviour {
 	private GameObject bigRing;
 	private GameObject smallRing;
 	private GameObject tutorial;
+	private GameObject theEnd;
 	private bool postDrop = false;
 	private bool girlTanks = true;
 	private float lowestY;
@@ -34,6 +35,7 @@ public class LevelGenerator : MonoBehaviour {
 		bigRing = Resources.Load<GameObject>("Rings/BigRing");
 		smallRing = Resources.Load<GameObject>("Rings/SmallRing");
 		theDrop = Resources.Load<GameObject>("Drop");
+		theEnd = Resources.Load<GameObject>("End");
 		//theDrop = Resources.Load<GameObject>("ShortDrop");
 		tutorial = Resources.Load<GameObject> ("Tutorial");
 		composingLogic = GetComponent<ComposingLogic> ();
@@ -79,6 +81,8 @@ public class LevelGenerator : MonoBehaviour {
 					Instantiate(downLevelBackground, new Vector3(lastCreated.transform.position.x, lastCreated.transform.position.y, 9.1875f), Quaternion.identity);
 					lastCreatedLength = 3;
 					postDrop = true;
+				} else if (i == levelLength - 1){
+					Instantiate(theEnd, lastCreated.transform.position + (lastCreatedLength + 1.5f - 1) * (Vector3.right * 5f) + Vector3.right * 3.15f + Vector3.up * 750.75f, Quaternion.identity);
 				} else {
 					if (postDrop){
 						platformLength = Random.Range (3, 6);
