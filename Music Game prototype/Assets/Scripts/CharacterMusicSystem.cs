@@ -101,7 +101,7 @@ public class CharacterMusicSystem : MonoBehaviour, Quanter {
 	}
 
 	IEnumerator Crossfade(){
-		for (int i = 0; i <= 100; i+= 5) {
+		for (int i = 0; i <= 100; i+= 10) {
 			if(!swapped){
 				mixer.SetFloat("bassvolume", ConvertToDecibels(100 - i));
 				mixer.SetFloat("swapvolume", ConvertToDecibels(i));
