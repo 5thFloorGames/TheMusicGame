@@ -32,8 +32,8 @@ public class Camera2DFollow : MonoBehaviour
 			if(transform.position.z > -600){
 				transform.position += Vector3.back * Time.deltaTime * 40;
 			}
-			transform.position += Vector3.left * 4 * Time.deltaTime * 40;
-			transform.position += Vector3.up / 2.5f * Time.deltaTime * 40;
+			transform.position += Vector3.left * 3 * Time.deltaTime * 40;
+			transform.position += Vector3.up / 2f * Time.deltaTime * 40;
 		} else {
 			// only update lookahead pos if accelerating or changed direction
 			float xMoveDelta = (target.position - m_LastTargetPosition).x;
