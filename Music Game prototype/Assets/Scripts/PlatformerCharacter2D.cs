@@ -59,6 +59,7 @@ namespace UnityStandardAssets._2D
 		
 		private void Start(){
 			beat.registerQuant (this);
+			StopAllCoroutines ();
 		}
 
 		private void Update(){
@@ -126,12 +127,12 @@ namespace UnityStandardAssets._2D
 		private void Dash(Direction direction){
 			Instantiate (dashParticle, transform.position + Vector3.left * 4f, Quaternion.identity);
 			if (direction == Direction.LEFT && !CheckUnpassables(direction)) {
-				transform.position = transform.position + Vector3.left * (3);
 				CheckForDestructibles();
+				transform.position = transform.position + Vector3.left * (3);
 			} 
 			if (direction == Direction.RIGHT && !CheckUnpassables(direction)) {
-				transform.position = transform.position + Vector3.right * (3);
 				CheckForDestructibles();
+				transform.position = transform.position + Vector3.right * (3);
 			}
 			musicSystem.DashSound ();
 		}
@@ -169,12 +170,12 @@ namespace UnityStandardAssets._2D
 			RaycastHit2D hit;
 			Vector2 direction;
 			if (m_FacingRight) {
-				direction = Vector2.left;
-			} else {
 				direction = Vector2.right;
+			} else {
+				direction = Vector2.left;
 			}
 			//Debug.DrawRay (transform.position, direction,Color.green, 2f);
-			hit = Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y), direction, 2.5f, rayMask);
+			hit = Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y), direction, 4f, rayMask);
 			if (hit) {
 				if(hit.collider.tag == "Destructible"){
 					hit.collider.SendMessage("DestroyOnQuant");
@@ -225,19 +226,6 @@ namespace UnityStandardAssets._2D
 				if(!frozen){
                 	m_Rigidbody2D.velocity = new Vector2(move * speed * m_MaxSpeed, m_Rigidbody2D.velocity.y);
 				}
-
-                // If the input is moving the player right and the player is facing left...
-                if (move > 0 && !m_FacingRight)
-                {
-                    // ... flip the player.
-                    Flip();
-                }
-                    // Otherwise if the input is moving the player left and the player is facing right...
-                else if (move < 0 && m_FacingRight)
-                {
-                    // ... flip the player.
-                    Flip();
-                }
             }
         }
 
@@ -259,17 +247,6 @@ namespace UnityStandardAssets._2D
 			yield return new WaitForSeconds (2f);
 			speed = 1.0f;
 		}
-
-        private void Flip()
-        {
-            // Switch the way the player is labelled as facing.
-            m_FacingRight = !m_FacingRight;
-
-            // Multiply the player's x local scale by -1.
-            Vector3 theScale = transform.localScale;
-            theScale.x *= -1;
-            transform.localScale = theScale;
-        }
 
 		public void MuteMovement(){
 			muted = true;
@@ -302,9 +279,9 @@ namespace UnityStandardAssets._2D
 
 		IEnumerator Float(){
 			float highpass = 100;
-			while (transform.position.y < 256) {
+			while (transform.position.y < 156) {
 				musicSystem.HighPass(highpass++);
-				yield return null;
+				yield return new WaitForSeconds(0.015f);
 			}
 		}
 	}

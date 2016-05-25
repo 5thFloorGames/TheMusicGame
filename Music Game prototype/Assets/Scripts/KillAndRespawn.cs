@@ -15,7 +15,8 @@ public class KillAndRespawn : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D col){
 		if (col.tag == "Player") {
-			Application.LoadLevel("BackgroundAssets");
+			//Application.LoadLevel("BackgroundAssets");
+			FindObjectOfType<RespawnManager> ().RespawnPlayer();
 		}
 	}
 }

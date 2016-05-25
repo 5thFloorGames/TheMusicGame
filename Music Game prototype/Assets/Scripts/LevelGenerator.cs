@@ -20,12 +20,13 @@ public class LevelGenerator : MonoBehaviour {
 	private GameObject smallRing;
 	private GameObject tutorial;
 	private GameObject theEnd;
+	private GameObject respawn;
 	private bool postDrop = false;
 	private bool girlTanks = true;
 	private float lowestY;
 	private static bool tutorialEnabled = true;
-	private float levelProgress = 0f;
-	private int levelLength = 75;
+	private float levelProgress = 0;
+	private int levelLength = 80;
 
 	void Awake(){
 		platform = (GameObject)Resources.Load ("Platforms/MusicPlatform");
@@ -34,10 +35,11 @@ public class LevelGenerator : MonoBehaviour {
 		launcherTrigger = Resources.Load<GameObject>("LauncherTrigger");
 		bigRing = Resources.Load<GameObject>("Rings/BigRing");
 		smallRing = Resources.Load<GameObject>("Rings/SmallRing");
-		//theDrop = Resources.Load<GameObject>("Drop");
-		theDrop = Resources.Load<GameObject>("ShortDrop");
+		theDrop = Resources.Load<GameObject>("Drop");
+		//theDrop = Resources.Load<GameObject>("ShortDrop");
 		theEnd = Resources.Load<GameObject>("End");
 		tutorial = Resources.Load<GameObject> ("Tutorial");
+		respawn = Resources.Load<GameObject> ("Respawn");
 		composingLogic = GetComponent<ComposingLogic> ();
 	}
 
@@ -74,6 +76,7 @@ public class LevelGenerator : MonoBehaviour {
 					CreatePlatforms(Note.i,25,start, lastLength, 0, true, false);
 					CreatePlatforms(composingLogic.randomLowNote(),25,start, lastLength, -4, true, true);
 					GameObject shutdownTrigger = (GameObject)Instantiate(launcherTrigger,lastCreated.transform.position + Vector3.right * 110f, Quaternion.identity);
+					Instantiate(respawn,lastCreated.transform.position + Vector3.right * 110f + Vector3.up * 5f, Quaternion.identity);
 					shutdownTrigger.GetComponent<ActivateLauncherOnTouch>().type = TriggerType.Deactivate;
 				} else if(i == drop){
 					GameObject dropObject = (GameObject)Instantiate(theDrop, lastCreated.transform.position + (lastCreatedLength + 1.5f - 1) * (Vector3.right * 5f) + Vector3.right * 3.15f + Vector3.up * 0.75f, Quaternion.identity);
@@ -117,6 +120,10 @@ public class LevelGenerator : MonoBehaviour {
 		holder.transform.position = lastPlatform.position + (lastLength + platformLength - 1) * (Vector3.right * 5f) + Vector3.right;
 		
 		holder.transform.position += Vector3.up * heightOffset;
+
+		if ((((int) (levelProgress * levelLength)) % 10) == 0) {
+			Instantiate(respawn, holder.transform.position + Vector3.up * 2f, Quaternion.identity);
+		}
 		
 		bool even = platformLength % 2 == 0;
 

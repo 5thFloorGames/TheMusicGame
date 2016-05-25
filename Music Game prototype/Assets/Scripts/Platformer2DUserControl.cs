@@ -93,5 +93,9 @@ namespace UnityStandardAssets._2D
             teleUp = false;
 			dash = false;
         }
+
+		public void StartFreeze(){
+			startHold = true;
+		}
     }
 }

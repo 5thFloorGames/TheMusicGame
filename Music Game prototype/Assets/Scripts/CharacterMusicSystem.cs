@@ -91,6 +91,7 @@ public class CharacterMusicSystem : MonoBehaviour, Quanter {
 	
 	private void Start(){
 		activeNote = Note.v;
+		HighPass (10f);
 		setClip (Note.i);
 		setClip (Note.i);
 	}

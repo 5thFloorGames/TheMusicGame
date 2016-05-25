@@ -34,9 +34,13 @@ public class Camera2DFollow : MonoBehaviour
 			}
 			transform.position += Vector3.left * 3 * Time.deltaTime * 40;
 			transform.position += Vector3.up / 2f * Time.deltaTime * 40;
+			if(transform.position.x < -1250f){
+				FindObjectOfType<LevelGenerator>().EnableTutorial();
+				Application.LoadLevel("BackgroundAssets");
+			}
 		} else {
 			// only update lookahead pos if accelerating or changed direction
-			float xMoveDelta = (target.position - m_LastTargetPosition).x;
+			float xMoveDelta = Mathf.Abs((target.position - m_LastTargetPosition).x);
 
 			bool updateLookAheadTarget = Mathf.Abs (xMoveDelta) > lookAheadMoveThreshold;
 
