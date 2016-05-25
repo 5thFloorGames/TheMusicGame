@@ -281,6 +281,7 @@ namespace UnityStandardAssets._2D
 			float highpass = 100;
 			while (transform.position.y < 156) {
 				musicSystem.HighPass(highpass++);
+				highpass++;
 				yield return new WaitForSeconds(0.015f);
 			}
 		}
